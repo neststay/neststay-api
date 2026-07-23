@@ -22,8 +22,8 @@
 
 ## 4. Repository
 
-- [ ] 4.1 Implement `property.repository.ts`: `create`, `findBySlug`, `findByIdAndHostId` (for ownership-scoped update/delete), `updateBySlug`/`update`, `delete`, `findAllPaginatedByLocation` (using `prisma-extension-pagination`, same pattern as `UserRepository.findAllPaginated`)
-- [ ] 4.2 Generate `slug` with `ulid()` on create, following `UserRepository.create`'s id-generation pattern
+- [x] 4.1 Implement `property.repository.ts`: `create`, `findBySlug`, `findByIdAndHostId` (for ownership-scoped update/delete), `updateBySlug`/`update`, `delete`, `findAllPaginatedByLocation` (using `prisma-extension-pagination`, same pattern as `UserRepository.findAllPaginated`)
+- [x] 4.2 Generate `slug` with `ulid()` on create, following `UserRepository.create`'s id-generation pattern
 
 ## 5. Service layer
 
