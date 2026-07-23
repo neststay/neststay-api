@@ -1,11 +1,11 @@
 ## 1. Prisma schema and migration
 
-- [ ] 1.1 Add `Location` model to `prisma/schema.prisma` (`BigInt @id @default(autoincrement())`, minimal fields, `@@map("locations")`)
-- [ ] 1.2 Add `PlaceType` model to `prisma/schema.prisma` (`BigInt @id @default(autoincrement())`, minimal fields, `@@map("place_types")`)
-- [ ] 1.3 Add `Property` model to `prisma/schema.prisma`: `BigInt @id @default(autoincrement())` internal id, unique `slug` (`String`), `hostId` (`String`, FK to `User.id`), `locationId` (`BigInt`, FK to `Location.id`), `placeTypeId` (`BigInt`, FK to `PlaceType.id`), `nightlyRate` (`Decimal`), `name`, `description`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms`, timestamps, `@@map("properties")`
-- [ ] 1.4 Add the `host`/`properties` back-relation on `User` needed for the `hostId` FK
-- [ ] 1.5 Run `prisma migrate dev` to generate and apply the migration creating `locations`, `place_types`, `properties` tables
-- [ ] 1.6 Run `prisma generate` to regenerate the Prisma client models used by the repository
+- [x] 1.1 Add `Location` model to `prisma/schema.prisma` (`BigInt @id @default(autoincrement())`, minimal fields, `@@map("locations")`)
+- [x] 1.2 Add `PlaceType` model to `prisma/schema.prisma` (`BigInt @id @default(autoincrement())`, minimal fields, `@@map("place_types")`)
+- [x] 1.3 Add `Property` model to `prisma/schema.prisma`: `BigInt @id @default(autoincrement())` internal id, unique `slug` (`String`), `hostId` (`String`, FK to `User.id`), `locationId` (`BigInt`, FK to `Location.id`), `placeTypeId` (`BigInt`, FK to `PlaceType.id`), `nightlyRate` (`Decimal`), `name`, `description`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms`, timestamps, `@@map("properties")`
+- [x] 1.4 Add the `host`/`properties` back-relation on `User` needed for the `hostId` FK
+- [x] 1.5 Run `prisma migrate dev` to generate and apply the migration creating `locations`, `place_types`, `properties` tables
+- [x] 1.6 Run `prisma generate` to regenerate the Prisma client models used by the repository
 
 ## 2. Property module scaffolding
 
