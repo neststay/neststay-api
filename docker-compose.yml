@@ -1,0 +1,89 @@
+services:
+  db:
+    image: postgres:18.4-alpine
+    container_name: rynok-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-rynok}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+    ports:
+      - '${POSTGRES_PORT:-5432}:5432'
+    volumes:
+      - rynok_db_data:/var/lib/postgresql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-rynok}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - rynok
+
+  db-admin:
+    image: adminer:5.4.2
+    container_name: rynok-db-admin
+    restart: unless-stopped
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+      ADMINER_DEFAULT_DB_DRIVER: pgsql
+    ports:
+      - '${ADMINER_PORT:-8080}:8080'
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - rynok
+
+  search:
+    image: typesense/typesense:30.2
+    container_name: rynok-search
+    restart: unless-stopped
+    environment:
+      TYPESENSE_API_KEY: ${TYPESENSE_API_KEY:-xyz}
+      TYPESENSE_DATA_DIR: /data
+      TYPESENSE_ENABLE_CORS: 'true'
+    ports:
+      - '${TYPESENSE_PORT:-8108}:8108'
+    volumes:
+      - rynok_search_data:/data
+    networks:
+      - rynok
+
+  search-admin:
+    image: ghcr.io/bfritscher/typesense-dashboard:2.4.8
+    container_name: rynok-search-admin
+    restart: unless-stopped
+    ports:
+      - '${TYPESENSE_DASHBOARD_PORT:-8081}:80'
+    depends_on:
+      - search
+    networks:
+      - rynok
+
+  redis:
+    image: redis:8.8.0-alpine
+    container_name: rynok-redis
+    restart: unless-stopped
+    ports:
+      - '${REDIS_PORT:-6379}:6379'
+    volumes:
+      - rynok_redis_data:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - rynok
+
+networks:
+  rynok:
+    name: rynok
+
+volumes:
+  rynok_db_data:
+    name: rynok_db_data
+  rynok_search_data:
+    name: rynok_search_data
+  rynok_redis_data:
+    name: rynok_redis_data
