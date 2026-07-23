@@ -14,11 +14,11 @@
 
 ## 3. DTOs and validation schemas
 
-- [ ] 3.1 Create `create-property.dto.ts` + zod `CreatePropertySchema` (locationId, placeTypeId, nightlyRate, name, description, numberOfGuests, numberOfBedrooms, numberOfBathrooms — no hostId, no slug)
-- [ ] 3.2 Create `update-property.dto.ts` + zod `UpdatePropertySchema` (same fields as create, all optional)
-- [ ] 3.3 Create `property-response.dto.ts` exposing only `slug` (never `id`) plus all public property fields
-- [ ] 3.4 Create `paginated-property-list.dto.ts` extending `PaginatedResponseDto<PropertyResponseDto>`, mirroring `paginated-user-list.dto.ts`
-- [ ] 3.5 Create `list-property-query.dto.ts` + zod `ListPropertyQuerySchema` (required `locationId`, plus `page`/`limit` reusing pagination conventions)
+- [x] 3.1 Create `create-property.dto.ts` + zod `CreatePropertySchema` (locationId, placeTypeId, nightlyRate, name, description, numberOfGuests, numberOfBedrooms, numberOfBathrooms — no hostId, no slug)
+- [x] 3.2 Create `update-property.dto.ts` + zod `UpdatePropertySchema` (same fields as create, all optional)
+- [x] 3.3 Create `property-response.dto.ts` exposing only `slug` (never `id`) plus all public property fields
+- [x] 3.4 Create `paginated-property-list.dto.ts` extending `PaginatedResponseDto<PropertyResponseDto>`, mirroring `paginated-user-list.dto.ts`
+- [x] 3.5 Create `list-property-query.dto.ts` + zod `ListPropertyQuerySchema` (required `locationId`, plus `page`/`limit` reusing pagination conventions)
 
 ## 4. Repository
 
