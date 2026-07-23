@@ -9,8 +9,8 @@
 
 ## 2. Property module scaffolding
 
-- [ ] 2.1 Create `src/property/` module files mirroring `src/user/`: `property.module.ts`, `property.controller.ts`, `property.service.ts`, `property.repository.ts`
-- [ ] 2.2 Register `PropertyModule` in `src/app.module.ts`
+- [x] 2.1 Create `src/property/` module files mirroring `src/user/`: `property.module.ts`, `property.controller.ts`, `property.service.ts`, `property.repository.ts`
+- [x] 2.2 Register `PropertyModule` in `src/app.module.ts`
 
 ## 3. DTOs and validation schemas
 

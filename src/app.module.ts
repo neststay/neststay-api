@@ -15,6 +15,7 @@ import {
 } from './config/index.js';
 import { CacheModule } from './cache/cache.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { PropertyModule } from './property/property.module';
 import { QueueModule } from './queue/queue.module';
 import { UserModule } from './user/user.module';
 
@@ -23,7 +24,14 @@ import { UserModule } from './user/user.module';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',
-      load: [appConfig, corsConfig, databaseConfig, jwtConfig, redisConfig, queueConfig],
+      load: [
+        appConfig,
+        corsConfig,
+        databaseConfig,
+        jwtConfig,
+        redisConfig,
+        queueConfig,
+      ],
       validate: validateEnv,
     }),
     EventEmitterModule.forRoot(),
@@ -32,6 +40,7 @@ import { UserModule } from './user/user.module';
     QueueModule,
     AuthModule,
     UserModule,
+    PropertyModule,
   ],
   controllers: [AppController],
   providers: [AppService],
