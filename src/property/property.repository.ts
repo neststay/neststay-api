@@ -34,7 +34,7 @@ export class PropertyRepository {
     limit: number;
   }): Promise<[PropertyModel[], PageNumberPaginationMeta<true>]> {
     return this.prisma.extendedClient.property
-      .paginate({ where: { locationId } })
+      .paginate({ where: { locationId }, orderBy: { id: 'desc' } })
       .withPages({ page, limit }) as Promise<
       [PropertyModel[], PageNumberPaginationMeta<true>]
     >;
