@@ -45,8 +45,8 @@
 
 ## 7. Seed data (unblocks manual testing)
 
-- [ ] 7.1 Add `seedLocations()` to `prisma/seed.ts`: seed a fixed list of Indian cities (e.g. Mumbai, Delhi, Bengaluru, Goa, Jaipur, Udaipur, Kochi, Manali, Rishikesh, Pondicherry) via `createMany` with `skipDuplicates: true`, matched by `name`
-- [ ] 7.2 Add `seedPlaceTypes()` to `prisma/seed.ts`: seed a fixed list (Apartment, Villa, House, Cottage, Farmhouse, Resort, Guesthouse, Homestay) via `createMany` with `skipDuplicates: true`, matched by `name`
-- [ ] 7.3 Add `seedProperties()` to `prisma/seed.ts`: for a configurable count (`SEED_PROPERTY_COUNT`, default matching `SEED_USER_COUNT`'s pattern), generate properties with `@faker-js/faker` (`name`, `description`, `nightlyRate`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms`), a ulid-based `slug`, and a random `locationId`/`placeTypeId`/`hostId` drawn from the rows seeded by `seedLocations`, `seedPlaceTypes`, and `seedUsers`
-- [ ] 7.4 Call `seedLocations`, `seedPlaceTypes`, and `seedProperties` from `main()` after `seedUsers`, respecting the FK dependency order (locations/place types/users before properties); keep the production guard already in `main()`
-- [ ] 7.5 Document `SEED_PROPERTY_COUNT` in `.env.example`, following the existing `SEED_USER_COUNT` convention
+- [x] 7.1 Add `seedLocations()` to `prisma/seed.ts`: seed a fixed list of Indian cities (e.g. Mumbai, Delhi, Bengaluru, Goa, Jaipur, Udaipur, Kochi, Manali, Rishikesh, Pondicherry) via `createMany` with `skipDuplicates: true`, matched by `name`
+- [x] 7.2 Add `seedPlaceTypes()` to `prisma/seed.ts`: seed a fixed list (Apartment, Villa, House, Cottage, Farmhouse, Resort, Guesthouse, Homestay) via `createMany` with `skipDuplicates: true`, matched by `name`
+- [x] 7.3 Add `seedProperties()` to `prisma/seed.ts`: for a configurable count (`SEED_PROPERTY_COUNT`, default matching `SEED_USER_COUNT`'s pattern), generate properties with `@faker-js/faker` (`name`, `description`, `nightlyRate`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms`), a ulid-based `slug`, and a random `locationId`/`placeTypeId`/`hostId` drawn from the rows seeded by `seedLocations`, `seedPlaceTypes`, and `seedUsers`
+- [x] 7.4 Call `seedLocations`, `seedPlaceTypes`, and `seedProperties` from `main()` after `seedUsers`, respecting the FK dependency order (locations/place types/users before properties); keep the production guard already in `main()`
+- [x] 7.5 Document `SEED_PROPERTY_COUNT` in `.env.example`, following the existing `SEED_USER_COUNT` convention
