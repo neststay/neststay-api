@@ -16,11 +16,12 @@ Hosts currently have no way to list bookable properties. The API needs a `Proper
 - `property-management`: create, read (single + paginated list scoped to a location), update, and delete operations for properties, addressed publicly by slug rather than internal id.
 
 ### Modified Capabilities
-(none — no existing capability's requirements change)
+- `database-seeding`: extend `prisma/seed.ts` to seed a fixed set of Indian `Location` rows, a fixed set of `PlaceType` rows, and a configurable number of Faker-generated `Property` rows referencing them, so property endpoints are manually testable end-to-end without hand-inserting reference data.
 
 ## Impact
 
 - **Database**: three new tables — `properties`, `locations`, `place_types` — plus a new FK constraint on `properties.hostId` referencing `users.id`. New Prisma migration required.
 - **API surface**: new `/properties` routes (exact paths defined in design.md).
 - **Code**: new `src/property/` module mirroring `src/user/`; no changes to existing modules beyond the new FK reference to `users`.
+- **Seeding**: `prisma/seed.ts` gains `seedLocations`, `seedPlaceTypes`, and `seedProperties`; a new `SEED_PROPERTY_COUNT` env var is documented in `.env.example`.
 - **Out of scope** (tracked separately, not blocking this change): adding a `role` field to `User` (#1), adding a `slug`/bigint PK to `User` (#2). Ownership/auth checks in this change therefore cannot depend on user roles.
