@@ -37,8 +37,8 @@ async function bootstrap() {
 
   if (!isProduction) {
     const config = new DocumentBuilder()
-      .setTitle('Rynox API')
-      .setDescription('API documentation for Rynox')
+      .setTitle('Nest Stay API')
+      .setDescription('API documentation for Nest Stay')
       .setVersion('1.0')
       .addBearerAuth(
         {
