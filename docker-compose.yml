@@ -1,27 +1,27 @@
 services:
   db:
     image: postgres:18.4-alpine
-    container_name: rynok-db
+    container_name: neststay-db
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-rynok}
+      POSTGRES_DB: ${POSTGRES_DB:-neststay}
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
     ports:
       - '${POSTGRES_PORT:-5432}:5432'
     volumes:
-      - rynok_db_data:/var/lib/postgresql
+      - neststay_db_data:/var/lib/postgresql
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-rynok}']
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-neststay}']
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
-      - rynok
+      - neststay
 
   db-admin:
     image: adminer:5.4.2
-    container_name: rynok-db-admin
+    container_name: neststay-db-admin
     restart: unless-stopped
     environment:
       ADMINER_DEFAULT_SERVER: db
@@ -32,11 +32,11 @@ services:
       db:
         condition: service_healthy
     networks:
-      - rynok
+      - neststay
 
   search:
     image: typesense/typesense:30.2
-    container_name: rynok-search
+    container_name: neststay-search
     restart: unless-stopped
     environment:
       TYPESENSE_API_KEY: ${TYPESENSE_API_KEY:-xyz}
@@ -45,45 +45,56 @@ services:
     ports:
       - '${TYPESENSE_PORT:-8108}:8108'
     volumes:
-      - rynok_search_data:/data
+      - neststay_search_data:/data
     networks:
-      - rynok
+      - neststay
 
   search-admin:
     image: ghcr.io/bfritscher/typesense-dashboard:2.4.8
-    container_name: rynok-search-admin
+    container_name: neststay-search-admin
     restart: unless-stopped
     ports:
       - '${TYPESENSE_DASHBOARD_PORT:-8081}:80'
     depends_on:
       - search
     networks:
-      - rynok
+      - neststay
 
   redis:
     image: redis:8.8.0-alpine
-    container_name: rynok-redis
+    container_name: neststay-redis
     restart: unless-stopped
     ports:
       - '${REDIS_PORT:-6379}:6379'
     volumes:
-      - rynok_redis_data:/data
+      - neststay_redis_data:/data
     healthcheck:
       test: ['CMD', 'redis-cli', 'ping']
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
-      - rynok
+      - neststay
+
+  dozzle:
+    image: amir20/dozzle:latest
+    container_name: neststay-dozzle
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - '${DOZZLE_PORT:-9999}:8080'
+    networks:
+      - neststay
 
 networks:
-  rynok:
-    name: rynok
+  neststay:
+    name: neststay
 
 volumes:
-  rynok_db_data:
-    name: rynok_db_data
-  rynok_search_data:
-    name: rynok_search_data
-  rynok_redis_data:
-    name: rynok_redis_data
+  neststay_db_data:
+    name: neststay_db_data
+  neststay_search_data:
+    name: neststay_search_data
+  neststay_redis_data:
+    name: neststay_redis_data

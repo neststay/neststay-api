@@ -37,8 +37,8 @@ async function bootstrap() {
 
   if (!isProduction) {
     const config = new DocumentBuilder()
-      .setTitle('Nest Stay API')
-      .setDescription('API documentation for Nest Stay')
+      .setTitle('Neststay API')
+      .setDescription('API documentation for Neststay')
       .setVersion('1.0')
       .addBearerAuth(
         {
