@@ -27,12 +27,12 @@
 
 ## 5. Service layer
 
-- [ ] 5.1 Implement `create` service method: takes DTO + authenticated `hostId`, persists via repository, returns `PropertyResponseDto`
-- [ ] 5.2 Implement `getBySlug` service method: throws `NotFoundException` if not found, returns `PropertyResponseDto`
-- [ ] 5.3 Implement `updateBySlug` service method: loads property by slug, throws `NotFoundException` if missing OR `hostId` doesn't match authenticated user (identical error in both cases), applies update, returns `PropertyResponseDto`
-- [ ] 5.4 Implement `deleteBySlug` service method: same ownership check as update (404 for both missing and non-owner), then deletes
-- [ ] 5.5 Implement `listByLocation` service method: paginated, requires `locationId`, returns `PaginatedResponseDto<PropertyResponseDto>` via `mapToPaginatedResponse`
-- [ ] 5.6 Implement private `toDto` mapper converting the Prisma `Decimal` `nightlyRate` to a plain type and omitting internal `id`/`locationId`/`placeTypeId`/`hostId` FK ids as needed by the response DTO
+- [x] 5.1 Implement `create` service method: takes DTO + authenticated `hostId`, persists via repository, returns `PropertyResponseDto`
+- [x] 5.2 Implement `getBySlug` service method: throws `NotFoundException` if not found, returns `PropertyResponseDto`
+- [x] 5.3 Implement `updateBySlug` service method: loads property by slug, throws `NotFoundException` if missing OR `hostId` doesn't match authenticated user (identical error in both cases), applies update, returns `PropertyResponseDto`
+- [x] 5.4 Implement `deleteBySlug` service method: same ownership check as update (404 for both missing and non-owner), then deletes
+- [x] 5.5 Implement `listByLocation` service method: paginated, requires `locationId`, returns `PaginatedResponseDto<PropertyResponseDto>` via `mapToPaginatedResponse`
+- [x] 5.6 Implement private `toDto` mapper converting the Prisma `Decimal` `nightlyRate` to a plain type and omitting internal `id`/`locationId`/`placeTypeId`/`hostId` FK ids as needed by the response DTO
 
 ## 6. Controller and routes
 
