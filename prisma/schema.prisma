@@ -9,14 +9,60 @@ datasource db {
 }
 
 model User {
-  id           String    @id
-  name         String?
-  email        String    @unique
-  password     String
-  lastLoggedIn     DateTime?
-  emailVerifiedAt  DateTime?
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+  id              String    @id
+  name            String?
+  email           String    @unique
+  password        String
+  lastLoggedIn    DateTime?
+  emailVerifiedAt DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  properties Property[]
 
   @@map("users")
+}
+
+model Location {
+  id        BigInt   @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  properties Property[]
+
+  @@map("locations")
+}
+
+model PlaceType {
+  id        BigInt   @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  properties Property[]
+
+  @@map("place_types")
+}
+
+model Property {
+  id                BigInt   @id @default(autoincrement())
+  slug              String   @unique
+  hostId            String
+  locationId        BigInt
+  placeTypeId       BigInt
+  nightlyRate       Decimal  @db.Decimal(10, 2)
+  name              String
+  description       String
+  numberOfGuests    Int
+  numberOfBedrooms  Int
+  numberOfBathrooms Int
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  host      User      @relation(fields: [hostId], references: [id])
+  location  Location  @relation(fields: [locationId], references: [id])
+  placeType PlaceType @relation(fields: [placeTypeId], references: [id])
+
+  @@map("properties")
 }

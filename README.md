@@ -70,6 +70,23 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Database seeding
+
+Populate the database with an admin user, fake users, Indian city locations, place types, and fake properties:
+
+```bash
+npm run prisma:seed
+```
+
+Configure the seeded data via `.env` (see `.env.example`):
+
+- `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` — credentials for the ensured admin user
+- `SEED_USER_COUNT` — number of fake users to generate (default `10`)
+- `SEED_USER_PASSWORD` — password for fake users
+- `SEED_PROPERTY_COUNT` — number of fake properties to generate (default `10`)
+
+The seed script is safe to re-run — it uses `skipDuplicates`/`upsert` so existing users, locations, and place types won't be duplicated. It also refuses to run when `APP_ENV=production`.
+
 ## Run tests
 
 ```bash

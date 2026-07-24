@@ -4,6 +4,7 @@ The Nest Stay API
 - Models should be singular for example User, Property, Location etc. and their database table name will be plural. So, users, properties, locations etc.
 - Foreign keys should follow camel case naming convention. so, locationId instead of location_id
 - queries should be inside repositories and service should call the repositories to fetch data
+- add models should have primary key as BigInt. But the models which will be public facing, will have a slug column and it will use ulid
 
 
 # Global rules

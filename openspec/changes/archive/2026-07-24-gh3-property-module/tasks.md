@@ -1,0 +1,52 @@
+## 1. Prisma schema and migration
+
+- [x] 1.1 Add `Location` model to `prisma/schema.prisma` (`BigInt @id @default(autoincrement())`, minimal fields, `@@map("locations")`)
+- [x] 1.2 Add `PlaceType` model to `prisma/schema.prisma` (`BigInt @id @default(autoincrement())`, minimal fields, `@@map("place_types")`)
+- [x] 1.3 Add `Property` model to `prisma/schema.prisma`: `BigInt @id @default(autoincrement())` internal id, unique `slug` (`String`), `hostId` (`String`, FK to `User.id`), `locationId` (`BigInt`, FK to `Location.id`), `placeTypeId` (`BigInt`, FK to `PlaceType.id`), `nightlyRate` (`Decimal`), `name`, `description`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms`, timestamps, `@@map("properties")`
+- [x] 1.4 Add the `host`/`properties` back-relation on `User` needed for the `hostId` FK
+- [x] 1.5 Run `prisma migrate dev` to generate and apply the migration creating `locations`, `place_types`, `properties` tables
+- [x] 1.6 Run `prisma generate` to regenerate the Prisma client models used by the repository
+
+## 2. Property module scaffolding
+
+- [x] 2.1 Create `src/property/` module files mirroring `src/user/`: `property.module.ts`, `property.controller.ts`, `property.service.ts`, `property.repository.ts`
+- [x] 2.2 Register `PropertyModule` in `src/app.module.ts`
+
+## 3. DTOs and validation schemas
+
+- [x] 3.1 Create `create-property.dto.ts` + zod `CreatePropertySchema` (locationId, placeTypeId, nightlyRate, name, description, numberOfGuests, numberOfBedrooms, numberOfBathrooms — no hostId, no slug)
+- [x] 3.2 Create `update-property.dto.ts` + zod `UpdatePropertySchema` (same fields as create, all optional)
+- [x] 3.3 Create `property-response.dto.ts` exposing only `slug` (never `id`) plus all public property fields
+- [x] 3.4 Create `paginated-property-list.dto.ts` extending `PaginatedResponseDto<PropertyResponseDto>`, mirroring `paginated-user-list.dto.ts`
+- [x] 3.5 Create `list-property-query.dto.ts` + zod `ListPropertyQuerySchema` (required `locationId`, plus `page`/`limit` reusing pagination conventions)
+
+## 4. Repository
+
+- [x] 4.1 Implement `property.repository.ts`: `create`, `findBySlug`, `findByIdAndHostId` (for ownership-scoped update/delete), `updateBySlug`/`update`, `delete`, `findAllPaginatedByLocation` (using `prisma-extension-pagination`, same pattern as `UserRepository.findAllPaginated`)
+- [x] 4.2 Generate `slug` with `ulid()` on create, following `UserRepository.create`'s id-generation pattern
+
+## 5. Service layer
+
+- [x] 5.1 Implement `create` service method: takes DTO + authenticated `hostId`, persists via repository, returns `PropertyResponseDto`
+- [x] 5.2 Implement `getBySlug` service method: throws `NotFoundException` if not found, returns `PropertyResponseDto`
+- [x] 5.3 Implement `updateBySlug` service method: loads property by slug, throws `NotFoundException` if missing OR `hostId` doesn't match authenticated user (identical error in both cases), applies update, returns `PropertyResponseDto`
+- [x] 5.4 Implement `deleteBySlug` service method: same ownership check as update (404 for both missing and non-owner), then deletes
+- [x] 5.5 Implement `listByLocation` service method: paginated, requires `locationId`, returns `PaginatedResponseDto<PropertyResponseDto>` via `mapToPaginatedResponse`
+- [x] 5.6 Implement private `toDto` mapper converting the Prisma `Decimal` `nightlyRate` to a plain type and omitting internal `id`/`locationId`/`placeTypeId`/`hostId` FK ids as needed by the response DTO
+
+## 6. Controller and routes
+
+- [x] 6.1 `POST /properties` — behind `JwtAuthGuard`, `@CurrentUser()` for `hostId`, validate body with `CreatePropertySchema`, 422 on invalid payload, 201 on success
+- [x] 6.2 `GET /properties/:slug` — public, no guard, 404 via service when not found
+- [x] 6.3 `GET /properties` — public, no guard, validate query with `ListPropertyQuerySchema`, 422 when `locationId` missing/invalid
+- [x] 6.4 `PATCH /properties/:slug` — behind `JwtAuthGuard`, `@CurrentUser()` passed to service for ownership check, validate body with `UpdatePropertySchema`
+- [x] 6.5 `DELETE /properties/:slug` — behind `JwtAuthGuard`, `@CurrentUser()` passed to service for ownership check
+- [x] 6.6 Add Swagger decorators (`@ApiOperation`, `@ApiEnvelopeResponse`, `@ApiHttpErrorResponse`, `@ApiBearerAuth` where guarded) to every route, mirroring `user.controller.ts`
+
+## 7. Seed data (unblocks manual testing)
+
+- [x] 7.1 Add `seedLocations()` to `prisma/seed.ts`: seed a fixed list of Indian cities (e.g. Mumbai, Delhi, Bengaluru, Goa, Jaipur, Udaipur, Kochi, Manali, Rishikesh, Pondicherry) via `createMany` with `skipDuplicates: true`, matched by `name`
+- [x] 7.2 Add `seedPlaceTypes()` to `prisma/seed.ts`: seed a fixed list (Apartment, Villa, House, Cottage, Farmhouse, Resort, Guesthouse, Homestay) via `createMany` with `skipDuplicates: true`, matched by `name`
+- [x] 7.3 Add `seedProperties()` to `prisma/seed.ts`: for a configurable count (`SEED_PROPERTY_COUNT`, default matching `SEED_USER_COUNT`'s pattern), generate properties with `@faker-js/faker` (`name`, `description`, `nightlyRate`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms`), a ulid-based `slug`, and a random `locationId`/`placeTypeId`/`hostId` drawn from the rows seeded by `seedLocations`, `seedPlaceTypes`, and `seedUsers`
+- [x] 7.4 Call `seedLocations`, `seedPlaceTypes`, and `seedProperties` from `main()` after `seedUsers`, respecting the FK dependency order (locations/place types/users before properties); keep the production guard already in `main()`
+- [x] 7.5 Document `SEED_PROPERTY_COUNT` in `.env.example`, following the existing `SEED_USER_COUNT` convention

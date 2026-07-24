@@ -2,10 +2,10 @@ import { ApiProperty } from '@nestjs/swagger';
 import { z } from 'zod';
 
 export class LoginUserDto {
-  @ApiProperty({ type: String, description: 'Email address', example: 'reachme@amitavroy.com' })
+  @ApiProperty({ type: String, description: 'Email address', example: 'admin@example.com' })
   email: string;
 
-  @ApiProperty({ type: String, description: 'Password', example: 'Password@123', format: 'password' })
+  @ApiProperty({ type: String, description: 'Password', example: 'change-me-to-secure-password', format: 'password' })
   password: string;
 }
 
