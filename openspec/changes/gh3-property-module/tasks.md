@@ -36,12 +36,12 @@
 
 ## 6. Controller and routes
 
-- [ ] 6.1 `POST /properties` — behind `JwtAuthGuard`, `@CurrentUser()` for `hostId`, validate body with `CreatePropertySchema`, 422 on invalid payload, 201 on success
-- [ ] 6.2 `GET /properties/:slug` — public, no guard, 404 via service when not found
-- [ ] 6.3 `GET /properties` — public, no guard, validate query with `ListPropertyQuerySchema`, 422 when `locationId` missing/invalid
-- [ ] 6.4 `PATCH /properties/:slug` — behind `JwtAuthGuard`, `@CurrentUser()` passed to service for ownership check, validate body with `UpdatePropertySchema`
-- [ ] 6.5 `DELETE /properties/:slug` — behind `JwtAuthGuard`, `@CurrentUser()` passed to service for ownership check
-- [ ] 6.6 Add Swagger decorators (`@ApiOperation`, `@ApiEnvelopeResponse`, `@ApiHttpErrorResponse`, `@ApiBearerAuth` where guarded) to every route, mirroring `user.controller.ts`
+- [x] 6.1 `POST /properties` — behind `JwtAuthGuard`, `@CurrentUser()` for `hostId`, validate body with `CreatePropertySchema`, 422 on invalid payload, 201 on success
+- [x] 6.2 `GET /properties/:slug` — public, no guard, 404 via service when not found
+- [x] 6.3 `GET /properties` — public, no guard, validate query with `ListPropertyQuerySchema`, 422 when `locationId` missing/invalid
+- [x] 6.4 `PATCH /properties/:slug` — behind `JwtAuthGuard`, `@CurrentUser()` passed to service for ownership check, validate body with `UpdatePropertySchema`
+- [x] 6.5 `DELETE /properties/:slug` — behind `JwtAuthGuard`, `@CurrentUser()` passed to service for ownership check
+- [x] 6.6 Add Swagger decorators (`@ApiOperation`, `@ApiEnvelopeResponse`, `@ApiHttpErrorResponse`, `@ApiBearerAuth` where guarded) to every route, mirroring `user.controller.ts`
 
 ## 7. Seed data (unblocks manual testing)
 
