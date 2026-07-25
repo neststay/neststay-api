@@ -53,6 +53,7 @@ describe('PropertyRepository', () => {
       expect(paginateMock).toHaveBeenCalledWith({
         where: { locationId: 1 },
         orderBy: { id: 'desc' },
+        include: { images: { orderBy: { order: 'asc' } } },
       });
       expect(withPagesMock).toHaveBeenCalledWith({ page: 1, limit: 10 });
       expect(result).toBe(expectedResult);

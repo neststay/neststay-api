@@ -48,5 +48,5 @@
 
 ## 9. Verification
 
-- [ ] 9.1 Run the full test suite and linter
-- [ ] 9.2 Manually exercise all four endpoints via Swagger UI (create, list, delete, reorder — including the reject-on-partial-list and duplicate-id cases)
+- [x] 9.1 Run the full test suite and linter — test suite passes (fixed a stale `property.repository.spec.ts` expectation missing the new `images` include); pre-existing lint errors in unrelated files (auth/cache/queue/user modules, main.ts, prisma.service.ts, predating this change) left untouched
+- [x] 9.2 Manually exercise all four endpoints via Swagger UI (create, list, delete, reorder — including the reject-on-partial-list and duplicate-id cases) — exercised via curl against the running dev server: create (default + explicit order), embedded list ordering, reorder reject-on-partial-list (422) and duplicate-id dedup, delete + 404 on re-delete, ownership enforcement (404 for non-owner), and cascade delete on property removal
