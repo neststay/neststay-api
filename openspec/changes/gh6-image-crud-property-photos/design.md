@@ -7,9 +7,10 @@ Per the global rules, only services (not repositories) may be injected across mo
 ## Goals / Non-Goals
 
 **Goals:**
-- Let hosts attach, list, delete, and reorder images on properties they own.
+- Let hosts attach, delete, and reorder images on properties they own, and let any caller see a property's images as part of viewing that property.
 - Reuse the Property module's existing ownership-check pattern rather than re-implementing it.
 - Keep `Image.id` internal-BigInt-but-exposed — unlike `Property`, Image does not get a `slug`.
+- Follow the architecture rule (`docs/architecture/index.md`) to embed related data via the database relation rather than a separate per-item API call, especially for anything returned in a paginated list.
 
 **Non-Goals:**
 - No file upload / storage handling — `url` is client-supplied and assumed already hosted elsewhere.
@@ -48,6 +49,11 @@ Alternative considered: allow partial reorders (only touch ids present in the pa
 
 **6. `Image.propertyId` FK uses `onDelete: Cascade`.**
 Deleting a property removes its images automatically; `PropertyRepository.delete` needs no change.
+
+**8. Images are read only as an embedded relation on Property responses — there is no `GET /properties/:slug/images` endpoint.**
+`PropertyRepository.findBySlug` and `PropertyRepository.findAllPaginatedByLocation` both `include: { images: { orderBy: { order: 'asc' } } }`. `PropertyService.toDto` maps the included `images` relation onto a new `images: ImageResponseDto[]` field on `PropertyResponseDto`, reusing the same image-shape mapping the create route already returns (kept as a small pure/private mapper next to each service — not shared via a cross-service call, to avoid a circular dependency between `PropertyService` and `ImageService`).
+
+Alternative considered: a dedicated `GET /properties/:slug/images` endpoint (this change's original plan, and briefly implemented). Rejected per the architecture rule requiring related data to be embedded via relation rather than fetched with a separate call — this matters most for `GET /properties`, where a per-property images call would mean one extra request per item in every page of results. Since practically every property view needs its images, and the mutating endpoints (add/delete/reorder) already require the `slug`, embedding costs nothing extra for hosts and removes a mandatory round trip for every property view.
 
 **7. Validation via Zod schemas**, matching the existing `CreatePropertySchema` pattern: `url: z.string().url()`, `order: z.coerce.number().int().min(0).optional()` (defaulted to `0` in the service/repository when absent), `imageIds: z.array(z.coerce.number().int().positive()).min(1)`.
 

@@ -23,21 +23,6 @@ An authenticated user SHALL be able to attach an image to a property they own, a
 - **WHEN** an authenticated owner submits a payload with a missing or invalid `url`
 - **THEN** the system rejects the request with 422 Unprocessable Entity
 
-### Requirement: List images for a property
-The system SHALL allow any caller to list all images belonging to a property, addressed by `slug`, without authentication.
-
-#### Scenario: Property has images
-- **WHEN** a caller requests the image list for a `slug` that has images
-- **THEN** the system returns all images belonging to that property
-
-#### Scenario: Property has no images
-- **WHEN** a caller requests the image list for a `slug` that has no images
-- **THEN** the system returns an empty list
-
-#### Scenario: Property does not exist
-- **WHEN** a caller requests the image list for a `slug` that does not exist
-- **THEN** the system returns 404 Not Found
-
 ### Requirement: Delete an image from a property
 An authenticated user SHALL be able to delete an image, addressed by `imageId`, only from a property they own, addressed by `slug`. Ownership SHALL NOT be revealed to non-owners. An `imageId` that exists but does not belong to the given property SHALL be treated the same as a non-existent image.
 

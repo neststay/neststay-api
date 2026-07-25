@@ -21,12 +21,12 @@
 - [x] 4.3 `ImageService.addImage(slug, hostId, data)` — resolve owned property id via `getOwnedPropertyIdBySlug`, default `order` to `0` when omitted, return response DTO
 - [x] 4.4 `ImageController` `POST properties/:slug/images` endpoint with `JwtAuthGuard`, Zod validation, Swagger decorators matching the Property module's style
 
-## 5. Route: List images (GET /properties/:slug/images)
+## 5. Property responses: embed images via relation
 
-- [ ] 5.1 `ImageResponseDto` (`id`, `url`, `order`, `createdAt`, `updatedAt`)
-- [ ] 5.2 `ImageRepository.findAllByPropertyId(propertyId)` ordered by `order` ascending
-- [ ] 5.3 `ImageService.listByPropertySlug(slug)` — resolve property id via `getIdBySlug` (no auth), map to response DTOs
-- [ ] 5.4 `ImageController` `GET properties/:slug/images` endpoint (public), Swagger decorators
+- [x] 5.1 `ImageResponseDto` (`id`, `url`, `order`, `createdAt`, `updatedAt`) — already created alongside the create-image route in section 4
+- [ ] 5.2 `PropertyRepository.findBySlug` and `PropertyRepository.findAllPaginatedByLocation` — `include: { images: { orderBy: { order: 'asc' } } }`
+- [ ] 5.3 `PropertyResponseDto` — add `images: ImageResponseDto[]` field
+- [ ] 5.4 `PropertyService.toDto` — map the included `images` relation to `ImageResponseDto[]` (private mapper, no dependency on `ImageService`, to avoid a circular `PropertyService` <-> `ImageService` dependency)
 
 ## 6. Route: Delete image (DELETE /properties/:slug/images/:imageId)
 
