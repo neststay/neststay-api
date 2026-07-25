@@ -22,8 +22,8 @@
 
 ## 5. Controller
 
-- [ ] 5.1 Implement `FavouriteController` at `properties/:slug/favourite` with `POST` toggle endpoint, `JwtAuthGuard`, `@CurrentUser()`, and the standard `ResponseApiDto` envelope
-- [ ] 5.2 Add Swagger decorators (`@ApiOperation`, `@ApiEnvelopeResponse` for 200, `@ApiHttpErrorResponse` for 401 and 404)
+- [x] 5.1 Implement `FavouriteController` at `properties/:slug/favourite` with `POST` toggle endpoint, `JwtAuthGuard`, `@CurrentUser()`, and the standard `ResponseApiDto` envelope
+- [x] 5.2 Add Swagger decorators (`@ApiOperation`, `@ApiEnvelopeResponse` for 200, `@ApiHttpErrorResponse` for 401 and 404)
 
 ## 6. Module wiring
 
