@@ -63,6 +63,20 @@ model Property {
   host      User      @relation(fields: [hostId], references: [id])
   location  Location  @relation(fields: [locationId], references: [id])
   placeType PlaceType @relation(fields: [placeTypeId], references: [id])
+  images    Image[]
 
   @@map("properties")
+}
+
+model Image {
+  id         BigInt   @id @default(autoincrement())
+  propertyId BigInt
+  url        String
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@map("images")
 }

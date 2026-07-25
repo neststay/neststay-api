@@ -1,8 +1,8 @@
 ## 1. Database & Prisma
 
-- [ ] 1.1 Add `Image` model to `prisma/schema.prisma` (`id`, `propertyId`, `url`, `order` default `0`, `createdAt`, `updatedAt`, `@@map("images")`) with `Property images Image[]` back-relation and `onDelete: Cascade` on the `propertyId` FK
-- [ ] 1.2 Run `prisma migrate dev` to generate and apply the `images` table migration
-- [ ] 1.3 Regenerate the Prisma client
+- [x] 1.1 Add `Image` model to `prisma/schema.prisma` (`id`, `propertyId`, `url`, `order` default `0`, `createdAt`, `updatedAt`, `@@map("images")`) with `Property images Image[]` back-relation and `onDelete: Cascade` on the `propertyId` FK
+- [x] 1.2 Run `prisma migrate dev` to generate and apply the `images` table migration
+- [x] 1.3 Regenerate the Prisma client
 
 ## 2. Property module: expose id-resolution methods
 
