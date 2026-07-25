@@ -11,8 +11,8 @@
 
 ## 3. Image scaffold
 
-- [ ] 3.1 Create `src/property/image/` with `image.controller.ts`, `image.service.ts`, `image.repository.ts`, `dto/` (no separate `image.module.ts`)
-- [ ] 3.2 Register `ImageController`, `ImageRepository`, `ImageService` in `property.module.ts`'s `controllers`/`providers` arrays alongside the existing `Property*` classes; `ImageService` injects `PropertyService` directly (no `forwardRef` needed — single module, no circular import)
+- [x] 3.1 Create `src/property/image/` with `image.controller.ts`, `image.service.ts`, `image.repository.ts`, `dto/` (no separate `image.module.ts`)
+- [x] 3.2 Register `ImageController`, `ImageRepository`, `ImageService` in `property.module.ts`'s `controllers`/`providers` arrays alongside the existing `Property*` classes; `ImageService` injects `PropertyService` directly (no `forwardRef` needed — single module, no circular import)
 
 ## 4. Route: Add image (POST /properties/:slug/images)
 
