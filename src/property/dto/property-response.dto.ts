@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { PropertyImageDto } from './property-image.dto.js';
 
 export class PropertyResponseDto {
   @ApiProperty({
@@ -39,4 +40,7 @@ export class PropertyResponseDto {
 
   @ApiProperty({ type: Date, description: 'Last update timestamp' })
   updatedAt: Date;
+
+  @ApiProperty({ type: PropertyImageDto, isArray: true })
+  images: PropertyImageDto[];
 }

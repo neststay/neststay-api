@@ -2,9 +2,11 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PaginatedResponseDto } from '../common/pagination/paginated-response.dto.js';
 import { mapToPaginatedResponse } from '../common/pagination/pagination.helper.js';
 import { PropertyModel } from '../../generated/prisma/models/Property.js';
+import { ImageModel } from '../../generated/prisma/models/Image.js';
 import { CreatePropertyDto } from './dto/create-property.dto.js';
 import { UpdatePropertyDto } from './dto/update-property.dto.js';
 import { PropertyResponseDto } from './dto/property-response.dto.js';
+import { PropertyImageDto } from './dto/property-image.dto.js';
 import { PropertyRepository } from './property.repository.js';
 
 @Injectable()
@@ -85,7 +87,9 @@ export class PropertyService {
     return property;
   }
 
-  private toDto(property: PropertyModel): PropertyResponseDto {
+  private toDto(
+    property: PropertyModel & { images?: ImageModel[] },
+  ): PropertyResponseDto {
     const dto = new PropertyResponseDto();
     dto.slug = property.slug;
     dto.name = property.name;
@@ -96,6 +100,14 @@ export class PropertyService {
     dto.numberOfBathrooms = property.numberOfBathrooms;
     dto.createdAt = property.createdAt;
     dto.updatedAt = property.updatedAt;
+    dto.images = (property.images ?? []).map((image) => this.toImageDto(image));
+    return dto;
+  }
+
+  private toImageDto(image: ImageModel): PropertyImageDto {
+    const dto = new PropertyImageDto();
+    dto.url = image.url;
+    dto.order = image.order;
     return dto;
   }
 }

@@ -24,9 +24,9 @@
 ## 5. Property responses: embed images via relation
 
 - [x] 5.1 `ImageResponseDto` (`id`, `url`, `order`, `createdAt`, `updatedAt`) — already created alongside the create-image route in section 4
-- [ ] 5.2 `PropertyRepository.findBySlug` and `PropertyRepository.findAllPaginatedByLocation` — `include: { images: { orderBy: { order: 'asc' } } }`
-- [ ] 5.3 `PropertyResponseDto` — add `images: ImageResponseDto[]` field
-- [ ] 5.4 `PropertyService.toDto` — map the included `images` relation to `ImageResponseDto[]` (private mapper, no dependency on `ImageService`, to avoid a circular `PropertyService` <-> `ImageService` dependency)
+- [x] 5.2 `PropertyRepository.findBySlug` and `PropertyRepository.findAllPaginatedByLocation` — `include: { images: { orderBy: { order: 'asc' } } }`
+- [x] 5.3 `PropertyResponseDto` — add `images: PropertyImageDto[]` field (`url`, `order` only — no `id`/timestamps, per the relation-embedding architecture rule)
+- [x] 5.4 `PropertyService.toDto` — map the included `images` relation to `PropertyImageDto[]` (private mapper, no dependency on `ImageService`, to avoid a circular `PropertyService` <-> `ImageService` dependency)
 
 ## 6. Route: Delete image (DELETE /properties/:slug/images/:imageId)
 
