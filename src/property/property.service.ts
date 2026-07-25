@@ -25,6 +25,20 @@ export class PropertyService {
     return this.toDto(property);
   }
 
+  async getIdBySlug(slug: string): Promise<bigint> {
+    const property = await this.propertyRepository.findBySlug({ slug });
+    if (!property) throw new NotFoundException(`Property ${slug} not found`);
+    return property.id;
+  }
+
+  async getOwnedPropertyIdBySlug(
+    slug: string,
+    hostId: string,
+  ): Promise<bigint> {
+    const property = await this.getOwnedPropertyOrThrow(slug, hostId);
+    return property.id;
+  }
+
   async updateBySlug(
     slug: string,
     data: UpdatePropertyDto,

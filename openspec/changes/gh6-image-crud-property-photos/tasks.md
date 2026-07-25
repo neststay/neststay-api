@@ -6,8 +6,8 @@
 
 ## 2. Property module: expose id-resolution methods
 
-- [ ] 2.1 Add `PropertyService.getIdBySlug(slug): Promise<bigint>` — 404 if the property does not exist
-- [ ] 2.2 Add `PropertyService.getOwnedPropertyIdBySlug(slug, hostId): Promise<bigint>`, reusing the existing `getOwnedPropertyOrThrow` logic but returning only the `id` (404 if missing or not owned)
+- [x] 2.1 Add `PropertyService.getIdBySlug(slug): Promise<bigint>` — 404 if the property does not exist
+- [x] 2.2 Add `PropertyService.getOwnedPropertyIdBySlug(slug, hostId): Promise<bigint>`, reusing the existing `getOwnedPropertyOrThrow` logic but returning only the `id` (404 if missing or not owned)
 
 ## 3. Image scaffold
 
