@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   HttpCode,
   HttpStatus,
   Param,
@@ -8,7 +9,12 @@ import {
   UnprocessableEntityException,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard.js';
 import { CurrentUser } from '../../auth/decorators/current-user.decorator.js';
 import { ApiEnvelopeResponse } from '../../common/swagger/api-envelope-response.decorator.js';
@@ -48,5 +54,27 @@ export class ImageController {
 
     const data = await this.imageService.addImage(slug, hostId, result.data);
     return { success: true, message: 'Image added successfully', data };
+  }
+
+  @Delete(':imageId')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Delete an image from a property owned by the authenticated user',
+  })
+  @ApiResponse({ status: 200, description: 'Image deleted successfully' })
+  @ApiHttpErrorResponse(401, 'Unauthorized', 'Unauthorized')
+  @ApiHttpErrorResponse(404, 'Not Found', 'Image not found')
+  async remove(
+    @Param('slug') slug: string,
+    @Param('imageId') imageId: string,
+    @CurrentUser() hostId: string,
+  ): Promise<ResponseApiDto<null>> {
+    await this.imageService.deleteImage(slug, hostId, imageId);
+    return {
+      success: true,
+      message: 'Image deleted successfully',
+      data: null,
+    };
   }
 }

@@ -30,9 +30,9 @@
 
 ## 6. Route: Delete image (DELETE /properties/:slug/images/:imageId)
 
-- [ ] 6.1 `ImageRepository.findByIdAndPropertyId(id, propertyId)` and `ImageRepository.delete(id)`
-- [ ] 6.2 `ImageService.deleteImage(slug, hostId, imageId)` — resolve owned property id via `getOwnedPropertyIdBySlug`, 404 if the image doesn't exist or doesn't belong to that property, else delete
-- [ ] 6.3 `ImageController` `DELETE properties/:slug/images/:imageId` endpoint with `JwtAuthGuard`, Swagger decorators
+- [x] 6.1 `ImageRepository.findByIdAndPropertyId(id, propertyId)` and `ImageRepository.delete(id)`
+- [x] 6.2 `ImageService.deleteImage(slug, hostId, imageId)` — resolve owned property id via `getOwnedPropertyIdBySlug`, 404 if the image doesn't exist or doesn't belong to that property, else delete
+- [x] 6.3 `ImageController` `DELETE properties/:slug/images/:imageId` endpoint with `JwtAuthGuard`, Swagger decorators
 
 ## 7. Route: Reorder images (PATCH /properties/:slug/images/order)
 
