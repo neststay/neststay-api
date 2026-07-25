@@ -27,7 +27,7 @@
 
 ## 6. Module wiring
 
-- [ ] 6.1 Register `FavouriteController`, `FavouriteService`, `FavouriteRepository` in the property module (following how `ImageController`/`ImageService`/`ImageRepository` are registered)
+- [x] 6.1 Register `FavouriteController`, `FavouriteService`, `FavouriteRepository` in the property module (following how `ImageController`/`ImageService`/`ImageRepository` are registered)
 
 ## 7. Verification
 
