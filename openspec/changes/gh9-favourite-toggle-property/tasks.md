@@ -18,7 +18,7 @@
 
 ## 4. Service
 
-- [ ] 4.1 Implement `FavouriteService.toggle(slug, userId)`: resolve property via `PropertyService.getIdBySlug(slug)`, then find/create-or-delete via `FavouriteRepository`, returning `{ slug, isFavourite }`
+- [x] 4.1 Implement `FavouriteService.toggle(slug, userId)`: resolve property via `PropertyService.getIdBySlug(slug)`, then find/create-or-delete via `FavouriteRepository`, returning `{ slug, isFavourite }`
 
 ## 5. Controller
 
