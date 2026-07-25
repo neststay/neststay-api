@@ -16,10 +16,10 @@
 
 ## 4. Route: Add image (POST /properties/:slug/images)
 
-- [ ] 4.1 `CreateImageDto` + Zod schema (`url: z.string().url()`, `order: z.coerce.number().int().min(0).optional()`)
-- [ ] 4.2 `ImageRepository.create({ propertyId, url, order })`
-- [ ] 4.3 `ImageService.addImage(slug, hostId, data)` — resolve owned property id via `getOwnedPropertyIdBySlug`, default `order` to `0` when omitted, return response DTO
-- [ ] 4.4 `ImageController` `POST properties/:slug/images` endpoint with `JwtAuthGuard`, Zod validation, Swagger decorators matching the Property module's style
+- [x] 4.1 `CreateImageDto` + Zod schema (`url: z.string().url()`, `order: z.coerce.number().int().min(0).optional()`)
+- [x] 4.2 `ImageRepository.create({ propertyId, url, order })`
+- [x] 4.3 `ImageService.addImage(slug, hostId, data)` — resolve owned property id via `getOwnedPropertyIdBySlug`, default `order` to `0` when omitted, return response DTO
+- [x] 4.4 `ImageController` `POST properties/:slug/images` endpoint with `JwtAuthGuard`, Zod validation, Swagger decorators matching the Property module's style
 
 ## 5. Route: List images (GET /properties/:slug/images)
 
