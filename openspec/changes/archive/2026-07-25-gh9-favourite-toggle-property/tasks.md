@@ -31,6 +31,6 @@
 
 ## 7. Verification
 
-- [ ] 7.1 Manually verify the full toggle flow (favourite → unfavourite → favourite) against a running instance
-- [ ] 7.2 Verify 404 on an unknown slug and 401 on a missing/invalid token
-- [ ] 7.3 Run the full test suite and linter
+- [x] 7.1 Manually verify the full toggle flow (favourite → unfavourite → favourite) against a running instance
+- [x] 7.2 Verify 404 on an unknown slug and 401 on a missing/invalid token
+- [x] 7.3 Run the full test suite and linter
