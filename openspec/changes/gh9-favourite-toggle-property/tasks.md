@@ -11,10 +11,10 @@
 
 ## 3. Repository
 
-- [ ] 3.1 Implement `FavouriteRepository.findByUserAndProperty(userId, propertyId)`
-- [ ] 3.2 Implement `FavouriteRepository.create(userId, propertyId)`
-- [ ] 3.3 Implement `FavouriteRepository.delete(id)`
-- [ ] 3.4 Add `favourite.repository.spec.ts` covering find/create/delete against the test database, matching the style of `image.repository.spec.ts`
+- [x] 3.1 Implement `FavouriteRepository.findByUserAndProperty(userId, propertyId)`
+- [x] 3.2 Implement `FavouriteRepository.create(userId, propertyId)`
+- [x] 3.3 Implement `FavouriteRepository.delete(id)`
+- [x] 3.4 Add `favourite.repository.spec.ts` covering find/create/delete against the test database, matching the style of `image.repository.spec.ts`
 
 ## 4. Service
 
