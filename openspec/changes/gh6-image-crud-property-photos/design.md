@@ -51,7 +51,9 @@ Alternative considered: allow partial reorders (only touch ids present in the pa
 Deleting a property removes its images automatically; `PropertyRepository.delete` needs no change.
 
 **8. Images are read only as an embedded relation on Property responses — there is no `GET /properties/:slug/images` endpoint.**
-`PropertyRepository.findBySlug` and `PropertyRepository.findAllPaginatedByLocation` both `include: { images: { orderBy: { order: 'asc' } } }`. `PropertyService.toDto` maps the included `images` relation onto a new `images: ImageResponseDto[]` field on `PropertyResponseDto`, reusing the same image-shape mapping the create route already returns (kept as a small pure/private mapper next to each service — not shared via a cross-service call, to avoid a circular dependency between `PropertyService` and `ImageService`).
+`PropertyRepository.findBySlug` and `PropertyRepository.findAllPaginatedByLocation` both `include: { images: { orderBy: { order: 'asc' } } }`. `PropertyService.toDto` maps the included `images` relation onto a new `images: PropertyImageDto[]` field on `PropertyResponseDto`, via a small private mapper on `PropertyService` (not a call into `ImageService`, to avoid a circular dependency between the two services).
+
+`PropertyImageDto` is intentionally a trimmer shape than `ImageResponseDto`: only `url` and `order`, no `id`/`createdAt`/`updatedAt`. Per the architecture rule on embedded relations, an entity's `id` is only returned when that entity is the primary resource of the response (as the create-image route's `ImageResponseDto` is) — not when it rides along as a relation of something else. Timestamps were evaluated against the same rule and dropped: nothing in this change's scenarios needs an image's `createdAt`/`updatedAt` when it's just being displayed as part of a property.
 
 Alternative considered: a dedicated `GET /properties/:slug/images` endpoint (this change's original plan, and briefly implemented). Rejected per the architecture rule requiring related data to be embedded via relation rather than fetched with a separate call — this matters most for `GET /properties`, where a per-property images call would mean one extra request per item in every page of results. Since practically every property view needs its images, and the mutating endpoints (add/delete/reorder) already require the `slug`, embedding costs nothing extra for hosts and removes a mandatory round trip for every property view.
 
@@ -63,6 +65,7 @@ Alternative considered: a dedicated `GET /properties/:slug/images` endpoint (thi
 - **[Risk] Promoting `getOwnedPropertyOrThrow` to public slightly widens `PropertyService`'s surface** → Mitigation: the new methods return only a `bigint` id, not model internals, keeping the leak minimal and consistent with existing encapsulation.
 - **[Trade-off] `PropertyModule` now owns two resources' worth of providers/controllers** → accepted per Decision 1; if `Image` ever needs independent reuse by another module, split it into its own `ImageModule` and export what's needed then — not worth the indirection today.
 - **[Trade-off] No slug for Image** → accepted per Decision 4; revisit if Images ever need to be addressed outside a property's scope.
+- **[Trade-off] The public property endpoints never return an image's `id`, so once past its create-response, a host has no way to look up an existing image's `id` through this change's endpoints alone** → accepted: image management (delete, reorder) is a privileged host/admin activity that belongs behind its own separate, privileged API surface, not the public property responses. That privileged surface is out of scope for this change and will be designed separately when it's needed.
 
 ## Migration Plan
 
