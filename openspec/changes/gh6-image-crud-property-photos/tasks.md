@@ -43,8 +43,8 @@
 
 ## 8. Tests
 
-- [ ] 8.1 `image.repository.spec.ts` covering create, findAllByPropertyId ordering, findByIdAndPropertyId, delete, and updateOrders — mirroring `property.repository.spec.ts`'s style
-- [ ] 8.2 Verify cascade delete: deleting a property removes its images (integration/repository-level test)
+- [x] 8.1 `image.repository.spec.ts` covering create, findAllByPropertyId ordering, findByIdAndPropertyId, delete, and updateOrders — mirroring `property.repository.spec.ts`'s style
+- [x] 8.2 Verify cascade delete: deleting a property removes its images (integration/repository-level test) — verified via the `onDelete: Cascade` FK in `prisma/schema.prisma`; no dedicated test added (user decision: DB-enforced behavior, not application code)
 
 ## 9. Verification
 
