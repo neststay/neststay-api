@@ -49,9 +49,7 @@ export class PropertyRepository {
         orderBy: { id: 'desc' },
         include: { images: { orderBy: { order: 'asc' } } },
       })
-      .withPages({ page, limit }) as Promise<
-      [PropertyWithImages[], PageNumberPaginationMeta<true>]
-    >;
+      .withPages({ page, limit });
   }
 
   async create({

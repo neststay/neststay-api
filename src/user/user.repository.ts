@@ -29,9 +29,9 @@ export class UserRepository {
     page: number;
     limit: number;
   }): Promise<[UserModel[], PageNumberPaginationMeta<true>]> {
-    return this.prisma.extendedClient.user.paginate().withPages({ page, limit }) as Promise<
-      [UserModel[], PageNumberPaginationMeta<true>]
-    >;
+    return this.prisma.extendedClient.user
+      .paginate()
+      .withPages({ page, limit });
   }
 
   async create({ data }: { data: CreateUserDto }): Promise<UserModel> {
@@ -46,7 +46,13 @@ export class UserRepository {
     });
   }
 
-  async update({ id, data }: { id: string; data: UpdateUserDto }): Promise<UserModel> {
+  async update({
+    id,
+    data,
+  }: {
+    id: string;
+    data: UpdateUserDto;
+  }): Promise<UserModel> {
     return this.prisma.user.update({
       where: { id },
       data,

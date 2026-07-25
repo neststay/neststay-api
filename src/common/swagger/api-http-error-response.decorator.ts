@@ -1,7 +1,11 @@
 import { applyDecorators } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 
-export function ApiHttpErrorResponse(status: number, description: string, messageExample: string) {
+export function ApiHttpErrorResponse(
+  status: number,
+  description: string,
+  messageExample: string,
+) {
   return applyDecorators(
     ApiResponse({
       status,

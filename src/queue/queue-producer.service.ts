@@ -10,7 +10,11 @@ export class QueueProducerService {
 
   constructor(@InjectQueue(QUEUE_USER_EVENTS) private userEventsQueue: Queue) {}
 
-  async enqueueUserRegister({ payload }: { payload: UserRegisterJobPayload }): Promise<void> {
+  async enqueueUserRegister({
+    payload,
+  }: {
+    payload: UserRegisterJobPayload;
+  }): Promise<void> {
     try {
       await this.userEventsQueue.add(JOB_USER_REGISTER, payload, {
         attempts: 3,
