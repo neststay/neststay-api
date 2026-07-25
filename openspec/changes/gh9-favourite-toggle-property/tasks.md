@@ -6,8 +6,8 @@
 
 ## 2. Favourite module scaffolding
 
-- [ ] 2.1 Create `src/property/favourite/` folder mirroring the `image/` sub-module layout
-- [ ] 2.2 Create `favourite-response.dto.ts` for the `{ slug, isFavourite }` response shape
+- [x] 2.1 Create `src/property/favourite/` folder mirroring the `image/` sub-module layout
+- [x] 2.2 Create `favourite-response.dto.ts` for the `{ slug, isFavourite }` response shape
 
 ## 3. Repository
 
