@@ -1,0 +1,67 @@
+## 1. Schema and migration
+
+- [ ] 1.1 Update `prisma/schema.prisma`: `User.id` -> `BigInt @id @default(autoincrement())`, add `User.slug String @unique`
+- [ ] 1.2 Update `prisma/schema.prisma`: `Property.hostId` -> `BigInt`
+- [ ] 1.3 Update `prisma/schema.prisma`: `FavouriteProperty.userId` -> `BigInt`
+- [ ] 1.4 Delete `prisma/migrations/*` and generate one fresh baseline migration reflecting the final schema
+- [ ] 1.5 Run `prisma migrate reset` against the local dev database and regenerate the Prisma client (`npm run prisma:generate`)
+
+## 2. Auth chain
+
+- [ ] 2.1 `src/auth/strategies/jwt.strategy.ts`: `validate()` parses `sub` to `BigInt(sub)` before returning `{ userId }`
+- [ ] 2.2 `src/auth/decorators/current-user.decorator.ts`: change return type from `string` to `bigint`, update the `Request` user type accordingly
+- [ ] 2.3 `src/user/user.service.ts` `login()`: sign JWT with `sub: user.id.toString()`
+
+## 3. User module
+
+- [ ] 3.1 `src/user/user.repository.ts`: `create()` stops setting `id: ulid()`, sets `slug: ulid()` instead
+- [ ] 3.2 `src/user/user.repository.ts`: add `findBySlug({ slug })`; convert `update`/`delete` to `updateBySlug`/`deleteBySlug` (query by `slug`, not `id`); keep `findById({ id: bigint })` for internal FK-oriented lookups
+- [ ] 3.3 `src/user/user.service.ts`: convert `findById`/`update`/`delete` to `findBySlug`/`updateBySlug`/`deleteBySlug`; update `toDto()` to map `slug` instead of `id`
+- [ ] 3.4 `src/user/user.service.ts` `login()`: set `dto.slug = user.slug` instead of `dto.id = user.id`
+- [ ] 3.5 `src/user/user.service.ts` `register()`: set `dto.slug = user.slug` instead of `dto.id = user.id`
+- [ ] 3.6 `src/user/dto/login-response.dto.ts`: replace `id: string` with `slug: string` (update `@ApiProperty` example to a ulid-shaped value, description to "User slug")
+- [ ] 3.7 `src/user/dto/register-response.dto.ts`: replace `id: string` with `slug: string` (same `@ApiProperty` treatment)
+- [ ] 3.8 `src/user/dto/user-response.dto.ts`: replace `id: string` with `slug: string`
+- [ ] 3.9 Check `src/user/dto/paginated-user-list.dto.ts` still references `UserResponseDto` correctly (no direct `id` field of its own expected, but verify)
+
+## 4. Queue / event payload conversions
+
+- [ ] 4.1 `src/user/listeners/user-register-queue.listener.ts`: update `handleUserRegister` payload type to expect `id: bigint`, convert to `id.toString()` when building the `UserRegisterJobPayload`
+- [ ] 4.2 `src/queue/queue.types.ts`: confirm `UserRegisterJobPayload.userId` stays `string` (no change expected, verify only)
+- [ ] 4.3 `src/queue/processors/user-register.processor.ts`: verify it only logs/consumes `job.data.userId` as a string (no change expected, verify only)
+
+## 5. Property module (hostId type propagation)
+
+- [ ] 5.1 `src/property/property.repository.ts`: change `hostId: string` params to `hostId: bigint` in `findByIdAndHostId`, `create`
+- [ ] 5.2 `src/property/property.service.ts`: change `hostId: string` params to `hostId: bigint` in `create`, `getOwnedPropertyOrThrow`, `updateBySlug`, `deleteBySlug`
+- [ ] 5.3 `src/property/property.controller.ts`: change `@CurrentUser() hostId: string` to `@CurrentUser() hostId: bigint` on create/update/remove
+
+## 6. Image module (hostId type propagation)
+
+- [ ] 6.1 `src/property/image/image.service.ts`: change `hostId: string` params to `hostId: bigint` in `addImage`, `deleteImage`, `reorder`
+- [ ] 6.2 `src/property/image/image.controller.ts`: change `@CurrentUser() hostId: string` to `@CurrentUser() hostId: bigint` on create/remove/reorder
+
+## 7. Favourite module (userId type propagation)
+
+- [ ] 7.1 `src/property/favourite/favourite.repository.ts`: change `userId: string` params to `userId: bigint` in `findByUserAndProperty`, `create`
+- [ ] 7.2 `src/property/favourite/favourite.service.ts`: change `userId: string` param to `userId: bigint` in `toggle`
+- [ ] 7.3 `src/property/favourite/favourite.controller.ts`: change `@CurrentUser() userId: string` to `@CurrentUser() userId: bigint` on `toggle`
+- [ ] 7.4 `src/property/favourite/favourite.repository.spec.ts`: update fake `userId: 'user-1'` string literals to bigint literals (e.g. `1n`)
+
+## 8. Misc consumer
+
+- [ ] 8.1 `src/app.controller.ts` `/profile`: update to handle `userId: bigint`, return `{ userId: userId.toString() }` so the response doesn't throw on serialization
+
+## 9. Seed script
+
+- [ ] 9.1 `prisma/seed.ts`: admin user upsert — remove `id: ulid()`, add `slug: ulid()`
+- [ ] 9.2 `prisma/seed.ts`: `fakeUsers` array — remove `id: ulid()`, add `slug: ulid()`
+- [ ] 9.3 `prisma/seed.ts`: verify `prisma.user.findMany({ select: { id: true } })` and `hostId: faker.helpers.arrayElement(users).id` still type-check with `id` as bigint (no logic change expected)
+
+## 10. Verification
+
+- [ ] 10.1 `npm run build` — confirm no type errors anywhere `hostId`/`userId`/user `id` is referenced
+- [ ] 10.2 `npm run prisma:seed` against the reset dev DB — confirm admin + fake users, properties, and favourites seed cleanly
+- [ ] 10.3 Manually exercise `POST /users/register` -> `POST /users/login` -> guarded `GET /users` and `GET /profile` with the issued token — confirm responses expose `slug` (never `id`) and no BigInt serialization errors occur
+- [ ] 10.4 Manually exercise property create/update/delete and the favourite toggle endpoint with the issued token — confirm ownership checks still work with the new bigint `hostId`/`userId`
+- [ ] 10.5 Run existing test suite (`npm test`) — confirm `favourite.repository.spec.ts` and other specs pass with updated types
