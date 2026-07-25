@@ -1,8 +1,8 @@
 ## 1. Schema
 
-- [ ] 1.1 Add `FavouriteProperty` model to `prisma/schema.prisma` (`favourite_property` table: BigInt autoincrement `id`, `userId`, `propertyId`, `createdAt` only, `@@unique([userId, propertyId])`, `onDelete: Cascade` on both FKs)
-- [ ] 1.2 Add back-reference relation fields (`favouriteProperties FavouriteProperty[]`) to `User` and `Property` models
-- [ ] 1.3 Generate and run the Prisma migration for the new table
+- [x] 1.1 Add `FavouriteProperty` model to `prisma/schema.prisma` (`favourite_property` table: BigInt autoincrement `id`, `userId`, `propertyId`, `createdAt` only, `@@unique([userId, propertyId])`, `onDelete: Cascade` on both FKs)
+- [x] 1.2 Add back-reference relation fields (`favouriteProperties FavouriteProperty[]`) to `User` and `Property` models
+- [x] 1.3 Generate and run the Prisma migration for the new table
 
 ## 2. Favourite module scaffolding
 

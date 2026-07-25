@@ -18,7 +18,8 @@ model User {
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 
-  properties Property[]
+  properties          Property[]
+  favouriteProperties FavouriteProperty[]
 
   @@map("users")
 }
@@ -60,10 +61,11 @@ model Property {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
-  host      User      @relation(fields: [hostId], references: [id])
-  location  Location  @relation(fields: [locationId], references: [id])
-  placeType PlaceType @relation(fields: [placeTypeId], references: [id])
-  images    Image[]
+  host                User                @relation(fields: [hostId], references: [id])
+  location            Location            @relation(fields: [locationId], references: [id])
+  placeType           PlaceType           @relation(fields: [placeTypeId], references: [id])
+  images              Image[]
+  favouriteProperties FavouriteProperty[]
 
   @@map("properties")
 }
@@ -79,4 +81,17 @@ model Image {
   property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
 
   @@map("images")
+}
+
+model FavouriteProperty {
+  id         BigInt   @id @default(autoincrement())
+  userId     String
+  propertyId BigInt
+  createdAt  DateTime @default(now())
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, propertyId])
+  @@map("favourite_property")
 }
