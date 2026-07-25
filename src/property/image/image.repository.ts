@@ -29,7 +29,25 @@ export class ImageRepository {
     });
   }
 
+  async findAllByPropertyId(propertyId: bigint): Promise<ImageModel[]> {
+    return this.prisma.image.findMany({
+      where: { propertyId },
+      orderBy: { order: 'asc' },
+    });
+  }
+
   async delete(id: bigint): Promise<void> {
     await this.prisma.image.delete({ where: { id } });
+  }
+
+  async updateOrders(propertyId: bigint, orderedIds: bigint[]): Promise<void> {
+    await this.prisma.$transaction(
+      orderedIds.map((id, index) =>
+        this.prisma.image.update({
+          where: { id, propertyId },
+          data: { order: index },
+        }),
+      ),
+    );
   }
 }

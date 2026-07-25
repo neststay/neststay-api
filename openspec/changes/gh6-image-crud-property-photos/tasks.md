@@ -36,10 +36,10 @@
 
 ## 7. Route: Reorder images (PATCH /properties/:slug/images/order)
 
-- [ ] 7.1 `ReorderImagesDto` + Zod schema (`imageIds: z.array(z.coerce.number().int().positive()).min(1)`)
-- [ ] 7.2 `ImageRepository.updateOrders(propertyId, orderedIds)` — apply `order` by array position inside a single Prisma transaction
-- [ ] 7.3 `ImageService.reorder(slug, hostId, imageIds)` — resolve owned property id, fetch current image ids, dedupe input (first occurrence wins), reject with 422 if the deduped input set doesn't exactly match the current set, else apply via `updateOrders`
-- [ ] 7.4 `ImageController` `PATCH properties/:slug/images/order` endpoint with `JwtAuthGuard`, Zod validation, Swagger decorators
+- [x] 7.1 `ReorderImagesDto` + Zod schema (`imageIds: z.array(z.coerce.number().int().positive()).min(1)`)
+- [x] 7.2 `ImageRepository.updateOrders(propertyId, orderedIds)` — apply `order` by array position inside a single Prisma transaction
+- [x] 7.3 `ImageService.reorder(slug, hostId, imageIds)` — resolve owned property id, fetch current image ids, dedupe input (first occurrence wins), reject with 422 if the deduped input set doesn't exactly match the current set, else apply via `updateOrders`
+- [x] 7.4 `ImageController` `PATCH properties/:slug/images/order` endpoint with `JwtAuthGuard`, Zod validation, Swagger decorators
 
 ## 8. Tests
 

@@ -5,6 +5,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  Patch,
   Post,
   UnprocessableEntityException,
   UseGuards,
@@ -21,6 +22,10 @@ import { ApiEnvelopeResponse } from '../../common/swagger/api-envelope-response.
 import { ApiHttpErrorResponse } from '../../common/swagger/api-http-error-response.decorator.js';
 import { ResponseApiDto } from '../../common/dto/response-api.dto.js';
 import { CreateImageDto, CreateImageSchema } from './dto/create-image.dto.js';
+import {
+  ReorderImagesDto,
+  ReorderImagesSchema,
+} from './dto/reorder-images.dto.js';
 import { ImageResponseDto } from './dto/image-response.dto.js';
 import { ImageService } from './image.service.js';
 
@@ -74,6 +79,37 @@ export class ImageController {
     return {
       success: true,
       message: 'Image deleted successfully',
+      data: null,
+    };
+  }
+
+  @Patch('order')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary:
+      'Reorder images for a property owned by the authenticated user by supplying the full ordered list of image ids',
+  })
+  @ApiResponse({ status: 200, description: 'Images reordered successfully' })
+  @ApiHttpErrorResponse(401, 'Unauthorized', 'Unauthorized')
+  @ApiHttpErrorResponse(404, 'Not Found', 'Property not found')
+  @ApiHttpErrorResponse(422, 'Unprocessable Entity', 'Validation failed')
+  async reorder(
+    @Param('slug') slug: string,
+    @Body() body: ReorderImagesDto,
+    @CurrentUser() hostId: string,
+  ): Promise<ResponseApiDto<null>> {
+    const result = ReorderImagesSchema.safeParse(body);
+    if (!result.success) {
+      throw new UnprocessableEntityException(
+        result.error.issues.map((e) => e.message),
+      );
+    }
+
+    await this.imageService.reorder(slug, hostId, result.data.imageIds);
+    return {
+      success: true,
+      message: 'Images reordered successfully',
       data: null,
     };
   }
