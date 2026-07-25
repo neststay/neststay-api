@@ -93,7 +93,7 @@ export class PropertyController {
     return {
       success: true,
       message: 'Properties fetched successfully',
-      data: data as PaginatedPropertyListDto,
+      data: data,
     };
   }
 

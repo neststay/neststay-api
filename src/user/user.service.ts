@@ -1,4 +1,9 @@
-import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import * as bcrypt from 'bcrypt';
@@ -20,12 +25,19 @@ export class UserService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async login({ email, password }: { email: string; password: string }): Promise<LoginResponseDto> {
+  async login({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }): Promise<LoginResponseDto> {
     const user = await this.userRepository.findByEmail({ email });
     if (!user) throw new UnauthorizedException("Credentials doesn't match");
 
     const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!passwordMatch) throw new UnauthorizedException("Credentials doesn't match");
+    if (!passwordMatch)
+      throw new UnauthorizedException("Credentials doesn't match");
 
     const token = this.jwtService.sign({ sub: user.id, email: user.email });
 
@@ -39,7 +51,15 @@ export class UserService {
     return dto;
   }
 
-  async register({ name, email, password }: { name: string; email: string; password: string }): Promise<RegisterResponseDto> {
+  async register({
+    name,
+    email,
+    password,
+  }: {
+    name: string;
+    email: string;
+    password: string;
+  }): Promise<RegisterResponseDto> {
     const existing = await this.userRepository.findByEmail({ email });
     if (existing) throw new ConflictException('Email already registered');
 

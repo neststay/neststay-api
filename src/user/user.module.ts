@@ -17,8 +17,8 @@ import { AppConfig } from '../config/index.js';
         const jwtConfig = config.getOrThrow('jwt');
         return {
           secret: jwtConfig.secret,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          signOptions: { expiresIn: jwtConfig.expiresIn as any },
+
+          signOptions: { expiresIn: jwtConfig.expiresIn },
         };
       },
     }),

@@ -58,7 +58,7 @@ async function bootstrap() {
 
   if (!isProduction || queueConfig.enableBullBoard) {
     const bullMQAdapter = new ExpressAdapter().setBasePath('/admin/queues');
-    const userEventsQueue = app.get('BullQueue_user-events') as Queue;
+    const userEventsQueue = app.get('BullQueue_user-events');
 
     if (userEventsQueue) {
       createBullBoard({
