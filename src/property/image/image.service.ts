@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { PropertyService } from '../property.service.js';
 import { ImageModel } from '../../../generated/prisma/models/Image.js';
 import { ImageRepository } from './image.repository.js';
@@ -55,6 +59,42 @@ export class ImageService {
     }
 
     await this.imageRepository.delete(id);
+  }
+
+  async reorder(
+    slug: string,
+    hostId: string,
+    imageIds: number[],
+  ): Promise<void> {
+    const propertyId = await this.propertyService.getOwnedPropertyIdBySlug(
+      slug,
+      hostId,
+    );
+
+    const dedupedIds: bigint[] = [];
+    const seen = new Set<bigint>();
+    for (const imageId of imageIds) {
+      const id = BigInt(imageId);
+      if (!seen.has(id)) {
+        seen.add(id);
+        dedupedIds.push(id);
+      }
+    }
+
+    const currentImages =
+      await this.imageRepository.findAllByPropertyId(propertyId);
+    const currentIds = new Set(currentImages.map((image) => image.id));
+
+    const matchesCurrentSet =
+      dedupedIds.length === currentIds.size &&
+      dedupedIds.every((id) => currentIds.has(id));
+    if (!matchesCurrentSet) {
+      throw new UnprocessableEntityException(
+        "imageIds must match the property's current set of images exactly",
+      );
+    }
+
+    await this.imageRepository.updateOrders(propertyId, dedupedIds);
   }
 
   private toDto(image: ImageModel): ImageResponseDto {
