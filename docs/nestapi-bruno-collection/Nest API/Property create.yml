@@ -1,0 +1,35 @@
+info:
+  name: Property create
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: "{{baseUrl}}/properties"
+  headers:
+    - name: accept
+      value: application/json
+    - name: Authorization
+      value: Bearer  {{accessToken}}
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "locationId": 1,
+        "placeTypeId": 1,
+        "nightlyRate": 3500,
+        "name": "Sea view resort",
+        "description": "Wake up to the beautiful sea",
+        "numberOfGuests": 5,
+        "numberOfBedrooms": 2,
+        "numberOfBathrooms": 2
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

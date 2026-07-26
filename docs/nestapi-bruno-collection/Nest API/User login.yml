@@ -1,0 +1,40 @@
+info:
+  name: User login
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{baseUrl}}/users/login"
+  headers:
+    - name: accept
+      value: application/json
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "email": "admin@example.com",
+        "password": "change-me-to-secure-password"
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        // Get the parsed response body
+        const resp = res.getBody();
+
+        if (resp && resp.data && resp.data.token) {
+          const token = resp.data.token;
+          
+          bru.setEnvVar("accessToken",token, { persist: true });
+        }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
