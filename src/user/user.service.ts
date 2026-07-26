@@ -39,7 +39,7 @@ export class UserService {
     if (!passwordMatch)
       throw new UnauthorizedException("Credentials doesn't match");
 
-    const token = this.jwtService.sign({ sub: user.id, email: user.email });
+    const token = this.jwtService.sign({ sub: user.slug, email: user.email });
 
     await this.userRepository.updateLastLoggedIn({ id: user.id });
     this.eventEmitter.emit('user.loggedin', { userId: user.id });

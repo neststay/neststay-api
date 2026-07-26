@@ -8,10 +8,10 @@
 
 ## 2. Auth chain
 
-- [ ] 2.1 `src/auth/auth.module.ts`: import `UserModule` so `JwtStrategy` can inject `UserService`
-- [ ] 2.2 `src/auth/strategies/jwt.strategy.ts`: inject `UserService`; `validate()` looks up the user via `findBySlug({ slug: sub })`, throws `UnauthorizedException` if not found, and returns `{ userId: user.id }` (`bigint`) — `sub` itself is never parsed as a bigint, it is the slug
-- [ ] 2.3 `src/auth/decorators/current-user.decorator.ts`: change return type from `string` to `bigint`, update the `Request` user type accordingly
-- [ ] 2.4 `src/user/user.service.ts` `login()`: sign JWT with `sub: user.slug` (unchanged in shape from today — still a ulid string, just sourced from the new `slug` column instead of `id`)
+- [x] 2.1 `src/auth/auth.module.ts`: import `UserModule` so `JwtStrategy` can inject `UserService`
+- [x] 2.2 `src/auth/strategies/jwt.strategy.ts`: inject `UserService`; `validate()` looks up the user via `findBySlug({ slug: sub })`, throws `UnauthorizedException` if not found, and returns `{ userId: user.id }` (`bigint`) — `sub` itself is never parsed as a bigint, it is the slug
+- [x] 2.3 `src/auth/decorators/current-user.decorator.ts`: change return type from `string` to `bigint`, update the `Request` user type accordingly
+- [x] 2.4 `src/user/user.service.ts` `login()`: sign JWT with `sub: user.slug` (unchanged in shape from today — still a ulid string, just sourced from the new `slug` column instead of `id`)
 
 ## 3. User module
 
