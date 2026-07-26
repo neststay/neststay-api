@@ -3,10 +3,10 @@ import { ApiProperty } from '@nestjs/swagger';
 export class RegisterResponseDto {
   @ApiProperty({
     type: String,
-    description: 'User ID',
+    description: 'User slug',
     example: '01JABC1234567890ABCDEFGH',
   })
-  id: string;
+  slug: string;
 
   @ApiProperty({
     type: String,

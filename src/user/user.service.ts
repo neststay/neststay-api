@@ -7,6 +7,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import * as bcrypt from 'bcrypt';
+import { UserModel } from '../../generated/prisma/models/User.js';
 import { PaginatedResponseDto } from '../common/pagination/paginated-response.dto.js';
 import { mapToPaginatedResponse } from '../common/pagination/pagination.helper.js';
 import { UpdateUserDto } from './dto/update-user.dto.js';
@@ -46,7 +47,7 @@ export class UserService {
 
     const dto = new LoginResponseDto();
     dto.token = token;
-    dto.id = user.id;
+    dto.slug = user.slug;
     dto.email = user.email;
     return dto;
   }
@@ -71,14 +72,18 @@ export class UserService {
     this.eventEmitter.emit('user.register', user);
 
     const dto = new RegisterResponseDto();
-    dto.id = user.id;
+    dto.slug = user.slug;
     dto.email = user.email;
     return dto;
   }
 
-  async findById(id: string): Promise<UserResponseDto> {
-    const user = await this.userRepository.findById({ id });
-    if (!user) throw new NotFoundException(`User ${id} not found`);
+  async findBySlug({ slug }: { slug: string }): Promise<UserModel | null> {
+    return this.userRepository.findBySlug({ slug });
+  }
+
+  async getBySlug(slug: string): Promise<UserResponseDto> {
+    const user = await this.userRepository.findBySlug({ slug });
+    if (!user) throw new NotFoundException(`User ${slug} not found`);
     return this.toDto(user);
   }
 
@@ -103,21 +108,24 @@ export class UserService {
     return mapToPaginatedResponse(result, (u) => this.toDto(u));
   }
 
-  async update(id: string, dto: UpdateUserDto): Promise<UserResponseDto> {
+  async updateBySlug(
+    slug: string,
+    dto: UpdateUserDto,
+  ): Promise<UserResponseDto> {
     const data: UpdateUserDto = { ...dto };
     if (dto.password) {
       data.password = await bcrypt.hash(dto.password, SALT_ROUNDS);
     }
-    const user = await this.userRepository.update({ id, data });
+    const user = await this.userRepository.updateBySlug({ slug, data });
     return this.toDto(user);
   }
 
-  async delete(id: string): Promise<void> {
-    await this.userRepository.delete({ id });
+  async deleteBySlug(slug: string): Promise<void> {
+    await this.userRepository.deleteBySlug({ slug });
   }
 
   private toDto(user: {
-    id: string;
+    slug: string;
     name: string | null;
     email: string;
     lastLoggedIn: Date | null;
@@ -125,7 +133,7 @@ export class UserService {
     updatedAt: Date;
   }): UserResponseDto {
     const dto = new UserResponseDto();
-    dto.id = user.id;
+    dto.slug = user.slug;
     dto.name = user.name;
     dto.email = user.email;
     dto.lastLoggedIn = user.lastLoggedIn;

@@ -10,8 +10,12 @@ import { UpdateUserDto } from './dto/update-user.dto.js';
 export class UserRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findById({ id }: { id: string }): Promise<UserModel | null> {
+  async findById({ id }: { id: bigint }): Promise<UserModel | null> {
     return this.prisma.user.findUnique({ where: { id } });
+  }
+
+  async findBySlug({ slug }: { slug: string }): Promise<UserModel | null> {
+    return this.prisma.user.findUnique({ where: { slug } });
   }
 
   async findByEmail({ email }: { email: string }): Promise<UserModel | null> {
@@ -37,7 +41,7 @@ export class UserRepository {
   async create({ data }: { data: CreateUserDto }): Promise<UserModel> {
     return this.prisma.user.create({
       data: {
-        id: ulid(),
+        slug: ulid(),
         name: data.name ?? null,
         email: data.email,
         password: data.password,
@@ -46,27 +50,27 @@ export class UserRepository {
     });
   }
 
-  async update({
-    id,
+  async updateBySlug({
+    slug,
     data,
   }: {
-    id: string;
+    slug: string;
     data: UpdateUserDto;
   }): Promise<UserModel> {
     return this.prisma.user.update({
-      where: { id },
+      where: { slug },
       data,
     });
   }
 
-  async updateLastLoggedIn({ id }: { id: string }): Promise<void> {
+  async updateLastLoggedIn({ id }: { id: bigint }): Promise<void> {
     await this.prisma.user.update({
       where: { id },
       data: { lastLoggedIn: new Date() },
     });
   }
 
-  async delete({ id }: { id: string }): Promise<void> {
-    await this.prisma.user.delete({ where: { id } });
+  async deleteBySlug({ slug }: { slug: string }): Promise<void> {
+    await this.prisma.user.delete({ where: { slug } });
   }
 }

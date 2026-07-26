@@ -15,15 +15,15 @@
 
 ## 3. User module
 
-- [ ] 3.1 `src/user/user.repository.ts`: `create()` stops setting `id: ulid()`, sets `slug: ulid()` instead
-- [ ] 3.2 `src/user/user.repository.ts`: add `findBySlug({ slug })`; convert `update`/`delete` to `updateBySlug`/`deleteBySlug` (query by `slug`, not `id`); keep `findById({ id: bigint })` for internal FK-oriented lookups
-- [ ] 3.3 `src/user/user.service.ts`: convert `findById`/`update`/`delete` to `findBySlug`/`updateBySlug`/`deleteBySlug`; update `toDto()` to map `slug` instead of `id`
-- [ ] 3.4 `src/user/user.service.ts` `login()`: set `dto.slug = user.slug` instead of `dto.id = user.id`
-- [ ] 3.5 `src/user/user.service.ts` `register()`: set `dto.slug = user.slug` instead of `dto.id = user.id`
-- [ ] 3.6 `src/user/dto/login-response.dto.ts`: replace `id: string` with `slug: string` (update `@ApiProperty` example to a ulid-shaped value, description to "User slug")
-- [ ] 3.7 `src/user/dto/register-response.dto.ts`: replace `id: string` with `slug: string` (same `@ApiProperty` treatment)
-- [ ] 3.8 `src/user/dto/user-response.dto.ts`: replace `id: string` with `slug: string`
-- [ ] 3.9 Check `src/user/dto/paginated-user-list.dto.ts` still references `UserResponseDto` correctly (no direct `id` field of its own expected, but verify)
+- [x] 3.1 `src/user/user.repository.ts`: `create()` stops setting `id: ulid()`, sets `slug: ulid()` instead
+- [x] 3.2 `src/user/user.repository.ts`: add `findBySlug({ slug })`; convert `update`/`delete` to `updateBySlug`/`deleteBySlug` (query by `slug`, not `id`); keep `findById({ id: bigint })` for internal FK-oriented lookups
+- [x] 3.3 `src/user/user.service.ts`: convert `findById`/`update`/`delete` to `findBySlug`/`updateBySlug`/`deleteBySlug`; update `toDto()` to map `slug` instead of `id`
+- [x] 3.4 `src/user/user.service.ts` `login()`: set `dto.slug = user.slug` instead of `dto.id = user.id`
+- [x] 3.5 `src/user/user.service.ts` `register()`: set `dto.slug = user.slug` instead of `dto.id = user.id`
+- [x] 3.6 `src/user/dto/login-response.dto.ts`: replace `id: string` with `slug: string` (update `@ApiProperty` example to a ulid-shaped value, description to "User slug")
+- [x] 3.7 `src/user/dto/register-response.dto.ts`: replace `id: string` with `slug: string` (same `@ApiProperty` treatment)
+- [x] 3.8 `src/user/dto/user-response.dto.ts`: replace `id: string` with `slug: string`
+- [x] 3.9 Check `src/user/dto/paginated-user-list.dto.ts` still references `UserResponseDto` correctly (no direct `id` field of its own expected, but verify)
 
 ## 4. Queue / event payload conversions
 

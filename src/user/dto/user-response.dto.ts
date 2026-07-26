@@ -1,5 +1,5 @@
 export class UserResponseDto {
-  id: string;
+  slug: string;
   name: string | null;
   email: string;
   lastLoggedIn: Date | null;
