@@ -55,9 +55,9 @@
 
 ## 9. Seed script
 
-- [ ] 9.1 `prisma/seed.ts`: admin user upsert — remove `id: ulid()`, add `slug: ulid()`
-- [ ] 9.2 `prisma/seed.ts`: `fakeUsers` array — remove `id: ulid()`, add `slug: ulid()`
-- [ ] 9.3 `prisma/seed.ts`: verify `prisma.user.findMany({ select: { id: true } })` and `hostId: faker.helpers.arrayElement(users).id` still type-check with `id` as bigint (no logic change expected)
+- [x] 9.1 `prisma/seed.ts`: admin user upsert — remove `id: ulid()`, add `slug: ulid()`
+- [x] 9.2 `prisma/seed.ts`: `fakeUsers` array — remove `id: ulid()`, add `slug: ulid()`
+- [x] 9.3 `prisma/seed.ts`: verify `prisma.user.findMany({ select: { id: true } })` and `hostId: faker.helpers.arrayElement(users).id` still type-check with `id` as bigint (no logic change expected)
 
 ## 10. Verification
 

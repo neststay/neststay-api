@@ -67,7 +67,7 @@ async function seedUsers(prisma: PrismaClient): Promise<void> {
     where: { email: adminEmail },
     update: {},
     create: {
-      id: ulid(),
+      slug: ulid(),
       name: 'Admin',
       email: adminEmail,
       password: hashedAdminPassword,
@@ -79,7 +79,7 @@ async function seedUsers(prisma: PrismaClient): Promise<void> {
   // Generate and insert fake users
   const hashedUserPassword = await bcrypt.hash(userPassword, SALT_ROUNDS);
   const fakeUsers = Array.from({ length: userCount }).map(() => ({
-    id: ulid(),
+    slug: ulid(),
     name: faker.person.fullName(),
     email: faker.internet.email(),
     password: hashedUserPassword,
