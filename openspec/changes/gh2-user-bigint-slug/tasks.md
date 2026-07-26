@@ -39,8 +39,8 @@
 
 ## 6. Image module (hostId type propagation)
 
-- [ ] 6.1 `src/property/image/image.service.ts`: change `hostId: string` params to `hostId: bigint` in `addImage`, `deleteImage`, `reorder`
-- [ ] 6.2 `src/property/image/image.controller.ts`: change `@CurrentUser() hostId: string` to `@CurrentUser() hostId: bigint` on create/remove/reorder
+- [x] 6.1 `src/property/image/image.service.ts`: change `hostId: string` params to `hostId: bigint` in `addImage`, `deleteImage`, `reorder`
+- [x] 6.2 `src/property/image/image.controller.ts`: change `@CurrentUser() hostId: string` to `@CurrentUser() hostId: bigint` on create/remove/reorder
 
 ## 7. Favourite module (userId type propagation)
 

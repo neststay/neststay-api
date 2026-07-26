@@ -18,7 +18,7 @@ export class ImageService {
 
   async addImage(
     slug: string,
-    hostId: string,
+    hostId: bigint,
     data: CreateImageDto,
   ): Promise<ImageResponseDto> {
     const propertyId = await this.propertyService.getOwnedPropertyIdBySlug(
@@ -35,7 +35,7 @@ export class ImageService {
 
   async deleteImage(
     slug: string,
-    hostId: string,
+    hostId: bigint,
     imageId: string,
   ): Promise<void> {
     const propertyId = await this.propertyService.getOwnedPropertyIdBySlug(
@@ -63,7 +63,7 @@ export class ImageService {
 
   async reorder(
     slug: string,
-    hostId: string,
+    hostId: bigint,
     imageIds: number[],
   ): Promise<void> {
     const propertyId = await this.propertyService.getOwnedPropertyIdBySlug(

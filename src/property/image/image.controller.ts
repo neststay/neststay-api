@@ -48,7 +48,7 @@ export class ImageController {
   async create(
     @Param('slug') slug: string,
     @Body() body: CreateImageDto,
-    @CurrentUser() hostId: string,
+    @CurrentUser() hostId: bigint,
   ): Promise<ResponseApiDto<ImageResponseDto>> {
     const result = CreateImageSchema.safeParse(body);
     if (!result.success) {
@@ -73,7 +73,7 @@ export class ImageController {
   async remove(
     @Param('slug') slug: string,
     @Param('imageId') imageId: string,
-    @CurrentUser() hostId: string,
+    @CurrentUser() hostId: bigint,
   ): Promise<ResponseApiDto<null>> {
     await this.imageService.deleteImage(slug, hostId, imageId);
     return {
@@ -97,7 +97,7 @@ export class ImageController {
   async reorder(
     @Param('slug') slug: string,
     @Body() body: ReorderImagesDto,
-    @CurrentUser() hostId: string,
+    @CurrentUser() hostId: bigint,
   ): Promise<ResponseApiDto<null>> {
     const result = ReorderImagesSchema.safeParse(body);
     if (!result.success) {
