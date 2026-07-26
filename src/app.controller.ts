@@ -34,7 +34,7 @@ export class AppController {
     schema: { type: 'object', properties: { userId: { type: 'string' } } },
   })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  getProfile(@CurrentUser() userId: string): { userId: string } {
-    return { userId };
+  getProfile(@CurrentUser() userId: bigint): { userId: string } {
+    return { userId: userId.toString() };
   }
 }

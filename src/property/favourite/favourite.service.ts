@@ -10,7 +10,7 @@ export class FavouriteService {
     private readonly propertyService: PropertyService,
   ) {}
 
-  async toggle(slug: string, userId: string): Promise<FavouriteResponseDto> {
+  async toggle(slug: string, userId: bigint): Promise<FavouriteResponseDto> {
     const propertyId = await this.propertyService.getIdBySlug(slug);
 
     const existing = await this.favouriteRepository.findByUserAndProperty(

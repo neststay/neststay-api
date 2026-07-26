@@ -36,7 +36,7 @@ export class FavouriteController {
   @ApiHttpErrorResponse(404, 'Not Found', 'Property not found')
   async toggle(
     @Param('slug') slug: string,
-    @CurrentUser() userId: string,
+    @CurrentUser() userId: bigint,
   ): Promise<ResponseApiDto<FavouriteResponseDto>> {
     const data = await this.favouriteService.toggle(slug, userId);
     const message = data.isFavourite

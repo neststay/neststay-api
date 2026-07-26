@@ -7,7 +7,7 @@ export class FavouriteRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async findByUserAndProperty(
-    userId: string,
+    userId: bigint,
     propertyId: bigint,
   ): Promise<FavouritePropertyModel | null> {
     return this.prisma.favouriteProperty.findFirst({
@@ -16,7 +16,7 @@ export class FavouriteRepository {
   }
 
   async create(
-    userId: string,
+    userId: bigint,
     propertyId: bigint,
   ): Promise<FavouritePropertyModel> {
     return this.prisma.favouriteProperty.create({

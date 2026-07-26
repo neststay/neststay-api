@@ -44,14 +44,14 @@
 
 ## 7. Favourite module (userId type propagation)
 
-- [ ] 7.1 `src/property/favourite/favourite.repository.ts`: change `userId: string` params to `userId: bigint` in `findByUserAndProperty`, `create`
-- [ ] 7.2 `src/property/favourite/favourite.service.ts`: change `userId: string` param to `userId: bigint` in `toggle`
-- [ ] 7.3 `src/property/favourite/favourite.controller.ts`: change `@CurrentUser() userId: string` to `@CurrentUser() userId: bigint` on `toggle`
-- [ ] 7.4 `src/property/favourite/favourite.repository.spec.ts`: update fake `userId: 'user-1'` string literals to bigint literals (e.g. `1n`)
+- [x] 7.1 `src/property/favourite/favourite.repository.ts`: change `userId: string` params to `userId: bigint` in `findByUserAndProperty`, `create`
+- [x] 7.2 `src/property/favourite/favourite.service.ts`: change `userId: string` param to `userId: bigint` in `toggle`
+- [x] 7.3 `src/property/favourite/favourite.controller.ts`: change `@CurrentUser() userId: string` to `@CurrentUser() userId: bigint` on `toggle`
+- [x] 7.4 `src/property/favourite/favourite.repository.spec.ts`: update fake `userId: 'user-1'` string literals to bigint literals (e.g. `1n`)
 
 ## 8. Misc consumer
 
-- [ ] 8.1 `src/app.controller.ts` `/profile`: update to handle `userId: bigint`, return `{ userId: userId.toString() }` so the response doesn't throw on serialization
+- [x] 8.1 `src/app.controller.ts` `/profile`: update to handle `userId: bigint`, return `{ userId: userId.toString() }` so the response doesn't throw on serialization
 
 ## 9. Seed script
 

@@ -33,13 +33,13 @@ describe('FavouriteRepository', () => {
 
   describe('findByUserAndProperty', () => {
     it('finds a favourite scoped to the user and property', async () => {
-      const expectedFavourite = { id: 1n, userId: 'user-1', propertyId: 1n };
+      const expectedFavourite = { id: 1n, userId: 1n, propertyId: 1n };
       findFirstMock.mockResolvedValue(expectedFavourite);
 
-      const result = await repository.findByUserAndProperty('user-1', 1n);
+      const result = await repository.findByUserAndProperty(1n, 1n);
 
       expect(findFirstMock).toHaveBeenCalledWith({
-        where: { userId: 'user-1', propertyId: 1n },
+        where: { userId: 1n, propertyId: 1n },
       });
       expect(result).toBe(expectedFavourite);
     });
@@ -47,13 +47,13 @@ describe('FavouriteRepository', () => {
 
   describe('create', () => {
     it('creates a favourite with the given userId and propertyId', async () => {
-      const expectedFavourite = { id: 1n, userId: 'user-1', propertyId: 1n };
+      const expectedFavourite = { id: 1n, userId: 1n, propertyId: 1n };
       createMock.mockResolvedValue(expectedFavourite);
 
-      const result = await repository.create('user-1', 1n);
+      const result = await repository.create(1n, 1n);
 
       expect(createMock).toHaveBeenCalledWith({
-        data: { userId: 'user-1', propertyId: 1n },
+        data: { userId: 1n, propertyId: 1n },
       });
       expect(result).toBe(expectedFavourite);
     });
