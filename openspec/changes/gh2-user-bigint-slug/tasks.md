@@ -1,16 +1,17 @@
 ## 1. Schema and migration
 
-- [ ] 1.1 Update `prisma/schema.prisma`: `User.id` -> `BigInt @id @default(autoincrement())`, add `User.slug String @unique`
-- [ ] 1.2 Update `prisma/schema.prisma`: `Property.hostId` -> `BigInt`
-- [ ] 1.3 Update `prisma/schema.prisma`: `FavouriteProperty.userId` -> `BigInt`
-- [ ] 1.4 Delete `prisma/migrations/*` and generate one fresh baseline migration reflecting the final schema
-- [ ] 1.5 Run `prisma migrate reset` against the local dev database and regenerate the Prisma client (`npm run prisma:generate`)
+- [x] 1.1 Update `prisma/schema.prisma`: `User.id` -> `BigInt @id @default(autoincrement())`, add `User.slug String @unique`
+- [x] 1.2 Update `prisma/schema.prisma`: `Property.hostId` -> `BigInt`
+- [x] 1.3 Update `prisma/schema.prisma`: `FavouriteProperty.userId` -> `BigInt`
+- [x] 1.4 Delete `prisma/migrations/*` (old migration history removed; fresh baseline migration still needs to be generated once the dev DB reset is approved)
+- [x] 1.5 Run `prisma migrate reset` against the local dev database and regenerate the Prisma client (`npm run prisma:generate`)
 
 ## 2. Auth chain
 
-- [ ] 2.1 `src/auth/strategies/jwt.strategy.ts`: `validate()` parses `sub` to `BigInt(sub)` before returning `{ userId }`
-- [ ] 2.2 `src/auth/decorators/current-user.decorator.ts`: change return type from `string` to `bigint`, update the `Request` user type accordingly
-- [ ] 2.3 `src/user/user.service.ts` `login()`: sign JWT with `sub: user.id.toString()`
+- [ ] 2.1 `src/auth/auth.module.ts`: import `UserModule` so `JwtStrategy` can inject `UserService`
+- [ ] 2.2 `src/auth/strategies/jwt.strategy.ts`: inject `UserService`; `validate()` looks up the user via `findBySlug({ slug: sub })`, throws `UnauthorizedException` if not found, and returns `{ userId: user.id }` (`bigint`) — `sub` itself is never parsed as a bigint, it is the slug
+- [ ] 2.3 `src/auth/decorators/current-user.decorator.ts`: change return type from `string` to `bigint`, update the `Request` user type accordingly
+- [ ] 2.4 `src/user/user.service.ts` `login()`: sign JWT with `sub: user.slug` (unchanged in shape from today — still a ulid string, just sourced from the new `slug` column instead of `id`)
 
 ## 3. User module
 
@@ -62,6 +63,6 @@
 
 - [ ] 10.1 `npm run build` — confirm no type errors anywhere `hostId`/`userId`/user `id` is referenced
 - [ ] 10.2 `npm run prisma:seed` against the reset dev DB — confirm admin + fake users, properties, and favourites seed cleanly
-- [ ] 10.3 Manually exercise `POST /users/register` -> `POST /users/login` -> guarded `GET /users` and `GET /profile` with the issued token — confirm responses expose `slug` (never `id`) and no BigInt serialization errors occur
+- [ ] 10.3 Manually exercise `POST /users/register` -> `POST /users/login` -> guarded `GET /users` and `GET /profile` with the issued token — confirm responses expose `slug` (never `id`), the decoded JWT `sub` claim is the `slug` (never the internal id), and no BigInt serialization errors occur
 - [ ] 10.4 Manually exercise property create/update/delete and the favourite toggle endpoint with the issued token — confirm ownership checks still work with the new bigint `hostId`/`userId`
 - [ ] 10.5 Run existing test suite (`npm test`) — confirm `favourite.repository.spec.ts` and other specs pass with updated types
