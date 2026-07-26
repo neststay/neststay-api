@@ -10,14 +10,14 @@ export class UserRegisterQueueListener {
 
   @OnEvent('user.register', { async: true })
   async handleUserRegister(payload: {
-    id: string;
+    id: bigint;
     email: string;
     name: string | null;
   }): Promise<void> {
     try {
       await this.queueProducer.enqueueUserRegister({
         payload: {
-          userId: payload.id,
+          userId: payload.id.toString(),
           email: payload.email,
           name: payload.name || '',
         },

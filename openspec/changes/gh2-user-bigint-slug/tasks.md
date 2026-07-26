@@ -27,15 +27,15 @@
 
 ## 4. Queue / event payload conversions
 
-- [ ] 4.1 `src/user/listeners/user-register-queue.listener.ts`: update `handleUserRegister` payload type to expect `id: bigint`, convert to `id.toString()` when building the `UserRegisterJobPayload`
-- [ ] 4.2 `src/queue/queue.types.ts`: confirm `UserRegisterJobPayload.userId` stays `string` (no change expected, verify only)
-- [ ] 4.3 `src/queue/processors/user-register.processor.ts`: verify it only logs/consumes `job.data.userId` as a string (no change expected, verify only)
+- [x] 4.1 `src/user/listeners/user-register-queue.listener.ts`: update `handleUserRegister` payload type to expect `id: bigint`, convert to `id.toString()` when building the `UserRegisterJobPayload`
+- [x] 4.2 `src/queue/queue.types.ts`: confirm `UserRegisterJobPayload.userId` stays `string` (no change expected, verify only)
+- [x] 4.3 `src/queue/processors/user-register.processor.ts`: verify it only logs/consumes `job.data.userId` as a string (no change expected, verify only)
 
 ## 5. Property module (hostId type propagation)
 
-- [ ] 5.1 `src/property/property.repository.ts`: change `hostId: string` params to `hostId: bigint` in `findByIdAndHostId`, `create`
-- [ ] 5.2 `src/property/property.service.ts`: change `hostId: string` params to `hostId: bigint` in `create`, `getOwnedPropertyOrThrow`, `updateBySlug`, `deleteBySlug`
-- [ ] 5.3 `src/property/property.controller.ts`: change `@CurrentUser() hostId: string` to `@CurrentUser() hostId: bigint` on create/update/remove
+- [x] 5.1 `src/property/property.repository.ts`: change `hostId: string` params to `hostId: bigint` in `findByIdAndHostId`, `create`
+- [x] 5.2 `src/property/property.service.ts`: change `hostId: string` params to `hostId: bigint` in `create`, `getOwnedPropertyOrThrow`, `updateBySlug`, `deleteBySlug`
+- [x] 5.3 `src/property/property.controller.ts`: change `@CurrentUser() hostId: string` to `@CurrentUser() hostId: bigint` on create/update/remove
 
 ## 6. Image module (hostId type propagation)
 

@@ -15,7 +15,7 @@ export class PropertyService {
 
   async create(
     data: CreatePropertyDto,
-    hostId: string,
+    hostId: bigint,
   ): Promise<PropertyResponseDto> {
     const property = await this.propertyRepository.create({ data, hostId });
     return this.toDto(property);
@@ -35,7 +35,7 @@ export class PropertyService {
 
   async getOwnedPropertyIdBySlug(
     slug: string,
-    hostId: string,
+    hostId: bigint,
   ): Promise<bigint> {
     const property = await this.getOwnedPropertyOrThrow(slug, hostId);
     return property.id;
@@ -44,7 +44,7 @@ export class PropertyService {
   async updateBySlug(
     slug: string,
     data: UpdatePropertyDto,
-    hostId: string,
+    hostId: bigint,
   ): Promise<PropertyResponseDto> {
     const property = await this.getOwnedPropertyOrThrow(slug, hostId);
     const updated = await this.propertyRepository.update({
@@ -54,7 +54,7 @@ export class PropertyService {
     return this.toDto(updated);
   }
 
-  async deleteBySlug(slug: string, hostId: string): Promise<void> {
+  async deleteBySlug(slug: string, hostId: bigint): Promise<void> {
     const property = await this.getOwnedPropertyOrThrow(slug, hostId);
     await this.propertyRepository.delete({ id: property.id });
   }
@@ -78,7 +78,7 @@ export class PropertyService {
 
   private async getOwnedPropertyOrThrow(
     slug: string,
-    hostId: string,
+    hostId: bigint,
   ): Promise<PropertyModel> {
     const property = await this.propertyRepository.findBySlug({ slug });
     if (!property || property.hostId !== hostId) {

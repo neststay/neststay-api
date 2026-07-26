@@ -58,7 +58,7 @@ export class PropertyController {
   @ApiHttpErrorResponse(422, 'Unprocessable Entity', 'Validation failed')
   async create(
     @Body() body: CreatePropertyDto,
-    @CurrentUser() hostId: string,
+    @CurrentUser() hostId: bigint,
   ): Promise<ResponseApiDto<PropertyResponseDto>> {
     const result = CreatePropertySchema.safeParse(body);
     if (!result.success) {
@@ -129,7 +129,7 @@ export class PropertyController {
   async update(
     @Param('slug') slug: string,
     @Body() body: UpdatePropertyDto,
-    @CurrentUser() hostId: string,
+    @CurrentUser() hostId: bigint,
   ): Promise<ResponseApiDto<PropertyResponseDto>> {
     const result = UpdatePropertySchema.safeParse(body);
     if (!result.success) {
@@ -157,7 +157,7 @@ export class PropertyController {
   @ApiHttpErrorResponse(404, 'Not Found', 'Property not found')
   async remove(
     @Param('slug') slug: string,
-    @CurrentUser() hostId: string,
+    @CurrentUser() hostId: bigint,
   ): Promise<ResponseApiDto<null>> {
     await this.propertyService.deleteBySlug(slug, hostId);
     return {

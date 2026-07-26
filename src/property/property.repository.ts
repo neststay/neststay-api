@@ -29,7 +29,7 @@ export class PropertyRepository {
     hostId,
   }: {
     id: bigint;
-    hostId: string;
+    hostId: bigint;
   }): Promise<PropertyModel | null> {
     return this.prisma.property.findFirst({ where: { id, hostId } });
   }
@@ -57,7 +57,7 @@ export class PropertyRepository {
     hostId,
   }: {
     data: CreatePropertyDto;
-    hostId: string;
+    hostId: bigint;
   }): Promise<PropertyModel> {
     return this.prisma.property.create({
       data: {
