@@ -87,6 +87,12 @@ export class UserService {
     return this.toDto(user);
   }
 
+  async getById(id: bigint): Promise<UserResponseDto> {
+    const user = await this.userRepository.findById({ id });
+    if (!user) throw new NotFoundException('User not found');
+    return this.toDto(user);
+  }
+
   async findByEmail(email: string): Promise<UserResponseDto | null> {
     const user = await this.userRepository.findByEmail({ email });
     return user ? this.toDto(user) : null;
