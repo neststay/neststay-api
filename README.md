@@ -1,114 +1,107 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Neststay API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+An ecommerce API built with [NestJS](https://nestjs.com), using Postgres for the database, Redis for caching and job queues (BullMQ), and Typesense for search and product listing.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
+## Installation
 
 ```bash
-$ npm install
+npm install
+cp .env.example .env
 ```
 
-## Infrastructure (Docker)
+Update `.env` as needed — it holds database, Redis, Typesense, JWT, CORS, and seed configuration.
 
-`docker-compose.yml` provisions the supporting services the API needs. All containers are prefixed `rynok-` and publish their ports to the host so the app (running outside Docker) can connect to them.
+## Docker setup
 
-| Service       | Container name       | Image                                       | Host port (default) |
-| ------------- | --------------------- | -------------------------------------------- | -------------------- |
-| `db`          | `rynok-db`            | `postgres:18.4-alpine`                       | `5432`                |
-| `db-admin`    | `rynok-db-admin`      | `adminer:5.4.2`                              | `8080`                |
-| `search`      | `rynok-search`        | `typesense/typesense:30.2`                   | `8108`                |
-| `search-admin`| `rynok-search-admin`  | `ghcr.io/bfritscher/typesense-dashboard:2.4.8` | `8081`              |
-| `redis`       | `rynok-redis`         | `redis:8.8.0-alpine`                         | `6379`                |
+`docker-compose.yml` provisions the supporting services the API needs. Containers are prefixed `neststay-` and are part of the `neststay` Docker Compose project. All services publish their ports to the host so the app (running outside Docker) can connect to them.
 
 Start everything:
 
 ```bash
-docker compose up -d
+docker compose -p neststay up -d
 ```
 
-- **Postgres** — database name is `rynok` (see `POSTGRES_DB`/`DATABASE_URL` in `.env.example`).
-- **Adminer** — open http://localhost:8080, System: `PostgreSQL`, Server: `db`, Username/Password/DB as configured (defaults: `postgres` / `password` / `rynok`).
+Stop everything:
+
+```bash
+docker compose -p neststay down
+```
+
+### Containers
+
+| Service        | Container name        | Image                                          | Host port (default) |
+| -------------- | ---------------------- | ----------------------------------------------- | -------------------- |
+| `db`           | `neststay-db`           | `postgres:18.4-alpine`                          | `5432`                |
+| `db-admin`     | `neststay-db-admin`     | `adminer:5.4.2`                                 | `8080`                |
+| `search`       | `neststay-search`       | `typesense/typesense:30.2`                      | `8108`                |
+| `search-admin` | `neststay-search-admin` | `ghcr.io/bfritscher/typesense-dashboard:2.4.8`  | `8081`                |
+| `redis`        | `neststay-redis`        | `redis:8.8.0-alpine`                            | `6379`                |
+| `dozzle`       | `neststay-dozzle`       | `amir20/dozzle:latest`                          | `9999`                |
+
+- **Postgres** — database name defaults to `neststay` (see `POSTGRES_DB`/`DATABASE_URL` in `.env.example`).
+- **Adminer** — open http://localhost:8080, System: `PostgreSQL`, Server: `db`, Username/Password/DB as configured (defaults: `postgres` / `password` / `neststay`).
 - **Typesense** — API reachable at `http://localhost:8108`, API key defaults to `xyz` (`TYPESENSE_API_KEY`).
 - **Typesense Dashboard** — open http://localhost:8081 and log in with host `localhost`, port `8108`, protocol `http`, and the same API key.
 - **Redis** — reachable at `redis://localhost:6379` (no admin UI), used for both caching (`REDIS_URL`) and BullMQ queues (`REDIS_QUEUE_URL`).
+- **Dozzle** — open http://localhost:9999 to view live logs from all containers.
 
-All ports and credentials can be overridden via a `.env` file (see `.env.example`) — useful if `5432`/`8080`/`8108`/`8081`/`6379` are already taken on your machine.
+All ports and credentials can be overridden via `.env` (see `.env.example`) — useful if the default ports are already taken on your machine.
 
-## Compile and run the project
+## Running the app
 
 ```bash
 # development
-$ npm run start
+npm run start
 
 # watch mode
-$ npm run start:dev
+npm run start:dev
 
 # production mode
-$ npm run start:prod
+npm run start:prod
 ```
 
-## Database seeding
+Once running:
 
-Populate the database with an admin user, fake users, Indian city locations, place types, and fake properties:
+- API Swagger docs: http://localhost:3000/docs (non-production only)
+- BullMQ job dashboard: http://localhost:3000/admin/queues (non-production, or when `ENABLE_BULL_BOARD=true`)
+
+## Database
 
 ```bash
+# run migrations
+npm run prisma:migrate
+
+# seed the database
 npm run prisma:seed
+
+# open Prisma Studio
+npm run prisma:studio
 ```
 
-Configure the seeded data via `.env` (see `.env.example`):
+Seeding populates an admin user, fake users, Indian city locations, place types, and fake properties. It's configured via `.env` (`SEED_ADMIN_EMAIL`, `SEED_ADMIN_PASSWORD`, `SEED_USER_COUNT`, `SEED_USER_PASSWORD`, `SEED_PROPERTY_COUNT`), is safe to re-run (uses `skipDuplicates`/`upsert`), and refuses to run when `APP_ENV=production`.
 
-- `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` — credentials for the ensured admin user
-- `SEED_USER_COUNT` — number of fake users to generate (default `10`)
-- `SEED_USER_PASSWORD` — password for fake users
-- `SEED_PROPERTY_COUNT` — number of fake properties to generate (default `10`)
-
-The seed script is safe to re-run — it uses `skipDuplicates`/`upsert` so existing users, locations, and place types won't be duplicated. It also refuses to run when `APP_ENV=production`.
-
-## Run tests
+## Tests
 
 ```bash
 # unit tests
-$ npm run test
+npm run test
 
 # e2e tests
-$ npm run test:e2e
+npm run test:e2e
 
 # test coverage
-$ npm run test:cov
+npm run test:cov
 ```
 
-## Deployment
+## Makefile commands
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+A `Makefile` wraps the common Docker and Prisma workflows:
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+| Command       | Description                                          |
+| ------------- | ----------------------------------------------------- |
+| `make help`    | List available commands                               |
+| `make up`      | Start Docker containers, then run the app (`start:dev`) |
+| `make down`    | Stop the app's Docker containers                       |
+| `make migrate` | Run database migrations                                |
+| `make seed`    | Seed the database                                      |
+| `make mrs`     | Drop, migrate, and seed the database (`prisma migrate reset --force`) |
