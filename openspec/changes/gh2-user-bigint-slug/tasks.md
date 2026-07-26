@@ -61,8 +61,8 @@
 
 ## 10. Verification
 
-- [ ] 10.1 `npm run build` — confirm no type errors anywhere `hostId`/`userId`/user `id` is referenced
-- [ ] 10.2 `npm run prisma:seed` against the reset dev DB — confirm admin + fake users, properties, and favourites seed cleanly
-- [ ] 10.3 Manually exercise `POST /users/register` -> `POST /users/login` -> guarded `GET /users` and `GET /profile` with the issued token — confirm responses expose `slug` (never `id`), the decoded JWT `sub` claim is the `slug` (never the internal id), and no BigInt serialization errors occur
-- [ ] 10.4 Manually exercise property create/update/delete and the favourite toggle endpoint with the issued token — confirm ownership checks still work with the new bigint `hostId`/`userId`
-- [ ] 10.5 Run existing test suite (`npm test`) — confirm `favourite.repository.spec.ts` and other specs pass with updated types
+- [x] 10.1 `npm run build` — confirm no type errors anywhere `hostId`/`userId`/user `id` is referenced
+- [x] 10.2 `npm run prisma:seed` against the reset dev DB — confirm admin + fake users, properties, and favourites seed cleanly
+- [x] 10.3 Manually exercise `POST /users/register` -> `POST /users/login` -> guarded `GET /users` and `GET /profile` with the issued token — confirm responses expose `slug` (never `id`), the decoded JWT `sub` claim is the `slug` (never the internal id), and no BigInt serialization errors occur
+- [x] 10.4 Manually exercise property create/update/delete and the favourite toggle endpoint with the issued token — confirm ownership checks still work with the new bigint `hostId`/`userId`
+- [x] 10.5 Run existing test suite (`npm test`) — confirm `favourite.repository.spec.ts` and other specs pass with updated types
