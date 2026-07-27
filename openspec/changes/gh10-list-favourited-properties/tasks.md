@@ -14,9 +14,9 @@
 
 ## 4. Controller
 
-- [ ] 4.1 Add `@Get('favourites')` to `PropertyController`, declared immediately before `findBySlug(':slug')`, guarded with `JwtAuthGuard`, validating query params with `FavouriteListQuerySchema` (same pattern as `findAll`)
-- [ ] 4.2 Inject `FavouriteService` into `PropertyController` and delegate to `favouriteService.listForUser`
-- [ ] 4.3 Add Swagger decorators (`@ApiOperation`, `@ApiBearerAuth`, `@ApiEnvelopeResponse(200, ..., PaginatedPropertyListDto)`, `@ApiHttpErrorResponse(401, ...)`) matching the conventions used elsewhere in the controller
+- [x] 4.1 Add `@Get('favourites')` to `PropertyController`, declared immediately before `findBySlug(':slug')`, guarded with `JwtAuthGuard`, validating query params with `FavouriteListQuerySchema` (same pattern as `findAll`)
+- [x] 4.2 Inject `FavouriteService` into `PropertyController` and delegate to `favouriteService.listForUser`
+- [x] 4.3 Add Swagger decorators (`@ApiOperation`, `@ApiBearerAuth`, `@ApiEnvelopeResponse(200, ..., PaginatedPropertyListDto)`, `@ApiHttpErrorResponse(401, ...)`) matching the conventions used elsewhere in the controller
 
 ## 5. Tests
 

@@ -38,11 +38,19 @@ import {
 import { PropertyResponseDto } from './dto/property-response.dto.js';
 import { PaginatedPropertyListDto } from './dto/paginated-property-list.dto.js';
 import { PropertyService } from './property.service.js';
+import {
+  FavouriteListQueryDto,
+  FavouriteListQuerySchema,
+} from './favourite/dto/favourite-list-query.dto.js';
+import { FavouriteService } from './favourite/favourite.service.js';
 
 @ApiTags('properties')
 @Controller('properties')
 export class PropertyController {
-  constructor(private readonly propertyService: PropertyService) {}
+  constructor(
+    private readonly propertyService: PropertyService,
+    private readonly favouriteService: FavouriteService,
+  ) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
@@ -94,6 +102,41 @@ export class PropertyController {
       success: true,
       message: 'Properties fetched successfully',
       data: data,
+    };
+  }
+
+  @Get('favourites')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: "List the authenticated user's favourited properties",
+  })
+  @ApiEnvelopeResponse(
+    200,
+    'Favourited properties fetched successfully',
+    PaginatedPropertyListDto,
+  )
+  @ApiHttpErrorResponse(401, 'Unauthorized', 'Unauthorized')
+  async listFavourites(
+    @Query() query: FavouriteListQueryDto,
+    @CurrentUser() userId: bigint,
+  ): Promise<ResponseApiDto<PaginatedPropertyListDto>> {
+    const result = FavouriteListQuerySchema.safeParse(query);
+    if (!result.success) {
+      throw new UnprocessableEntityException(
+        result.error.issues.map((e) => e.message),
+      );
+    }
+
+    const data = await this.favouriteService.listForUser({
+      userId,
+      page: result.data.page,
+      limit: result.data.limit,
+    });
+    return {
+      success: true,
+      message: 'Favourited properties fetched successfully',
+      data,
     };
   }
 
