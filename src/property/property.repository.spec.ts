@@ -58,5 +58,62 @@ describe('PropertyRepository', () => {
       expect(withPagesMock).toHaveBeenCalledWith({ page: 1, limit: 10 });
       expect(result).toBe(expectedResult);
     });
+
+    it('includes favouriteProperties filtered by userId when userId is provided', async () => {
+      withPagesMock.mockResolvedValue([
+        [],
+        {
+          currentPage: 1,
+          isLastPage: true,
+          previousPage: null,
+          nextPage: null,
+          pageCount: 1,
+          totalCount: 0,
+        },
+      ]);
+
+      await repository.findAllPaginatedByLocation({
+        locationId: 1,
+        page: 1,
+        limit: 10,
+        userId: 5n,
+      });
+
+      expect(paginateMock).toHaveBeenCalledWith({
+        where: { locationId: 1 },
+        orderBy: { id: 'desc' },
+        include: {
+          images: { orderBy: { order: 'asc' } },
+          favouriteProperties: { where: { userId: 5n } },
+        },
+      });
+    });
+
+    it('omits the favouriteProperties include when userId is null', async () => {
+      withPagesMock.mockResolvedValue([
+        [],
+        {
+          currentPage: 1,
+          isLastPage: true,
+          previousPage: null,
+          nextPage: null,
+          pageCount: 1,
+          totalCount: 0,
+        },
+      ]);
+
+      await repository.findAllPaginatedByLocation({
+        locationId: 1,
+        page: 1,
+        limit: 10,
+        userId: null,
+      });
+
+      expect(paginateMock).toHaveBeenCalledWith({
+        where: { locationId: 1 },
+        orderBy: { id: 'desc' },
+        include: { images: { orderBy: { order: 'asc' } } },
+      });
+    });
   });
 });

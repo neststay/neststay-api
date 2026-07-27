@@ -27,9 +27,11 @@ export class FavouriteService {
       page,
       limit,
     });
-    return mapToPaginatedResponse(result, (favourite) =>
-      this.propertyService.toResponseDto(favourite.property),
-    );
+    return mapToPaginatedResponse(result, (favourite) => {
+      const dto = this.propertyService.toResponseDto(favourite.property);
+      dto.isFavourited = true;
+      return dto;
+    });
   }
 
   async toggle(slug: string, userId: bigint): Promise<FavouriteResponseDto> {

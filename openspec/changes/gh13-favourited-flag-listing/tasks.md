@@ -25,6 +25,6 @@
 
 ## 6. Tests
 
-- [ ] 6.1 Unit test `OptionalJwtAuthGuard`/`handleRequest` for: valid token, missing token, invalid/expired token — request proceeds in all cases, `request.user` set only for the valid case.
-- [ ] 6.2 Service/repository test: `isFavourited` is `true` only for properties favourited by the given `userId`, `false` for others and for `userId: null`.
-- [ ] 6.3 Controller integration test: authenticated request with favourites returns correct per-property `isFavourited`; anonymous request returns `isFavourited: false` for all items; two different authenticated users see independent favourite state for the same property.
+- [x] 6.1 Unit test `OptionalJwtAuthGuard`/`handleRequest` for: valid token, missing token, invalid/expired token — request proceeds in all cases, `request.user` set only for the valid case.
+- [x] 6.2 Service/repository test: `isFavourited` is `true` only for properties favourited by the given `userId`, `false` for others and for `userId: null`.
+- [x] 6.3 Controller integration test: authenticated request with favourites returns correct per-property `isFavourited`; anonymous request returns `isFavourited: false` for all items; two different authenticated users see independent favourite state for the same property.
