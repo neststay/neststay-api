@@ -20,5 +20,5 @@
 
 ## 5. Tests
 
-- [ ] 5.1 Add e2e/integration coverage: authenticated user with favourites gets them ordered by most-recently-favourited first; user with none gets an empty `items` array; unauthenticated request gets `401`; a user never sees another user's favourites
-- [ ] 5.2 Add a regression test asserting `GET /properties/favourites` reaches the favourites handler and not `GET /properties/:slug` with `slug="favourites"`
+- [x] 5.1 Add e2e/integration coverage: authenticated user with favourites gets them ordered by most-recently-favourited first; user with none gets an empty `items` array; unauthenticated request gets `401`; a user never sees another user's favourites
+- [x] 5.2 Add a regression test asserting `GET /properties/favourites` reaches the favourites handler and not `GET /properties/:slug` with `slug="favourites"`
