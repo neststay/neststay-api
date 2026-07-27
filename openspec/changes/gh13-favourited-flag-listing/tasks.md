@@ -11,12 +11,12 @@
 
 ## 3. Service
 
-- [ ] 3.1 Thread the optional `userId` through `PropertyService.listByLocation` into the repository call.
-- [ ] 3.2 In `toResponseDto`, compute `isFavourited: (property.favourites ?? []).length > 0` and do not copy the raw `favourites` array onto the DTO.
+- [x] 3.1 Thread the optional `userId` through `PropertyService.listByLocation` into the repository call.
+- [x] 3.2 In `toResponseDto`, compute `isFavourited: (property.favourites ?? []).length > 0` and do not copy the raw `favourites` array onto the DTO.
 
 ## 4. DTO
 
-- [ ] 4.1 Add `isFavourited: boolean` to `PropertyResponseDto` (`src/property/dto/property-response.dto.ts`), including Swagger `@ApiProperty` metadata consistent with existing fields.
+- [x] 4.1 Add `isFavourited: boolean` to `PropertyResponseDto` (`src/property/dto/property-response.dto.ts`), including Swagger `@ApiProperty` metadata consistent with existing fields.
 
 ## 5. Controller
 

@@ -45,6 +45,7 @@ function property(slug: string): PropertyResponseDto {
     createdAt: new Date(),
     updatedAt: new Date(),
     images: [],
+    isFavourited: false,
   };
 }
 

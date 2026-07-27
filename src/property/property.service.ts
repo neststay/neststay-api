@@ -3,6 +3,7 @@ import { PaginatedResponseDto } from '../common/pagination/paginated-response.dt
 import { mapToPaginatedResponse } from '../common/pagination/pagination.helper.js';
 import { PropertyModel } from '../../generated/prisma/models/Property.js';
 import { ImageModel } from '../../generated/prisma/models/Image.js';
+import { FavouritePropertyModel } from '../../generated/prisma/models/FavouriteProperty.js';
 import { CreatePropertyDto } from './dto/create-property.dto.js';
 import { UpdatePropertyDto } from './dto/update-property.dto.js';
 import { PropertyResponseDto } from './dto/property-response.dto.js';
@@ -63,15 +64,18 @@ export class PropertyService {
     locationId,
     page,
     limit,
+    userId,
   }: {
     locationId: number;
     page: number;
     limit: number;
+    userId?: bigint | null;
   }): Promise<PaginatedResponseDto<PropertyResponseDto>> {
     const result = await this.propertyRepository.findAllPaginatedByLocation({
       locationId,
       page,
       limit,
+      userId,
     });
     return mapToPaginatedResponse(result, (p) => this.toResponseDto(p));
   }
@@ -88,7 +92,10 @@ export class PropertyService {
   }
 
   toResponseDto(
-    property: PropertyModel & { images?: ImageModel[] },
+    property: PropertyModel & {
+      images?: ImageModel[];
+      favouriteProperties?: FavouritePropertyModel[];
+    },
   ): PropertyResponseDto {
     const dto = new PropertyResponseDto();
     dto.slug = property.slug;
@@ -101,6 +108,7 @@ export class PropertyService {
     dto.createdAt = property.createdAt;
     dto.updatedAt = property.updatedAt;
     dto.images = (property.images ?? []).map((image) => this.toImageDto(image));
+    dto.isFavourited = (property.favouriteProperties ?? []).length > 0;
     return dto;
   }
 

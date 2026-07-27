@@ -43,4 +43,11 @@ export class PropertyResponseDto {
 
   @ApiProperty({ type: PropertyImageDto, isArray: true })
   images: PropertyImageDto[];
+
+  @ApiProperty({
+    type: Boolean,
+    description: 'Whether the requesting user has favourited this property',
+    example: false,
+  })
+  isFavourited: boolean;
 }
