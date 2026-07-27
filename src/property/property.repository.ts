@@ -3,11 +3,15 @@ import { ulid } from 'ulid';
 import { PageNumberPaginationMeta } from 'prisma-extension-pagination';
 import { PropertyModel } from '../../generated/prisma/models/Property.js';
 import { ImageModel } from '../../generated/prisma/models/Image.js';
+import { FavouritePropertyModel } from '../../generated/prisma/models/FavouriteProperty.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { CreatePropertyDto } from './dto/create-property.dto.js';
 import { UpdatePropertyDto } from './dto/update-property.dto.js';
 
-export type PropertyWithImages = PropertyModel & { images: ImageModel[] };
+export type PropertyWithImages = PropertyModel & {
+  images: ImageModel[];
+  favouriteProperties?: FavouritePropertyModel[];
+};
 
 @Injectable()
 export class PropertyRepository {
@@ -38,16 +42,21 @@ export class PropertyRepository {
     locationId,
     page,
     limit,
+    userId,
   }: {
     locationId: number;
     page: number;
     limit: number;
+    userId?: bigint | null;
   }): Promise<[PropertyWithImages[], PageNumberPaginationMeta<true>]> {
     return this.prisma.extendedClient.property
       .paginate({
         where: { locationId },
         orderBy: { id: 'desc' },
-        include: { images: { orderBy: { order: 'asc' } } },
+        include: {
+          images: { orderBy: { order: 'asc' } },
+          ...(userId ? { favouriteProperties: { where: { userId } } } : {}),
+        },
       })
       .withPages({ page, limit });
   }

@@ -6,8 +6,8 @@
 
 ## 2. Repository
 
-- [ ] 2.1 Extend `PropertyRepository.findAllPaginatedByLocation` to accept an optional `userId: bigint | null` and add `favourites: { where: { userId } }` to the Prisma `include` when `userId` is non-null.
-- [ ] 2.2 Update the `PropertyWithImages` type (or add a new type) to reflect the optional `favourites` relation on the returned model.
+- [x] 2.1 Extend `PropertyRepository.findAllPaginatedByLocation` to accept an optional `userId: bigint | null` and add `favourites: { where: { userId } }` to the Prisma `include` when `userId` is non-null.
+- [x] 2.2 Update the `PropertyWithImages` type (or add a new type) to reflect the optional `favourites` relation on the returned model.
 
 ## 3. Service
 
