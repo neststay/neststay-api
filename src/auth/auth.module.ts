@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtModule, JwtModuleOptions } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtAuthGuard } from './guards/jwt-auth.guard.js';
+import { OptionalJwtAuthGuard } from './guards/optional-jwt-auth.guard.js';
 import { JwtStrategy } from './strategies/jwt.strategy.js';
 import { AppConfig } from '../config/index.js';
 import { UserModule } from '../user/user.module.js';
@@ -25,7 +26,7 @@ import { UserModule } from '../user/user.module.js';
       },
     }),
   ],
-  providers: [JwtStrategy, JwtAuthGuard],
-  exports: [JwtAuthGuard, PassportModule],
+  providers: [JwtStrategy, JwtAuthGuard, OptionalJwtAuthGuard],
+  exports: [JwtAuthGuard, OptionalJwtAuthGuard, PassportModule],
 })
 export class AuthModule {}

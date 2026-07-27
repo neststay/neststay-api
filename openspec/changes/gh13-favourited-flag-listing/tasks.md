@@ -1,8 +1,8 @@
 ## 1. Optional auth guard
 
-- [ ] 1.1 Add `OptionalJwtAuthGuard` in `src/auth/guards/optional-jwt-auth.guard.ts`, extending `AuthGuard('jwt')` and overriding `handleRequest` to return `user ?? null` instead of throwing.
-- [ ] 1.2 Add `@CurrentUserOptional()` decorator in `src/auth/decorators/current-user-optional.decorator.ts`, returning `request.user?.userId ?? null`.
-- [ ] 1.3 Register `OptionalJwtAuthGuard` as a provider/export in `src/auth/auth.module.ts` alongside `JwtAuthGuard`.
+- [x] 1.1 Add `OptionalJwtAuthGuard` in `src/auth/guards/optional-jwt-auth.guard.ts`, extending `AuthGuard('jwt')` and overriding `handleRequest` to return `user ?? null` instead of throwing.
+- [x] 1.2 Add `@CurrentUserOptional()` decorator in `src/auth/decorators/current-user-optional.decorator.ts`, returning `request.user?.userId ?? null`.
+- [x] 1.3 Register `OptionalJwtAuthGuard` as a provider/export in `src/auth/auth.module.ts` alongside `JwtAuthGuard`.
 
 ## 2. Repository
 
