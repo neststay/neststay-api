@@ -19,7 +19,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
+import { OptionalJwtAuthGuard } from '../auth/guards/optional-jwt-auth.guard.js';
 import { CurrentUser } from '../auth/decorators/current-user.decorator.js';
+import { CurrentUserOptional } from '../auth/decorators/current-user-optional.decorator.js';
 import { ApiEnvelopeResponse } from '../common/swagger/api-envelope-response.decorator.js';
 import { ApiHttpErrorResponse } from '../common/swagger/api-http-error-response.decorator.js';
 import { ResponseApiDto } from '../common/dto/response-api.dto.js';
@@ -80,6 +82,7 @@ export class PropertyController {
   }
 
   @Get()
+  @UseGuards(OptionalJwtAuthGuard)
   @ApiOperation({ summary: 'List properties for a location' })
   @ApiEnvelopeResponse(
     200,
@@ -89,6 +92,7 @@ export class PropertyController {
   @ApiHttpErrorResponse(422, 'Unprocessable Entity', 'Validation failed')
   async findAll(
     @Query() query: ListPropertyQueryDto,
+    @CurrentUserOptional() userId: bigint | null,
   ): Promise<ResponseApiDto<PaginatedPropertyListDto>> {
     const result = ListPropertyQuerySchema.safeParse(query);
     if (!result.success) {
@@ -97,7 +101,10 @@ export class PropertyController {
       );
     }
 
-    const data = await this.propertyService.listByLocation(result.data);
+    const data = await this.propertyService.listByLocation({
+      ...result.data,
+      userId,
+    });
     return {
       success: true,
       message: 'Properties fetched successfully',

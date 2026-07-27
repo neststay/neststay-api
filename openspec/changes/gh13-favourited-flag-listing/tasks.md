@@ -20,8 +20,8 @@
 
 ## 5. Controller
 
-- [ ] 5.1 Apply `@UseGuards(OptionalJwtAuthGuard)` to `GET /properties` in `property.controller.ts`.
-- [ ] 5.2 Read the optional current user via `@CurrentUserOptional()` and pass it into `propertyService.listByLocation`.
+- [x] 5.1 Apply `@UseGuards(OptionalJwtAuthGuard)` to `GET /properties` in `property.controller.ts`.
+- [x] 5.2 Read the optional current user via `@CurrentUserOptional()` and pass it into `propertyService.listByLocation`.
 
 ## 6. Tests
 
