@@ -7,17 +7,26 @@ describe('FavouriteRepository', () => {
   let findFirstMock: jest.Mock;
   let createMock: jest.Mock;
   let deleteMock: jest.Mock;
+  let paginateMock: jest.Mock;
+  let withPagesMock: jest.Mock;
 
   beforeEach(async () => {
     findFirstMock = jest.fn();
     createMock = jest.fn();
     deleteMock = jest.fn();
+    withPagesMock = jest.fn();
+    paginateMock = jest.fn().mockReturnValue({ withPages: withPagesMock });
 
     const prisma = {
       favouriteProperty: {
         findFirst: findFirstMock,
         create: createMock,
         delete: deleteMock,
+      },
+      extendedClient: {
+        favouriteProperty: {
+          paginate: paginateMock,
+        },
       },
     };
 
@@ -64,6 +73,62 @@ describe('FavouriteRepository', () => {
       await repository.delete(1n);
 
       expect(deleteMock).toHaveBeenCalledWith({ where: { id: 1n } });
+    });
+  });
+
+  describe('findPaginatedByUser', () => {
+    it('paginates favourites for the given user ordered by most recently favourited', async () => {
+      const expectedResult = [
+        [{ id: 1n, userId: 1n, propertyId: 1n, property: {} }],
+        {
+          currentPage: 1,
+          isLastPage: true,
+          previousPage: null,
+          nextPage: null,
+          pageCount: 1,
+          totalCount: 1,
+        },
+      ];
+      withPagesMock.mockResolvedValue(expectedResult);
+
+      const result = await repository.findPaginatedByUser({
+        userId: 1n,
+        page: 1,
+        limit: 10,
+      });
+
+      expect(paginateMock).toHaveBeenCalledWith({
+        where: { userId: 1n },
+        orderBy: { createdAt: 'desc' },
+        include: {
+          property: { include: { images: { orderBy: { order: 'asc' } } } },
+        },
+      });
+      expect(withPagesMock).toHaveBeenCalledWith({ page: 1, limit: 10 });
+      expect(result).toBe(expectedResult);
+    });
+
+    it('returns an empty result set when the user has no favourites', async () => {
+      const expectedResult = [
+        [],
+        {
+          currentPage: 1,
+          isLastPage: true,
+          previousPage: null,
+          nextPage: null,
+          pageCount: 1,
+          totalCount: 0,
+        },
+      ];
+      withPagesMock.mockResolvedValue(expectedResult);
+
+      const result = await repository.findPaginatedByUser({
+        userId: 1n,
+        page: 1,
+        limit: 10,
+      });
+
+      expect(result).toBe(expectedResult);
     });
   });
 });

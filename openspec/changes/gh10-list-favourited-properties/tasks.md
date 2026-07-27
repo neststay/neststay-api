@@ -4,8 +4,8 @@
 
 ## 2. Repository
 
-- [ ] 2.1 Add `FavouriteRepository.findPaginatedByUser({ userId, page, limit })` using `prisma.extendedClient.favouriteProperty.paginate(...).withPages(...)`, filtered by `userId`, `orderBy: { createdAt: 'desc' }`, `include: { property: { include: { images: { orderBy: { order: 'asc' } } } } }`
-- [ ] 2.2 Add/extend `favourite.repository.spec.ts` covering the new method (pagination args passed through, empty result set)
+- [x] 2.1 Add `FavouriteRepository.findPaginatedByUser({ userId, page, limit })` using `prisma.extendedClient.favouriteProperty.paginate(...).withPages(...)`, filtered by `userId`, `orderBy: { createdAt: 'desc' }`, `include: { property: { include: { images: { orderBy: { order: 'asc' } } } } }`
+- [x] 2.2 Add/extend `favourite.repository.spec.ts` covering the new method (pagination args passed through, empty result set)
 
 ## 3. Service
 
