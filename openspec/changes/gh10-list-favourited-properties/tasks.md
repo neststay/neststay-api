@@ -1,6 +1,6 @@
 ## 1. Request/response DTOs
 
-- [ ] 1.1 Add `FavouriteListQueryDto` + `FavouriteListQuerySchema` (zod) in `src/property/favourite/dto/`, mirroring `ListPropertyQueryDto` but without `locationId` (`page` default 1, `limit` default 10, max 50)
+- [x] 1.1 Add `FavouriteListQueryDto` + `FavouriteListQuerySchema` (zod) in `src/property/favourite/dto/`, mirroring `ListPropertyQueryDto` but without `locationId` (`page` default 1, `limit` default 10, max 50)
 
 ## 2. Repository
 
