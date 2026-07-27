@@ -1,6 +1,6 @@
 name: Nest Stay Local
 variables:
   - name: accessToken
-    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMUtZRUYyVzk5UFM2UVI3MkU4NTAzOFRGSCIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJpYXQiOjE3ODUwNjMyMjksImV4cCI6MTc4NTA5MjAyOX0.fml7TbjKqMURAcBFg1_cZWrfmrRAibSvrEIQXp6U1Nw
+    value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIwMUtZRUYyVzk5UFM2UVI3MkU4NTAzOFRGSCIsImVtYWlsIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJpYXQiOjE3ODUwNjUwMTQsImV4cCI6MTc4NTA5MzgxNH0.nAJ5UhwfZJ15zlnyZ7Y4KnfRtrjCLEP93ektkvObKXM
   - name: baseUrl
     value: http://localhost:3000
