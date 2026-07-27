@@ -18,13 +18,13 @@ export class PropertyService {
     hostId: bigint,
   ): Promise<PropertyResponseDto> {
     const property = await this.propertyRepository.create({ data, hostId });
-    return this.toDto(property);
+    return this.toResponseDto(property);
   }
 
   async getBySlug(slug: string): Promise<PropertyResponseDto> {
     const property = await this.propertyRepository.findBySlug({ slug });
     if (!property) throw new NotFoundException(`Property ${slug} not found`);
-    return this.toDto(property);
+    return this.toResponseDto(property);
   }
 
   async getIdBySlug(slug: string): Promise<bigint> {
@@ -51,7 +51,7 @@ export class PropertyService {
       id: property.id,
       data,
     });
-    return this.toDto(updated);
+    return this.toResponseDto(updated);
   }
 
   async deleteBySlug(slug: string, hostId: bigint): Promise<void> {
@@ -73,7 +73,7 @@ export class PropertyService {
       page,
       limit,
     });
-    return mapToPaginatedResponse(result, (p) => this.toDto(p));
+    return mapToPaginatedResponse(result, (p) => this.toResponseDto(p));
   }
 
   private async getOwnedPropertyOrThrow(
@@ -87,7 +87,7 @@ export class PropertyService {
     return property;
   }
 
-  private toDto(
+  toResponseDto(
     property: PropertyModel & { images?: ImageModel[] },
   ): PropertyResponseDto {
     const dto = new PropertyResponseDto();

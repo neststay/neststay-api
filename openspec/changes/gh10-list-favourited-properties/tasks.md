@@ -9,8 +9,8 @@
 
 ## 3. Service
 
-- [ ] 3.1 Rename `PropertyService`'s private `toDto` to public `toResponseDto` and update its internal callers
-- [ ] 3.2 Add `FavouriteService.listForUser({ userId, page, limit })` that calls `FavouriteRepository.findPaginatedByUser`, maps each result's `property` via `PropertyService.toResponseDto`, and returns a `PaginatedResponseDto<PropertyResponseDto>` via `mapToPaginatedResponse`
+- [x] 3.1 Rename `PropertyService`'s private `toDto` to public `toResponseDto` and update its internal callers
+- [x] 3.2 Add `FavouriteService.listForUser({ userId, page, limit })` that calls `FavouriteRepository.findPaginatedByUser`, maps each result's `property` via `PropertyService.toResponseDto`, and returns a `PaginatedResponseDto<PropertyResponseDto>` via `mapToPaginatedResponse`
 
 ## 4. Controller
 

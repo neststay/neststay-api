@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { PaginatedResponseDto } from '../../common/pagination/paginated-response.dto.js';
+import { mapToPaginatedResponse } from '../../common/pagination/pagination.helper.js';
 import { PropertyService } from '../property.service.js';
+import { PropertyResponseDto } from '../dto/property-response.dto.js';
 import { FavouriteRepository } from './favourite.repository.js';
 import { FavouriteResponseDto } from './dto/favourite-response.dto.js';
 
@@ -9,6 +12,25 @@ export class FavouriteService {
     private readonly favouriteRepository: FavouriteRepository,
     private readonly propertyService: PropertyService,
   ) {}
+
+  async listForUser({
+    userId,
+    page,
+    limit,
+  }: {
+    userId: bigint;
+    page: number;
+    limit: number;
+  }): Promise<PaginatedResponseDto<PropertyResponseDto>> {
+    const result = await this.favouriteRepository.findPaginatedByUser({
+      userId,
+      page,
+      limit,
+    });
+    return mapToPaginatedResponse(result, (favourite) =>
+      this.propertyService.toResponseDto(favourite.property),
+    );
+  }
 
   async toggle(slug: string, userId: bigint): Promise<FavouriteResponseDto> {
     const propertyId = await this.propertyService.getIdBySlug(slug);
