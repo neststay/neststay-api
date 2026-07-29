@@ -6,12 +6,12 @@
 
 ## 2. Query-log context
 
-- [ ] 2.1 Create `src/prisma/query-logging/query-log.store.ts` exporting a singleton `AsyncLocalStorage<QueryLogEntry[]>` and a `QueryLogEntry` type (`{ query: string; params: string; duration: number }`)
+- [x] 2.1 Create `src/prisma/query-logging/query-log.store.ts` exporting a singleton `AsyncLocalStorage<QueryLogEntry[]>` and a `QueryLogEntry` type (`{ query: string; params: string; duration: number }`)
 
 ## 3. PrismaService query event logging
 
-- [ ] 3.1 In `src/prisma/prisma.service.ts`, read `appConfig.debug` and conditionally construct `PrismaClient` with `log: [{ emit: 'event', level: 'query' }]` when `true` (omit `log` entirely when `false`)
-- [ ] 3.2 When logging is enabled, register `this.$on('query', handler)` where `handler` pushes a `QueryLogEntry` onto `queryLogStore.getStore()` if a store is active, and no-ops otherwise
+- [x] 3.1 In `src/prisma/prisma.service.ts`, read `appConfig.debug` and conditionally construct `PrismaClient` with `log: [{ emit: 'event', level: 'query' }]` when `true` (omit `log` entirely when `false`)
+- [x] 3.2 When logging is enabled, register `this.$on('query', handler)` where `handler` pushes a `QueryLogEntry` onto `queryLogStore.getStore()` if a store is active, and no-ops otherwise
 
 ## 4. Query-log interceptor and module wiring
 

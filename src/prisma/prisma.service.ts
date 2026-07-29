@@ -5,6 +5,7 @@ import { Pool } from 'pg';
 import { pagination } from 'prisma-extension-pagination';
 import { PrismaClient } from '../../generated/prisma/client.js';
 import { AppConfig } from '../config/index.js';
+import { queryLogStore } from './query-logging/query-log.store.js';
 
 const paginationExtension = pagination({
   pages: {
@@ -29,10 +30,31 @@ export class PrismaService
 
   constructor(config: ConfigService<AppConfig, true>) {
     const databaseConfig = config.getOrThrow('database');
+    const appConfig = config.getOrThrow('app');
     const pool = new Pool({ connectionString: databaseConfig.url });
-    super({ adapter: new PrismaPg(pool) });
+    const adapter = new PrismaPg(pool);
+
+    if (appConfig.debug) {
+      super({ adapter, log: [{ emit: 'event', level: 'query' }] });
+    } else {
+      super({ adapter });
+    }
+
     this.pool = pool;
     this.extendedClient = extendWithPagination(this);
+
+    if (appConfig.debug) {
+      (this as PrismaClient<'query'>).$on('query', (event) => {
+        const store = queryLogStore.getStore();
+        if (!store) return;
+
+        store.push({
+          query: event.query,
+          params: event.params,
+          duration: event.duration,
+        });
+      });
+    }
   }
 
   async onModuleInit() {
