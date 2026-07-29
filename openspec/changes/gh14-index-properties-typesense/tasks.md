@@ -49,7 +49,7 @@
 
 ## 8. Wiring and verification
 
-- [ ] 8.1 Register `SearchModule` in `src/app.module.ts` imports
-- [ ] 8.2 Verify `PropertyRepository`/`PropertyService.getBySlug` already returns `location`, `placeType`, and ordered `images` relations needed for indexing; extend the repository's `include` if not
+- [x] 8.1 Register `SearchModule` in `src/app.module.ts` imports
+- [x] 8.2 Verify `PropertyRepository`/`PropertyService.getBySlug` already returns `location`, `placeType`, and ordered `images` relations needed for indexing; extend the repository's `include` if not
 - [ ] 8.3 Manually verify end-to-end: create a property, confirm a job appears in Bull Board for `search_queue`, confirm the document appears in the Typesense `properties` collection via the Typesense dashboard
-- [ ] 8.4 Add/update tests for `SearchProducerService`, `PropertyCreatedListener`, and `PropertyIndexProcessor`
+- [x] 8.4 Add/update tests for `SearchProducerService`, `PropertyCreatedListener`, and `PropertyIndexProcessor`

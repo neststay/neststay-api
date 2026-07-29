@@ -19,6 +19,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { QueryLoggingModule } from './prisma/query-logging/query-logging.module';
 import { PropertyModule } from './property/property.module';
 import { QueueModule } from './queue/queue.module';
+import { SearchModule } from './search/search.module';
 import { UserModule } from './user/user.module';
 
 @Module({
@@ -45,6 +46,7 @@ import { UserModule } from './user/user.module';
     AuthModule,
     UserModule,
     PropertyModule,
+    SearchModule,
   ],
   controllers: [AppController],
   providers: [AppService],
