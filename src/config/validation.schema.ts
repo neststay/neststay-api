@@ -23,6 +23,10 @@ export const validationSchema = z.object({
     .string()
     .default('http://localhost:5173,http://localhost:3000')
     .transform((value) => value.split(',').map((origin) => origin.trim())),
+  TYPESENSE_HOST: z.string().min(1, 'TYPESENSE_HOST is required'),
+  TYPESENSE_PORT: z.coerce.number().int().positive().default(8108),
+  TYPESENSE_PROTOCOL: z.enum(['http', 'https']).default('http'),
+  TYPESENSE_API_KEY: z.string().min(1, 'TYPESENSE_API_KEY is required'),
 });
 
 export type EnvConfig = z.infer<typeof validationSchema>;

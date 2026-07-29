@@ -11,6 +11,7 @@ import {
   jwtConfig,
   queueConfig,
   redisConfig,
+  typesenseConfig,
   validateEnv,
 } from './config/index.js';
 import { CacheModule } from './cache/cache.module';
@@ -32,6 +33,7 @@ import { UserModule } from './user/user.module';
         jwtConfig,
         redisConfig,
         queueConfig,
+        typesenseConfig,
       ],
       validate: validateEnv,
     }),

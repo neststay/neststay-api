@@ -1,10 +1,10 @@
 ## 1. Typesense config and dependency
 
-- [ ] 1.1 Add `typesense` npm package to `package.json`
-- [ ] 1.2 Add `TYPESENSE_HOST`, `TYPESENSE_PORT`, `TYPESENSE_PROTOCOL`, `TYPESENSE_API_KEY` to `src/config/validation.schema.ts`
-- [ ] 1.3 Create `src/config/typesense.config.ts` (`registerAs('typesense', ...)`) reading those env vars
-- [ ] 1.4 Register `typesenseConfig` in `ConfigModule.forRoot`'s `load` array in `src/app.module.ts`
-- [ ] 1.5 Confirm `.env.example` already documents the Typesense vars (present from docker-compose setup); add any missing ones
+- [x] 1.1 Add `typesense` npm package to `package.json`
+- [x] 1.2 Add `TYPESENSE_HOST`, `TYPESENSE_PORT`, `TYPESENSE_PROTOCOL`, `TYPESENSE_API_KEY` to `src/config/validation.schema.ts`
+- [x] 1.3 Create `src/config/typesense.config.ts` (`registerAs('typesense', ...)`) reading those env vars
+- [x] 1.4 Register `typesenseConfig` in `ConfigModule.forRoot`'s `load` array in `src/app.module.ts`
+- [x] 1.5 Confirm `.env.example` already documents the Typesense vars (present from docker-compose setup); add any missing ones
 
 ## 2. Property module: emit creation event
 

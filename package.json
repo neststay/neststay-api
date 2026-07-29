@@ -52,6 +52,7 @@
     "prisma-extension-pagination": "^0.7.6",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
+    "typesense": "^3.0.6",
     "ulid": "^3.0.2",
     "zod": "^4.4.3"
   },
