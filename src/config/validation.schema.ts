@@ -15,6 +15,10 @@ export const validationSchema = z.object({
     .enum(['true', 'false'])
     .default('false')
     .transform((value) => value === 'true'),
+  APP_DEBUG: z
+    .enum(['true', 'false'])
+    .default('false')
+    .transform((value) => value === 'true'),
   CORS_ORIGINS: z
     .string()
     .default('http://localhost:5173,http://localhost:3000')

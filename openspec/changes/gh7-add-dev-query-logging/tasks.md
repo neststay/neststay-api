@@ -1,8 +1,8 @@
 ## 1. Config: APP_DEBUG flag
 
-- [ ] 1.1 In `src/config/validation.schema.ts`, add `APP_DEBUG: z.enum(['true', 'false']).default('false').transform((value) => value === 'true')`, following the existing `ENABLE_BULL_BOARD` pattern
-- [ ] 1.2 In `src/config/app.config.ts`, expose `debug: process.env.APP_DEBUG === 'true'` on the `app` namespace
-- [ ] 1.3 Add `APP_DEBUG=false` to `.env.example` and an appropriate value to `.env`
+- [x] 1.1 In `src/config/validation.schema.ts`, add `APP_DEBUG: z.enum(['true', 'false']).default('false').transform((value) => value === 'true')`, following the existing `ENABLE_BULL_BOARD` pattern
+- [x] 1.2 In `src/config/app.config.ts`, expose `debug: process.env.APP_DEBUG === 'true'` on the `app` namespace
+- [x] 1.3 Add `APP_DEBUG=false` to `.env.example` and an appropriate value to `.env`
 
 ## 2. Query-log context
 
