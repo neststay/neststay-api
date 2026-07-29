@@ -23,7 +23,7 @@ The system SHALL provide a BullMQ processor for `search_queue` that, on receivin
 
 #### Scenario: Job is processed successfully
 - **WHEN** an indexing job is dequeued from `search_queue`
-- **THEN** the processor retrieves the property by `slug`, builds a Typesense document containing `id`, `slug`, `name`, `description`, `nightlyRate`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms`, `locationId`, `locationName`, `placeTypeId`, `placeTypeName`, and `createdAt`, and upserts it into the `properties` collection
+- **THEN** the processor retrieves the property by `slug`, builds a Typesense document containing `id`, `slug`, `name`, `description`, `nightlyRate`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms`, `locationId`, `locationName`, `placeTypeId`, `placeTypeName`, `imageUrls` (ordered array of the property's image URLs), and `createdAt`, and upserts it into the `properties` collection
 - **AND** the job completes without error
 
 #### Scenario: Property no longer exists when job is processed
@@ -39,7 +39,7 @@ The system SHALL ensure the Typesense `properties` collection exists with the re
 
 #### Scenario: Collection does not exist on first boot
 - **WHEN** the application starts and the `properties` collection does not yet exist in Typesense
-- **THEN** the system creates the collection with the defined schema (facetable and filterable fields for `nightlyRate`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms`, `locationId`, `locationName`, `placeTypeId`, `placeTypeName`, full-text fields `name`/`description`, and `createdAt` as the default sorting field)
+- **THEN** the system creates the collection with the defined schema (facetable and filterable fields for `nightlyRate`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms`, `locationId`, `locationName`, `placeTypeId`, `placeTypeName`, full-text fields `name`/`description`, non-faceted display field `imageUrls`, and `createdAt` as the default sorting field)
 
 #### Scenario: Collection already exists on subsequent boots
 - **WHEN** the application starts and the `properties` collection already exists in Typesense

@@ -21,7 +21,7 @@
 
 ## 4. Typesense client and collection schema
 
-- [ ] 4.1 Create `src/search/typesense/property-collection.schema.ts` defining the Typesense `CollectionCreateSchema` for `properties` (fields: `id`, `slug`, `name`, `description`, `nightlyRate`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms`, `locationId`, `locationName`, `placeTypeId`, `placeTypeName`, `createdAt`; facet flags per design.md; `default_sorting_field: 'createdAt'`)
+- [ ] 4.1 Create `src/search/typesense/property-collection.schema.ts` defining the Typesense `CollectionCreateSchema` for `properties` (fields: `id`, `slug`, `name`, `description`, `nightlyRate`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms`, `locationId`, `locationName`, `placeTypeId`, `placeTypeName`, `imageUrls` (string array, not faceted), `createdAt`; facet flags per design.md; `default_sorting_field: 'createdAt'`)
 - [ ] 4.2 Create `src/search/typesense/typesense-client.provider.ts` constructing a Typesense `Client` from `typesenseConfig`
 - [ ] 4.3 Implement idempotent collection creation on `onModuleInit` (create `properties` collection, swallow "already exists" error)
 - [ ] 4.4 Register the Typesense client provider in `search.module.ts`
@@ -43,13 +43,13 @@
 - [ ] 7.1 Import `PropertyModule` into `SearchModule` to access `PropertyService`
 - [ ] 7.2 Create `src/search/processors/property-index.processor.ts` (`@Processor(SEARCH_QUEUE)`, extends `WorkerHost`)
 - [ ] 7.3 In `process`, call `PropertyService.getBySlug(job.data.slug)`; if not found, complete the job without error
-- [ ] 7.4 Map the property (including `location.name` and `placeType.name`) to the Typesense document shape
+- [ ] 7.4 Map the property (including `location.name`, `placeType.name`, and `images` ordered by `order` ascending mapped to `imageUrls: string[]`) to the Typesense document shape
 - [ ] 7.5 Upsert the document into the `properties` collection via the Typesense client
 - [ ] 7.6 Register `PropertyIndexProcessor` as a provider in `search.module.ts`
 
 ## 8. Wiring and verification
 
 - [ ] 8.1 Register `SearchModule` in `src/app.module.ts` imports
-- [ ] 8.2 Verify `PropertyRepository`/`PropertyService.getBySlug` already returns `location` and `placeType` relations needed for indexing; extend the repository's `include` if not
+- [ ] 8.2 Verify `PropertyRepository`/`PropertyService.getBySlug` already returns `location`, `placeType`, and ordered `images` relations needed for indexing; extend the repository's `include` if not
 - [ ] 8.3 Manually verify end-to-end: create a property, confirm a job appears in Bull Board for `search_queue`, confirm the document appears in the Typesense `properties` collection via the Typesense dashboard
 - [ ] 8.4 Add/update tests for `SearchProducerService`, `PropertyCreatedListener`, and `PropertyIndexProcessor`

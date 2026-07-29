@@ -8,7 +8,7 @@ Properties currently live only in Postgres, so there is no way to search or face
 - New `search` module owns the full indexing pipeline for this event:
   - A listener that reacts to `property.created` and hands the slug to a producer.
   - A producer that enqueues a job onto a new, dedicated `search_queue` BullMQ queue, with retry/backoff configuration (attempts: 3, exponential backoff starting at 1s, `removeOnComplete` age 3600s, `removeOnFail: false`) — following the same defaults already used for the `user-events` queue.
-  - A processor that dequeues the job, looks up the property via the existing `PropertyService.getBySlug`, maps it to a Typesense document, and upserts it into a `properties` collection.
+  - A processor that dequeues the job, looks up the property via the existing `PropertyService.getBySlug`, maps it to a Typesense document (including an `imageUrls` array sourced from the property's ordered images), and upserts it into a `properties` collection.
 - New Typesense client integration: `typesense` npm dependency, `typesense.config.ts` (`registerAs('typesense', ...)`) plus corresponding `.env.example` / zod validation entries for `TYPESENSE_HOST`, `TYPESENSE_PORT`, `TYPESENSE_PROTOCOL`, `TYPESENSE_API_KEY`.
 - Idempotent Typesense collection schema creation on application bootstrap (search module's `onModuleInit`), defining the `properties` collection with full-text, facet, and filter fields.
 - `search_queue` is registered and owned entirely within the new `search` module (`BullModule.registerQueue`), decentralized from the existing global `QueueModule`.
