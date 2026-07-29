@@ -15,9 +15,9 @@
 
 ## 3. Search module scaffolding
 
-- [ ] 3.1 Create `src/search/search.constants.ts` exporting `SEARCH_QUEUE = 'search_queue'` and re-exporting `PROPERTY_CREATED_EVENT` as the BullMQ job name
-- [ ] 3.2 Create `src/search/search.types.ts` defining `PropertyIndexJobPayload { slug: string }`
-- [ ] 3.3 Create `src/search/search.module.ts` with `BullModule.registerQueue({ name: SEARCH_QUEUE })`
+- [x] 3.1 Create `src/search/search.constants.ts` exporting `SEARCH_QUEUE = 'search_queue'` and re-exporting `PROPERTY_CREATED_EVENT` as the BullMQ job name
+- [x] 3.2 Create `src/search/search.types.ts` defining `PropertyIndexJobPayload { slug: string }`
+- [x] 3.3 Create `src/search/search.module.ts` with `BullModule.registerQueue({ name: SEARCH_QUEUE })`
 
 ## 4. Typesense client and collection schema
 
