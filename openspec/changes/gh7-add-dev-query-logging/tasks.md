@@ -15,10 +15,10 @@
 
 ## 4. Query-log interceptor and module wiring
 
-- [ ] 4.1 Create `src/prisma/query-logging/query-log.interceptor.ts` implementing `NestInterceptor`: run `next.handle()` inside `queryLogStore.run([], ...)`, and in `tap`/`finalize`, log a summary (count, total duration, SQL list) via `Logger` and set the `X-Query-Count` response header
-- [ ] 4.2 Add a trivial passthrough interceptor (or inline factory branch) that just calls `next.handle()` for the `APP_DEBUG=false` case
-- [ ] 4.3 Create `src/prisma/query-logging/query-logging.module.ts` providing `APP_INTERCEPTOR` via `useFactory` (inject `ConfigService`) that returns the passthrough interceptor when `appConfig.debug` is `false`, otherwise the real `QueryLogInterceptor`
-- [ ] 4.4 Import `QueryLoggingModule` into `src/app.module.ts`
+- [x] 4.1 Create `src/prisma/query-logging/query-log.interceptor.ts` implementing `NestInterceptor`: run `next.handle()` inside `queryLogStore.run([], ...)`, and in `tap`/`finalize`, log a summary (count, total duration, SQL list) via `Logger` and set the `X-Query-Count` response header
+- [x] 4.2 Add a trivial passthrough interceptor (or inline factory branch) that just calls `next.handle()` for the `APP_DEBUG=false` case
+- [x] 4.3 Create `src/prisma/query-logging/query-logging.module.ts` providing `APP_INTERCEPTOR` via `useFactory` (inject `ConfigService`) that returns the passthrough interceptor when `appConfig.debug` is `false`, otherwise the real `QueryLogInterceptor`
+- [x] 4.4 Import `QueryLoggingModule` into `src/app.module.ts`
 
 ## 5. Tests
 

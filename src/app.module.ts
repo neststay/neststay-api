@@ -15,6 +15,7 @@ import {
 } from './config/index.js';
 import { CacheModule } from './cache/cache.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { QueryLoggingModule } from './prisma/query-logging/query-logging.module';
 import { PropertyModule } from './property/property.module';
 import { QueueModule } from './queue/queue.module';
 import { UserModule } from './user/user.module';
@@ -36,6 +37,7 @@ import { UserModule } from './user/user.module';
     }),
     EventEmitterModule.forRoot(),
     PrismaModule,
+    QueryLoggingModule,
     CacheModule,
     QueueModule,
     AuthModule,
