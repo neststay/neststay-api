@@ -7,7 +7,7 @@ Defines requirements for creating, retrieving, listing, updating, and deleting p
 ## Requirements
 
 ### Requirement: Create property
-An authenticated user SHALL be able to create a property. The created property's `hostId` MUST be set from the authenticated user's id, never from client-supplied input.
+An authenticated user SHALL be able to create a property. The created property's `hostId` MUST be set from the authenticated user's id, never from client-supplied input. Creating a property SHALL emit a `property.created` domain event carrying the property's `slug`.
 
 #### Scenario: Successful creation
 - **WHEN** an authenticated user submits valid property data (locationId, placeTypeId, nightlyRate, name, description, numberOfGuests, numberOfBedrooms, numberOfBathrooms)
@@ -20,6 +20,11 @@ An authenticated user SHALL be able to create a property. The created property's
 #### Scenario: Invalid payload
 - **WHEN** an authenticated user submits a payload missing a required field or with an invalid value
 - **THEN** the system rejects the request with 422 Unprocessable Entity
+
+#### Scenario: Property creation emits a domain event
+- **WHEN** a property is successfully created
+- **THEN** the system emits a `property.created` event containing the created property's `slug`
+- **AND** the creation request completes successfully regardless of whether any listener for that event succeeds
 
 ### Requirement: Retrieve a single property by slug
 The system SHALL allow any caller to retrieve a single property using its public `slug`. The internal `id` SHALL NOT be exposed in the response. The response SHALL include the property's images, embedded via relation and ordered by `order` ascending, so no additional API call is required to obtain them.
