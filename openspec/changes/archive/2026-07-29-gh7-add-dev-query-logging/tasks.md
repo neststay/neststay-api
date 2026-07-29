@@ -28,6 +28,6 @@
 
 ## 6. Verification
 
-- [ ] 6.1 Run the app with `APP_DEBUG=true`, hit an endpoint that queries the DB, confirm a log summary (count/duration/SQL) and `X-Query-Count` header appear
-- [ ] 6.2 Run the app with `APP_DEBUG=false` (or unset), confirm neither the summary log nor the header appear
-- [ ] 6.3 Run relevant lint/typecheck/test scripts and confirm they pass
+- [x] 6.1 Run the app with `APP_DEBUG=true`, hit an endpoint that queries the DB, confirm a log summary (count/duration/SQL) and `X-Query-Count` header appear
+- [x] 6.2 Run the app with `APP_DEBUG=false` (or unset), confirm neither the summary log nor the header appear
+- [x] 6.3 Run relevant lint/typecheck/test scripts and confirm they pass

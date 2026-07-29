@@ -19,7 +19,7 @@ function buildProperty(overrides: Partial<PropertyModel> = {}): PropertyModel {
     createdAt: new Date(),
     updatedAt: new Date(),
     ...overrides,
-  } as PropertyModel;
+  };
 }
 
 function buildFavourite(userId: bigint): FavouritePropertyModel {
@@ -28,7 +28,7 @@ function buildFavourite(userId: bigint): FavouritePropertyModel {
     userId,
     propertyId: 1n,
     createdAt: new Date(),
-  } as FavouritePropertyModel;
+  };
 }
 
 describe('PropertyService', () => {

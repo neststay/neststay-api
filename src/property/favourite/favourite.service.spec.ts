@@ -20,7 +20,7 @@ function buildProperty(overrides: Partial<PropertyModel> = {}): PropertyModel {
     createdAt: new Date(),
     updatedAt: new Date(),
     ...overrides,
-  } as PropertyModel;
+  };
 }
 
 describe('FavouriteService', () => {
