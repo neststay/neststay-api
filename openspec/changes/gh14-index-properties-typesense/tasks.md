@@ -21,10 +21,10 @@
 
 ## 4. Typesense client and collection schema
 
-- [ ] 4.1 Create `src/search/typesense/property-collection.schema.ts` defining the Typesense `CollectionCreateSchema` for `properties` (fields: `id`, `slug`, `name`, `description`, `nightlyRate`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms`, `locationId`, `locationName`, `placeTypeId`, `placeTypeName`, `imageUrls` (string array, not faceted), `createdAt`; facet flags per design.md; `default_sorting_field: 'createdAt'`)
-- [ ] 4.2 Create `src/search/typesense/typesense-client.provider.ts` constructing a Typesense `Client` from `typesenseConfig`
-- [ ] 4.3 Implement idempotent collection creation on `onModuleInit` (create `properties` collection, swallow "already exists" error)
-- [ ] 4.4 Register the Typesense client provider in `search.module.ts`
+- [x] 4.1 Create `src/search/typesense/property-collection.schema.ts` defining the Typesense `CollectionCreateSchema` for `properties` (fields: `id`, `slug`, `name`, `description`, `nightlyRate`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms`, `locationId`, `locationName`, `placeTypeId`, `placeTypeName`, `imageUrls` (string array, not faceted), `createdAt`; facet flags per design.md; `default_sorting_field: 'createdAt'`)
+- [x] 4.2 Create `src/search/typesense/typesense-client.provider.ts` constructing a Typesense `Client` from `typesenseConfig`
+- [x] 4.3 Implement idempotent collection creation on `onModuleInit` (create `properties` collection, swallow "already exists" error)
+- [x] 4.4 Register the Typesense client provider in `search.module.ts`
 
 ## 5. Search producer
 
