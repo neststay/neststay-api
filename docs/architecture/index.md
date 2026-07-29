@@ -1,5 +1,8 @@
 The Nest Stay API
 
+# Architecture references
+- for any event-driven code task (services emitting events, listeners, queues, processors), refer to `docs/architecture/event-driven-architecture.md`
+
 # Database and Models
 - Models should be singular for example User, Property, Location etc. and their database table name will be plural. So, users, properties, locations etc.
 - Foreign keys should follow camel case naming convention. so, locationId instead of location_id
