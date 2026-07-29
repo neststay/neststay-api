@@ -22,9 +22,9 @@
 
 ## 5. Tests
 
-- [ ] 5.1 Unit test `PrismaService` (or its query handler) confirms `$on('query', ...)` is registered when `APP_DEBUG` is `true` and skipped when `false`
-- [ ] 5.2 Unit test `QueryLogInterceptor` confirms it collects queries pushed into the ALS store during handler execution and sets `X-Query-Count` correctly, including the zero-query case
-- [ ] 5.3 Unit/e2e test confirms the passthrough path when `APP_DEBUG` is `false`: no `X-Query-Count` header and no summary log
+- [x] 5.1 Unit test `PrismaService` (or its query handler) confirms `$on('query', ...)` is registered when `APP_DEBUG` is `true` and skipped when `false`
+- [x] 5.2 Unit test `QueryLogInterceptor` confirms it collects queries pushed into the ALS store during handler execution and sets `X-Query-Count` correctly, including the zero-query case
+- [x] 5.3 Unit/e2e test confirms the passthrough path when `APP_DEBUG` is `false`: no `X-Query-Count` header and no summary log
 
 ## 6. Verification
 
