@@ -34,9 +34,9 @@
 
 ## 6. Search listener
 
-- [ ] 6.1 Create `src/search/listeners/property-created.listener.ts` with `@OnEvent(PROPERTY_CREATED_EVENT, { async: true })`
-- [ ] 6.2 Call `SearchProducerService.enqueuePropertyIndex` with the event's `slug`; catch and log any error without rethrowing
-- [ ] 6.3 Register the listener as a provider in `search.module.ts`
+- [x] 6.1 Create `src/search/listeners/property-created.listener.ts` with `@OnEvent(PROPERTY_CREATED_EVENT, { async: true })`
+- [x] 6.2 Call `SearchProducerService.enqueuePropertyIndex` with the event's `slug`; catch and log any error without rethrowing
+- [x] 6.3 Register the listener as a provider in `search.module.ts`
 
 ## 7. Search processor (Typesense indexing)
 
