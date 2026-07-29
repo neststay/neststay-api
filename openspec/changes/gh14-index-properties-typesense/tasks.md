@@ -8,10 +8,10 @@
 
 ## 2. Property module: emit creation event
 
-- [ ] 2.1 Create `src/property/property.constants.ts` exporting `PROPERTY_CREATED_EVENT = 'property.created'`
-- [ ] 2.2 Inject `EventEmitter2` into `PropertyService`
-- [ ] 2.3 Emit `PROPERTY_CREATED_EVENT` with `{ slug: property.slug }` at the end of `PropertyService.create`
-- [ ] 2.4 Update `PropertyService` unit tests to assert the event is emitted with the correct payload on successful creation
+- [x] 2.1 Create `src/property/property.constants.ts` exporting `PROPERTY_CREATED_EVENT = 'property.created'`
+- [x] 2.2 Inject `EventEmitter2` into `PropertyService`
+- [x] 2.3 Emit `PROPERTY_CREATED_EVENT` with `{ slug: property.slug }` at the end of `PropertyService.create`
+- [x] 2.4 Update `PropertyService` unit tests to assert the event is emitted with the correct payload on successful creation
 
 ## 3. Search module scaffolding
 

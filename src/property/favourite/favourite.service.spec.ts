@@ -1,3 +1,4 @@
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PropertyModel } from '../../../generated/prisma/models/Property.js';
 import { PropertyRepository } from '../property.repository.js';
 import { PropertyService } from '../property.service.js';
@@ -32,6 +33,7 @@ describe('FavouriteService', () => {
     favouriteRepository = { findPaginatedByUser: jest.fn() };
     propertyService = new PropertyService(
       undefined as unknown as PropertyRepository,
+      undefined as unknown as EventEmitter2,
     );
     service = new FavouriteService(
       favouriteRepository as unknown as FavouriteRepository,

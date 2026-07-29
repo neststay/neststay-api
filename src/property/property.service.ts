@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PaginatedResponseDto } from '../common/pagination/paginated-response.dto.js';
 import { mapToPaginatedResponse } from '../common/pagination/pagination.helper.js';
 import { PropertyModel } from '../../generated/prisma/models/Property.js';
@@ -9,16 +10,23 @@ import { UpdatePropertyDto } from './dto/update-property.dto.js';
 import { PropertyResponseDto } from './dto/property-response.dto.js';
 import { PropertyImageDto } from './dto/property-image.dto.js';
 import { PropertyRepository } from './property.repository.js';
+import { PROPERTY_CREATED_EVENT } from './property.constants.js';
 
 @Injectable()
 export class PropertyService {
-  constructor(private readonly propertyRepository: PropertyRepository) {}
+  constructor(
+    private readonly propertyRepository: PropertyRepository,
+    private readonly eventEmitter: EventEmitter2,
+  ) {}
 
   async create(
     data: CreatePropertyDto,
     hostId: bigint,
   ): Promise<PropertyResponseDto> {
     const property = await this.propertyRepository.create({ data, hostId });
+
+    this.eventEmitter.emit(PROPERTY_CREATED_EVENT, { slug: property.slug });
+
     return this.toResponseDto(property);
   }
 

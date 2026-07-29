@@ -1,7 +1,9 @@
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PropertyModel } from '../../generated/prisma/models/Property.js';
 import { FavouritePropertyModel } from '../../generated/prisma/models/FavouriteProperty.js';
 import { PropertyRepository } from './property.repository.js';
 import { PropertyService } from './property.service.js';
+import { PROPERTY_CREATED_EVENT } from './property.constants.js';
 
 function buildProperty(overrides: Partial<PropertyModel> = {}): PropertyModel {
   return {
@@ -35,13 +37,40 @@ describe('PropertyService', () => {
   let service: PropertyService;
   let repository: {
     findAllPaginatedByLocation: jest.Mock;
+    create: jest.Mock;
+  };
+  let eventEmitter: {
+    emit: jest.Mock;
   };
 
   beforeEach(() => {
     repository = {
       findAllPaginatedByLocation: jest.fn(),
+      create: jest.fn(),
     };
-    service = new PropertyService(repository as unknown as PropertyRepository);
+    eventEmitter = {
+      emit: jest.fn(),
+    };
+    service = new PropertyService(
+      repository as unknown as PropertyRepository,
+      eventEmitter as unknown as EventEmitter2,
+    );
+  });
+
+  describe('create', () => {
+    it('emits PROPERTY_CREATED_EVENT with the created property slug', async () => {
+      const property = buildProperty({ slug: 'a-new-property' });
+      repository.create.mockResolvedValue(property);
+
+      await service.create(
+        {} as unknown as Parameters<PropertyService['create']>[0],
+        1n,
+      );
+
+      expect(eventEmitter.emit).toHaveBeenCalledWith(PROPERTY_CREATED_EVENT, {
+        slug: 'a-new-property',
+      });
+    });
   });
 
   describe('toResponseDto', () => {
