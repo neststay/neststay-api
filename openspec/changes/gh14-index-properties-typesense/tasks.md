@@ -28,9 +28,9 @@
 
 ## 5. Search producer
 
-- [ ] 5.1 Create `src/search/search-producer.service.ts` with `enqueuePropertyIndex({ payload: PropertyIndexJobPayload })`
-- [ ] 5.2 Configure job options: `attempts: 3`, exponential backoff (1000ms), `removeOnComplete: { age: 3600 }`, `removeOnFail: false`
-- [ ] 5.3 Register `SearchProducerService` as a provider in `search.module.ts`
+- [x] 5.1 Create `src/search/search-producer.service.ts` with `enqueuePropertyIndex({ payload: PropertyIndexJobPayload })`
+- [x] 5.2 Configure job options: `attempts: 3`, exponential backoff (1000ms), `removeOnComplete: { age: 3600 }`, `removeOnFail: false`
+- [x] 5.3 Register `SearchProducerService` as a provider in `search.module.ts`
 
 ## 6. Search listener
 
