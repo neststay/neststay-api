@@ -4,6 +4,8 @@ import { PageNumberPaginationMeta } from 'prisma-extension-pagination';
 import { PropertyModel } from '../../generated/prisma/models/Property.js';
 import { ImageModel } from '../../generated/prisma/models/Image.js';
 import { FavouritePropertyModel } from '../../generated/prisma/models/FavouriteProperty.js';
+import { LocationModel } from '../../generated/prisma/models/Location.js';
+import { PlaceTypeModel } from '../../generated/prisma/models/PlaceType.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { CreatePropertyDto } from './dto/create-property.dto.js';
 import { UpdatePropertyDto } from './dto/update-property.dto.js';
@@ -11,6 +13,11 @@ import { UpdatePropertyDto } from './dto/update-property.dto.js';
 export type PropertyWithImages = PropertyModel & {
   images: ImageModel[];
   favouriteProperties?: FavouritePropertyModel[];
+};
+
+export type PropertyWithRelations = PropertyWithImages & {
+  location: LocationModel;
+  placeType: PlaceTypeModel;
 };
 
 @Injectable()
@@ -21,10 +28,14 @@ export class PropertyRepository {
     slug,
   }: {
     slug: string;
-  }): Promise<PropertyWithImages | null> {
+  }): Promise<PropertyWithRelations | null> {
     return this.prisma.property.findUnique({
       where: { slug },
-      include: { images: { orderBy: { order: 'asc' } } },
+      include: {
+        images: { orderBy: { order: 'asc' } },
+        location: true,
+        placeType: true,
+      },
     });
   }
 

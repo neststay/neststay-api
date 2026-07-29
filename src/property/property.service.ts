@@ -9,7 +9,10 @@ import { CreatePropertyDto } from './dto/create-property.dto.js';
 import { UpdatePropertyDto } from './dto/update-property.dto.js';
 import { PropertyResponseDto } from './dto/property-response.dto.js';
 import { PropertyImageDto } from './dto/property-image.dto.js';
-import { PropertyRepository } from './property.repository.js';
+import {
+  PropertyRepository,
+  PropertyWithRelations,
+} from './property.repository.js';
 import { PROPERTY_CREATED_EVENT } from './property.constants.js';
 
 @Injectable()
@@ -34,6 +37,11 @@ export class PropertyService {
     const property = await this.propertyRepository.findBySlug({ slug });
     if (!property) throw new NotFoundException(`Property ${slug} not found`);
     return this.toResponseDto(property);
+  }
+
+  // Raw entity for internal consumers (e.g. search indexing) needing identity fields PropertyResponseDto omits.
+  async getEntityBySlug(slug: string): Promise<PropertyWithRelations | null> {
+    return this.propertyRepository.findBySlug({ slug });
   }
 
   async getIdBySlug(slug: string): Promise<bigint> {

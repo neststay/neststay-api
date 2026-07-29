@@ -40,12 +40,12 @@
 
 ## 7. Search processor (Typesense indexing)
 
-- [ ] 7.1 Import `PropertyModule` into `SearchModule` to access `PropertyService`
-- [ ] 7.2 Create `src/search/processors/property-index.processor.ts` (`@Processor(SEARCH_QUEUE)`, extends `WorkerHost`)
-- [ ] 7.3 In `process`, call `PropertyService.getBySlug(job.data.slug)`; if not found, complete the job without error
-- [ ] 7.4 Map the property (including `location.name`, `placeType.name`, and `images` ordered by `order` ascending mapped to `imageUrls: string[]`) to the Typesense document shape
-- [ ] 7.5 Upsert the document into the `properties` collection via the Typesense client
-- [ ] 7.6 Register `PropertyIndexProcessor` as a provider in `search.module.ts`
+- [x] 7.1 Import `PropertyModule` into `SearchModule` to access `PropertyService`
+- [x] 7.2 Create `src/search/processors/property-index.processor.ts` (`@Processor(SEARCH_QUEUE)`, extends `WorkerHost`)
+- [x] 7.3 In `process`, call `PropertyService.getEntityBySlug(job.data.slug)` (delegates to `PropertyRepository.findBySlug`, which now always includes `location`/`placeType`); if not found, complete the job without error
+- [x] 7.4 Map the property (including `location.name`, `placeType.name`, and `images` ordered by `order` ascending mapped to `imageUrls: string[]`) to the Typesense document shape
+- [x] 7.5 Upsert the document into the `properties` collection via the Typesense client
+- [x] 7.6 Register `PropertyIndexProcessor` as a provider in `search.module.ts`
 
 ## 8. Wiring and verification
 
