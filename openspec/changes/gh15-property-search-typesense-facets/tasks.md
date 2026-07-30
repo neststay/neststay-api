@@ -21,8 +21,8 @@
 
 ## 5. Typesense query integration
 
-- [ ] 5.1 In the `search` module, add a method (e.g. on a new `TypesenseSearchClient` or directly in `SearchQueryService`) that builds a Typesense `search()` call from validated query params: `q` mapped to `query_by: 'name,description'`, facet filters mapped to `filter_by`, `facet_by: 'locationName,placeTypeName,numberOfGuests,numberOfBedrooms,numberOfBathrooms'`, and `page`/`per_page` from the request
-- [ ] 5.2 Map Typesense hits to `SearchResultItemDto[]` and Typesense `facet_counts` to `SearchFacetsDto`
+- [x] 5.1 In the `search` module, add a method (e.g. on a new `TypesenseSearchClient` or directly in `SearchQueryService`) that builds a Typesense `search()` call from validated query params: `q` mapped to `query_by: 'name,description'`, facet filters mapped to `filter_by`, `facet_by: 'locationName,placeTypeName,numberOfGuests,numberOfBedrooms,numberOfBathrooms'`, and `page`/`per_page` from the request
+- [x] 5.2 Map Typesense hits to `SearchResultItemDto[]` and Typesense `facet_counts` to `SearchFacetsDto`
 
 ## 6. Search orchestration service
 
