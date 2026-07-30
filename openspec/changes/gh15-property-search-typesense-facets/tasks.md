@@ -16,8 +16,8 @@
 
 ## 4. search_history repository
 
-- [ ] 4.1 Create `src/search/search-history.repository.ts` (`SearchHistoryRepository`) with a `create({ userId, query }: { userId: bigint | null; query: string }): Promise<{ searchId: string }>` method that generates `searchId` via `ulid()` and inserts the row via `PrismaService`
-- [ ] 4.2 Add unit tests for `SearchHistoryRepository.create` covering both a `userId` present and `userId: null`
+- [x] 4.1 Create `src/search/search-history.repository.ts` (`SearchHistoryRepository`) with a `create({ userId, query }: { userId: bigint | null; query: string }): Promise<{ searchId: string }>` method that generates `searchId` via `ulid()` and inserts the row via `PrismaService`
+- [x] 4.2 Add unit tests for `SearchHistoryRepository.create` covering both a `userId` present and `userId: null`
 
 ## 5. Typesense query integration
 
