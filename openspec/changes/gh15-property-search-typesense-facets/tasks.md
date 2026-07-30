@@ -41,4 +41,4 @@
 
 ## 8. Verification
 
-- [ ] 8.1 Manually verify end-to-end: seed/create a property (indexed via gh14), call `GET /search?q=...` as both a guest and an authenticated user, confirm results, facets, and `searchId` are returned, and confirm a matching `search_history` row exists in Postgres
+- [x] 8.1 Manually verify end-to-end: seed/create a property (indexed via gh14), call `GET /search?q=...` as both a guest and an authenticated user, confirm results, facets, and `searchId` are returned, and confirm a matching `search_history` row exists in Postgres

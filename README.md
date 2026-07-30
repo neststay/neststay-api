@@ -105,3 +105,32 @@ A `Makefile` wraps the common Docker and Prisma workflows:
 | `make migrate` | Run database migrations                                |
 | `make seed`    | Seed the database                                      |
 | `make mrs`     | Drop, migrate, and seed the database (`prisma migrate reset --force`) |
+
+## Example curls
+
+Login to get an access token (use your seeded admin/user credentials):
+
+```bash
+curl -X POST http://localhost:3000/users/login \
+  -H "Content-Type: application/json" \
+  -d '{"email": "admin@example.com", "password": "password"}'
+```
+
+Search as a guest (no auth required):
+
+```bash
+curl "http://localhost:3000/search?q=beach+house"
+```
+
+Search as an authenticated user:
+
+```bash
+curl "http://localhost:3000/search?q=beach+house" \
+  -H "Authorization: Bearer <accessToken>"
+```
+
+Search with facet filters:
+
+```bash
+curl "http://localhost:3000/search?q=apartment&locationName=Goa&placeTypeName=Apartment&numberOfGuests=2&numberOfBedrooms=1&numberOfBathrooms=1&minNightlyRate=50&maxNightlyRate=200&page=1&limit=10"
+```
