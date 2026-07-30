@@ -2,10 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { SearchHistoryRepository } from './search-history.repository.js';
 
-jest.mock('ulid', () => ({
-  ulid: jest.fn(() => 'generated-search-id'),
-}));
-
 describe('SearchHistoryRepository', () => {
   let repository: SearchHistoryRepository;
   let createMock: jest.Mock;
@@ -34,36 +30,38 @@ describe('SearchHistoryRepository', () => {
       createMock.mockResolvedValue({});
 
       const result = await repository.create({
+        searchId: 'given-search-id',
         userId: 5n,
         query: 'beach house',
       });
 
       expect(createMock).toHaveBeenCalledWith({
         data: {
-          searchId: 'generated-search-id',
+          searchId: 'given-search-id',
           userId: 5n,
           query: 'beach house',
         },
       });
-      expect(result).toEqual({ searchId: 'generated-search-id' });
+      expect(result).toEqual({ searchId: 'given-search-id' });
     });
 
     it('creates a search_history row with a null userId for guest searches', async () => {
       createMock.mockResolvedValue({});
 
       const result = await repository.create({
+        searchId: 'given-search-id',
         userId: null,
         query: 'beach house',
       });
 
       expect(createMock).toHaveBeenCalledWith({
         data: {
-          searchId: 'generated-search-id',
+          searchId: 'given-search-id',
           userId: null,
           query: 'beach house',
         },
       });
-      expect(result).toEqual({ searchId: 'generated-search-id' });
+      expect(result).toEqual({ searchId: 'given-search-id' });
     });
   });
 });

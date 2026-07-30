@@ -34,10 +34,10 @@
 
 ## 7. Controller and route
 
-- [ ] 7.1 Create `src/search/search.controller.ts` (`SearchController`) with `GET /search`, `@UseGuards(OptionalJwtAuthGuard)`, validating query params with `SearchQuerySchema` (422 on failure, matching `PropertyController`'s pattern) and calling `SearchQueryService.search`
-- [ ] 7.2 Add Swagger decorators (`@ApiTags('search')`, `@ApiOperation`, `@ApiEnvelopeResponse(200, ..., SearchResponseDto)`, `@ApiHttpErrorResponse(422, ...)`)
-- [ ] 7.3 Register `SearchController`, `SearchHistoryRepository`, and `SearchQueryService` as providers/controllers in `search.module.ts`
-- [ ] 7.4 Add controller tests covering guest search, authenticated search, facet filter params, and the 422 case for a missing `q`
+- [x] 7.1 Create `src/search/search.controller.ts` (`SearchController`) with `GET /search`, `@UseGuards(OptionalJwtAuthGuard)`, validating query params with `SearchQuerySchema` (422 on failure, matching `PropertyController`'s pattern) and calling `SearchQueryService.search`
+- [x] 7.2 Add Swagger decorators (`@ApiTags('search')`, `@ApiOperation`, `@ApiEnvelopeResponse(200, ..., SearchResponseDto)`, `@ApiHttpErrorResponse(422, ...)`)
+- [x] 7.3 Register `SearchController`, `SearchHistoryRepository`, and `SearchQueryService` as providers/controllers in `search.module.ts`
+- [x] 7.4 Add controller tests covering guest search, authenticated search, facet filter params, and the 422 case for a missing `q`
 
 ## 8. Verification
 

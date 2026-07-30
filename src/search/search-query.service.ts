@@ -35,7 +35,7 @@ export class SearchQueryService {
 
     const [searchResult, historyResult] = await Promise.allSettled([
       this.typesenseSearchClient.search({ q: query, filters, page, limit }),
-      this.searchHistoryRepository.create({ userId, query }),
+      this.searchHistoryRepository.create({ searchId, userId, query }),
     ]);
 
     if (historyResult.status === 'rejected') {
@@ -49,7 +49,12 @@ export class SearchQueryService {
       throw searchResult.reason;
     }
 
-    return this.toResponseDto(searchId, searchResult.value, limit);
+    const responseSearchId =
+      historyResult.status === 'fulfilled'
+        ? historyResult.value.searchId
+        : searchId;
+
+    return this.toResponseDto(responseSearchId, searchResult.value, limit);
   }
 
   private toResponseDto(

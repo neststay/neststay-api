@@ -1,0 +1,58 @@
+info:
+  name: Search
+  type: http
+  seq: 6
+
+http:
+  method: GET
+  url: http://localhost:3000/search?q=amitav&page=1&limit=10
+  headers:
+    - name: accept
+      value: application/json
+    - name: Authorization
+      value: Bearer {{accessToken}}
+  params:
+    - name: q
+      value: amitav
+      type: query
+    - name: locationName
+      value: Goa
+      type: query
+      disabled: true
+    - name: placeTypeName
+      value: Apartment
+      type: query
+      disabled: true
+    - name: minNightlyRate
+      value: "50"
+      type: query
+      disabled: true
+    - name: maxNightlyRate
+      value: "200"
+      type: query
+      disabled: true
+    - name: numberOfGuests
+      value: "2"
+      type: query
+      disabled: true
+    - name: numberOfBedrooms
+      value: "1"
+      type: query
+      disabled: true
+    - name: numberOfBathrooms
+      value: "1"
+      type: query
+      disabled: true
+    - name: page
+      value: "1"
+      type: query
+    - name: limit
+      value: "10"
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -53,6 +53,7 @@ describe('SearchQueryService', () => {
         limit: params.limit,
       });
       expect(searchHistoryRepository.create).toHaveBeenCalledWith({
+        searchId: 'generated-search-id',
         userId: params.userId,
         query: params.query,
       });
@@ -80,7 +81,7 @@ describe('SearchQueryService', () => {
       await expect(service.search(params)).rejects.toThrow(error);
     });
 
-    it('swallows a search_history write failure and still returns searchId', async () => {
+    it('swallows a search_history write failure and falls back to the generated searchId', async () => {
       typesenseSearchClient.search.mockResolvedValue({
         items: [],
         facets: { locationName: [] },
@@ -95,6 +96,25 @@ describe('SearchQueryService', () => {
 
       expect(result.searchId).toBe('generated-search-id');
       expect(result.items).toEqual([]);
+    });
+
+    it('returns the searchId from the search_history write, not just the generated one', async () => {
+      typesenseSearchClient.search.mockResolvedValue({
+        items: [],
+        facets: { locationName: [] },
+        found: 0,
+        page: 1,
+      });
+      searchHistoryRepository.create.mockResolvedValue({
+        searchId: 'repository-returned-id',
+      });
+
+      const result = await service.search(params);
+
+      expect(searchHistoryRepository.create).toHaveBeenCalledWith(
+        expect.objectContaining({ searchId: 'generated-search-id' }),
+      );
+      expect(result.searchId).toBe('repository-returned-id');
     });
   });
 });
