@@ -26,11 +26,11 @@
 
 ## 6. Search orchestration service
 
-- [ ] 6.1 Create `src/search/search-query.service.ts` (`SearchQueryService`) with a `search({ query, filters, page, limit, userId }): Promise<SearchResponseDto>` method
-- [ ] 6.2 Generate the `searchId` up front, then run the Typesense query (5.1/5.2) and `SearchHistoryRepository.create` (4.1) concurrently (e.g. `Promise.allSettled`)
-- [ ] 6.3 If the Typesense call rejected, rethrow its error; if the `search_history` write rejected, log it and continue without failing the request
-- [ ] 6.4 Assemble and return `SearchResponseDto` with `searchId` set to the generated `searchId` regardless of whether the history write succeeded
-- [ ] 6.5 Add unit tests for `SearchQueryService.search`: successful search, Typesense failure propagates, `search_history` write failure is swallowed and `searchId` still returned
+- [x] 6.1 Create `src/search/search-query.service.ts` (`SearchQueryService`) with a `search({ query, filters, page, limit, userId }): Promise<SearchResponseDto>` method
+- [x] 6.2 Generate the `searchId` up front, then run the Typesense query (5.1/5.2) and `SearchHistoryRepository.create` (4.1) concurrently (e.g. `Promise.allSettled`)
+- [x] 6.3 If the Typesense call rejected, rethrow its error; if the `search_history` write rejected, log it and continue without failing the request
+- [x] 6.4 Assemble and return `SearchResponseDto` with `searchId` set to the generated `searchId` regardless of whether the history write succeeded
+- [x] 6.5 Add unit tests for `SearchQueryService.search`: successful search, Typesense failure propagates, `search_history` write failure is swallowed and `searchId` still returned
 
 ## 7. Controller and route
 
