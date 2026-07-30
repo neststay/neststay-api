@@ -9,10 +9,10 @@
 
 ## 3. DTOs
 
-- [ ] 3.1 Create `src/search/dto/search-query.dto.ts` with `SearchQueryDto` (Swagger) and a zod `SearchQuerySchema` validating `q` (required string), `page`/`limit` (coerced ints, same defaults/bounds as `ListPropertyQuerySchema`), and optional `locationId`, `placeTypeId`, `minNightlyRate`, `maxNightlyRate`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms` (coerced numbers)
-- [ ] 3.2 Create `src/search/dto/search-result-item.dto.ts` (`SearchResultItemDto`) with fields `id`, `slug`, `name`, `description`, `nightlyRate`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms`, `locationId`, `locationName`, `placeTypeId`, `placeTypeName`, `imageUrls`, `createdAt`, matching the Typesense `properties` document shape
-- [ ] 3.3 Create `src/search/dto/search-facets.dto.ts` (`SearchFacetsDto`) representing facet counts for `locationId`, `placeTypeId`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms`
-- [ ] 3.4 Create `src/search/dto/search-response.dto.ts` (`SearchResponseDto`) with `searchId` (string), `items` (`SearchResultItemDto[]`), `facets` (`SearchFacetsDto`), and pagination `meta` (reuse `PaginationMetaDto`)
+- [x] 3.1 Create `src/search/dto/search-query.dto.ts` with `SearchQueryDto` (Swagger) and a zod `SearchQuerySchema` validating `q` (required string), `page`/`limit` (coerced ints, same defaults/bounds as `ListPropertyQuerySchema`), and optional `locationName`, `placeTypeName` (strings), `minNightlyRate`, `maxNightlyRate`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms` (coerced numbers)
+- [x] 3.2 Create `src/search/dto/search-result-item.dto.ts` (`SearchResultItemDto`) with fields `slug`, `name`, `description`, `nightlyRate`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms`, `locationName`, `placeTypeName`, `imageUrls`, `createdAt` (no `id`, `locationId`, or `placeTypeId` — `slug` is the public identifier), matching the Typesense `properties` document shape
+- [x] 3.3 Create `src/search/dto/search-facets.dto.ts` (`SearchFacetsDto`) representing facet counts for `locationName`, `placeTypeName`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms`
+- [x] 3.4 Create `src/search/dto/search-response.dto.ts` (`SearchResponseDto`) with `searchId` (string), `items` (`SearchResultItemDto[]`), `facets` (`SearchFacetsDto`), and pagination `meta` (reuse `PaginationMetaDto`)
 
 ## 4. search_history repository
 
@@ -21,7 +21,7 @@
 
 ## 5. Typesense query integration
 
-- [ ] 5.1 In the `search` module, add a method (e.g. on a new `TypesenseSearchClient` or directly in `SearchQueryService`) that builds a Typesense `search()` call from validated query params: `q` mapped to `query_by: 'name,description'`, facet filters mapped to `filter_by`, `facet_by: 'locationId,placeTypeId,numberOfGuests,numberOfBedrooms,numberOfBathrooms'`, and `page`/`per_page` from the request
+- [ ] 5.1 In the `search` module, add a method (e.g. on a new `TypesenseSearchClient` or directly in `SearchQueryService`) that builds a Typesense `search()` call from validated query params: `q` mapped to `query_by: 'name,description'`, facet filters mapped to `filter_by`, `facet_by: 'locationName,placeTypeName,numberOfGuests,numberOfBedrooms,numberOfBathrooms'`, and `page`/`per_page` from the request
 - [ ] 5.2 Map Typesense hits to `SearchResultItemDto[]` and Typesense `facet_counts` to `SearchFacetsDto`
 
 ## 6. Search orchestration service
