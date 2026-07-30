@@ -96,3 +96,13 @@ model FavouriteProperty {
   @@unique([userId, propertyId])
   @@map("favourite_property")
 }
+
+model SearchHistory {
+  id        BigInt   @id @default(autoincrement())
+  searchId  String   @unique
+  userId    BigInt?
+  query     String
+  createdAt DateTime @default(now())
+
+  @@map("search_history")
+}

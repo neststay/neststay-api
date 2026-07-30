@@ -8,18 +8,20 @@ Properties are indexed into Typesense by `gh14-index-properties-typesense`, but 
 
 - New `GET /search` endpoint (top-level resource, not nested under `/properties`) accepting `q` (search text, required) plus optional facet filters (`locationId`, `placeTypeId`, `minNightlyRate`/`maxNightlyRate`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms`) and `page`/`limit`, guarded by the existing `OptionalJwtAuthGuard` so both guests and logged-in users can search.
 - Endpoint queries the Typesense `properties` collection (`query_by` on `name`/`description`, `filter_by` built from the supplied facet filters, `facet_by` on `locationId`, `placeTypeId`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms`) and returns a lean, Typesense-doc-shaped result list (no per-item Postgres hydration) plus facet counts.
-- New `search_history` Postgres table and Prisma model, owned by the `search` module: `id` (BigInt PK), `slug` (unique ulid — the public search id), `userId` (nullable — null for guest searches), `query` (the raw searched text), `createdAt`. Each search request generates a `slug` up front and writes one row.
+- New `search_history` Postgres table and Prisma model, owned by the `search` module: `id` (BigInt PK), `searchId` (unique ulid — the public search id), `userId` (nullable — null for guest searches), `query` (the raw searched text), `createdAt`. Each search request generates a `searchId` up front and writes one row.
 - The Typesense query and the `search_history` write run concurrently; a Typesense failure fails the request, a `search_history` write failure is caught/logged and does not affect the response.
-- The response includes the generated `searchId` (the `search_history` row's slug), so a client can later attribute a click/conversion back to this search.
+- The response includes the generated `searchId` (the `search_history` row's `searchId`), so a client can later attribute a click/conversion back to this search.
 - Out of scope for this change: persisting search results or click/conversion events (`search_history` is query-only for now), ranking/relevance tuning beyond Typesense defaults, and any admin/analytics view over `search_history`.
 
 ## Capabilities
 
 ### New Capabilities
+
 - `property-search-query`: Query-param-driven full-text search over the Typesense `properties` collection, returning results and facet counts, with optional auth.
 - `search-history-logging`: Recording each search query (guest or authenticated) to a `search_history` table with a generated public id, decoupled from the search response's success/failure.
 
 ### Modified Capabilities
+
 - None. This change does not alter `property-management` or `property-search-indexing` (gh14) requirements.
 
 ## Impact

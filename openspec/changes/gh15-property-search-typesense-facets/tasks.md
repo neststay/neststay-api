@@ -1,11 +1,11 @@
 ## 1. Dependency check
 
-- [ ] 1.1 Confirm `gh14-index-properties-typesense` is applied: `search` module, Typesense client provider, and `properties` collection (including `imageUrls`) exist and are populated
+- [x] 1.1 Confirm `gh14-index-properties-typesense` is applied: `search` module, Typesense client provider, and `properties` collection (including `imageUrls`) exist and are populated
 
 ## 2. search_history data model
 
-- [ ] 2.1 Add `SearchHistory` model to `prisma/schema.prisma`: `id` (BigInt, `@id @default(autoincrement())`), `slug` (String, `@unique`), `userId` (BigInt?, nullable), `query` (String), `createdAt` (DateTime, `@default(now())`), `@@map("search_history")`
-- [ ] 2.2 Generate and run the Prisma migration for `search_history`
+- [x] 2.1 Add `SearchHistory` model to `prisma/schema.prisma`: `id` (BigInt, `@id @default(autoincrement())`), `searchId` (String, `@unique`), `userId` (BigInt?, nullable), `query` (String), `createdAt` (DateTime, `@default(now())`), `@@map("search_history")`
+- [x] 2.2 Generate and run the Prisma migration for `search_history`
 
 ## 3. DTOs
 
@@ -16,7 +16,7 @@
 
 ## 4. search_history repository
 
-- [ ] 4.1 Create `src/search/search-history.repository.ts` (`SearchHistoryRepository`) with a `create({ userId, query }: { userId: bigint | null; query: string }): Promise<{ slug: string }>` method that generates `slug` via `ulid()` and inserts the row via `PrismaService`
+- [ ] 4.1 Create `src/search/search-history.repository.ts` (`SearchHistoryRepository`) with a `create({ userId, query }: { userId: bigint | null; query: string }): Promise<{ searchId: string }>` method that generates `searchId` via `ulid()` and inserts the row via `PrismaService`
 - [ ] 4.2 Add unit tests for `SearchHistoryRepository.create` covering both a `userId` present and `userId: null`
 
 ## 5. Typesense query integration
@@ -27,9 +27,9 @@
 ## 6. Search orchestration service
 
 - [ ] 6.1 Create `src/search/search-query.service.ts` (`SearchQueryService`) with a `search({ query, filters, page, limit, userId }): Promise<SearchResponseDto>` method
-- [ ] 6.2 Generate the `slug` up front, then run the Typesense query (5.1/5.2) and `SearchHistoryRepository.create` (4.1) concurrently (e.g. `Promise.allSettled`)
+- [ ] 6.2 Generate the `searchId` up front, then run the Typesense query (5.1/5.2) and `SearchHistoryRepository.create` (4.1) concurrently (e.g. `Promise.allSettled`)
 - [ ] 6.3 If the Typesense call rejected, rethrow its error; if the `search_history` write rejected, log it and continue without failing the request
-- [ ] 6.4 Assemble and return `SearchResponseDto` with `searchId` set to the generated `slug` regardless of whether the history write succeeded
+- [ ] 6.4 Assemble and return `SearchResponseDto` with `searchId` set to the generated `searchId` regardless of whether the history write succeeded
 - [ ] 6.5 Add unit tests for `SearchQueryService.search`: successful search, Typesense failure propagates, `search_history` write failure is swallowed and `searchId` still returned
 
 ## 7. Controller and route
