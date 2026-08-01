@@ -59,6 +59,7 @@ model Property {
   numberOfGuests    Int
   numberOfBedrooms  Int
   numberOfBathrooms Int
+  isActive          Boolean  @default(true)
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 

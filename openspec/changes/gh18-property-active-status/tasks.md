@@ -1,7 +1,7 @@
 ## 1. Data model
 
-- [ ] 1.1 Add `isActive Boolean @default(true)` to the `Property` model in `schema.prisma`
-- [ ] 1.2 Generate and run the Prisma migration (additive column, no backfill script needed)
+- [x] 1.1 Add `isActive Boolean @default(true)` to the `Property` model in `schema.prisma`
+- [x] 1.2 Generate and run the Prisma migration (additive column, no backfill script needed)
 
 ## 2. Expose isActive on list and detail reads
 
