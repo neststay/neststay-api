@@ -27,5 +27,5 @@
 
 ## 4. Verification
 
-- [ ] 4.1 Manually verify both endpoints end-to-end (e.g. via Bruno collection or curl): check availability, create a booking, re-check availability now shows unavailable, attempt an overlapping booking and confirm `409` (GH-20, GH-21)
-- [ ] 4.2 Run lint, typecheck, and the full test suite
+- [x] 4.1 Manually verify both endpoints end-to-end (e.g. via Bruno collection or curl): check availability, create a booking, re-check availability now shows unavailable, attempt an overlapping booking and confirm `409` (GH-20, GH-21)
+- [x] 4.2 Run lint, typecheck, and the full test suite
