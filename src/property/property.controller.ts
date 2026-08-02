@@ -222,6 +222,32 @@ export class PropertyController {
     };
   }
 
+  @Post(':slug/deactivate')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Deactivate a property owned by the authenticated user',
+  })
+  @ApiEnvelopeResponse(
+    200,
+    'Property deactivated successfully',
+    PropertyResponseDto,
+  )
+  @ApiHttpErrorResponse(401, 'Unauthorized', 'Unauthorized')
+  @ApiHttpErrorResponse(404, 'Not Found', 'Property not found')
+  async deactivate(
+    @Param('slug') slug: string,
+    @CurrentUser() hostId: bigint,
+  ): Promise<ResponseApiDto<PropertyResponseDto>> {
+    const data = await this.propertyService.deactivateBySlug(slug, hostId);
+    return {
+      success: true,
+      message: 'Property deactivated successfully',
+      data,
+    };
+  }
+
   @Delete(':slug')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()

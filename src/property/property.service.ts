@@ -16,6 +16,7 @@ import {
 import {
   PROPERTY_ACTIVATED_EVENT,
   PROPERTY_CREATED_EVENT,
+  PROPERTY_DEACTIVATED_EVENT,
 } from './property.constants.js';
 
 @Injectable()
@@ -86,6 +87,22 @@ export class PropertyService {
     this.eventEmitter.emit(PROPERTY_ACTIVATED_EVENT, { slug: activated.slug });
 
     return this.toResponseDto(activated);
+  }
+
+  async deactivateBySlug(
+    slug: string,
+    hostId: bigint,
+  ): Promise<PropertyResponseDto> {
+    const property = await this.getOwnedPropertyOrThrow(slug, hostId);
+    const deactivated = await this.propertyRepository.deactivate({
+      id: property.id,
+    });
+
+    this.eventEmitter.emit(PROPERTY_DEACTIVATED_EVENT, {
+      slug: deactivated.slug,
+    });
+
+    return this.toResponseDto(deactivated);
   }
 
   async deleteBySlug(slug: string, hostId: bigint): Promise<void> {

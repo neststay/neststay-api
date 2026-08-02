@@ -118,4 +118,11 @@ export class PropertyRepository {
       data: { isActive: true },
     });
   }
+
+  async deactivate({ id }: { id: bigint }): Promise<PropertyModel> {
+    return this.prisma.property.update({
+      where: { id },
+      data: { isActive: false },
+    });
+  }
 }

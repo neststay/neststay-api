@@ -23,10 +23,10 @@
 
 ## 5. Deactivate endpoint (end-to-end)
 
-- [ ] 5.1 Add `PROPERTY_DEACTIVATED_EVENT` constant to `property.constants.ts`
-- [ ] 5.2 Add a `PropertyRepository` method to set `isActive: false` by property id
-- [ ] 5.3 Add `PropertyService.deactivateBySlug(slug, hostId)`: reuse `getOwnedPropertyOrThrow`, apply the update, emit `PROPERTY_DEACTIVATED_EVENT` with `{ slug }`, return the response DTO
-- [ ] 5.4 Add `POST /properties/:slug/deactivate` to `PropertyController`, guarded by `JwtAuthGuard`, with swagger decorators matching the update/delete routes' style
+- [x] 5.1 Add `PROPERTY_DEACTIVATED_EVENT` constant to `property.constants.ts`
+- [x] 5.2 Add a `PropertyRepository` method to set `isActive: false` by property id
+- [x] 5.3 Add `PropertyService.deactivateBySlug(slug, hostId)`: reuse `getOwnedPropertyOrThrow`, apply the update, emit `PROPERTY_DEACTIVATED_EVENT` with `{ slug }`, return the response DTO
+- [x] 5.4 Add `POST /properties/:slug/deactivate` to `PropertyController`, guarded by `JwtAuthGuard`, with swagger decorators matching the update/delete routes' style
 
 ## 6. Search: index isActive
 
