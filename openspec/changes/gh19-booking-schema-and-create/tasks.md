@@ -17,13 +17,13 @@
 
 ## 3. Create booking (GH-21)
 
-- [ ] 3.1 Add create-booking request DTO and booking response DTO (including `slug`) (GH-21)
-- [ ] 3.2 Add `nanoid` dependency; add slug generator (custom alphabet, length 8) alongside the repository, following the existing inline `ulid()`-before-insert pattern (GH-21)
-- [ ] 3.3 Add repository method: single Prisma `$transaction` inserting the `bookings` row and its linked `property_unavailability` row (`source: 'booking'`) (GH-21)
-- [ ] 3.4 Handle the Postgres exclusion-violation error (code `23P01`) from the transaction in the repository/service boundary and translate it into a domain conflict error (GH-21)
-- [ ] 3.5 Add service method: resolve property by slug, snapshot `nightlyRate`/compute `totalAmount`, set `paymentStatus: 'done'`, call repository, map conflict error to `409 Conflict` (GH-21)
-- [ ] 3.6 Add `POST /bookings` controller endpoint (authenticated guest) (GH-21)
-- [ ] 3.7 Add repository/service/controller tests covering: successful booking, rejected overlapping booking, and price-snapshot behavior (GH-21)
+- [x] 3.1 Add create-booking request DTO and booking response DTO (including `slug`) (GH-21)
+- [x] 3.2 Add `nanoid` dependency; add slug generator (custom alphabet, length 8) alongside the repository, following the existing inline `ulid()`-before-insert pattern (GH-21)
+- [x] 3.3 Add repository method: single Prisma `$transaction` inserting the `bookings` row and its linked `property_unavailability` row (`source: 'booking'`) (GH-21)
+- [x] 3.4 Handle the Postgres exclusion-violation error (code `23P01`) from the transaction in the repository/service boundary and translate it into a domain conflict error (GH-21)
+- [x] 3.5 Add service method: resolve property by slug, snapshot `nightlyRate`/compute `totalAmount`, set `paymentStatus: 'done'`, call repository, map conflict error to `409 Conflict` (GH-21)
+- [x] 3.6 Add `POST /bookings` controller endpoint (authenticated guest) (GH-21)
+- [x] 3.7 Add repository/service/controller tests covering: successful booking, rejected overlapping booking, and price-snapshot behavior (GH-21)
 
 ## 4. Verification
 
