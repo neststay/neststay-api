@@ -2,10 +2,10 @@
 
 ## 1. Schema & migration (GH-19)
 
-- [ ] 1.1 Add `Booking` and `PropertyUnavailability` models to `prisma/schema.prisma`, following existing singular-model/plural-`@@map` conventions (GH-19)
-- [ ] 1.2 Run `prisma migrate dev --create-only` to generate the base migration (GH-19)
-- [ ] 1.3 Hand-edit the generated `migration.sql`: add `CREATE EXTENSION IF NOT EXISTS btree_gist;` and the GiST exclusion constraint on `property_unavailability` (GH-19)
-- [ ] 1.4 Apply the migration locally; manually verify the constraint rejects an inserted overlapping row before writing application code against the table (GH-19)
+- [x] 1.1 Add `Booking` and `PropertyUnavailability` models to `prisma/schema.prisma`, following existing singular-model/plural-`@@map` conventions (GH-19)
+- [x] 1.2 Run `prisma migrate dev --create-only` to generate the base migration (GH-19)
+- [x] 1.3 Hand-edit the generated `migration.sql`: add `CREATE EXTENSION IF NOT EXISTS btree_gist;` and the GiST exclusion constraint on `property_unavailability` (GH-19)
+- [x] 1.4 Apply the migration locally; manually verify the constraint rejects an inserted overlapping row before writing application code against the table (GH-19)
 
 ## 2. Property availability check (GH-20)
 
