@@ -1,9 +1,14 @@
+import { NotFoundException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PropertyModel } from '../../generated/prisma/models/Property.js';
 import { FavouritePropertyModel } from '../../generated/prisma/models/FavouriteProperty.js';
 import { PropertyRepository } from './property.repository.js';
 import { PropertyService } from './property.service.js';
-import { PROPERTY_CREATED_EVENT } from './property.constants.js';
+import {
+  PROPERTY_ACTIVATED_EVENT,
+  PROPERTY_CREATED_EVENT,
+  PROPERTY_DEACTIVATED_EVENT,
+} from './property.constants.js';
 
 function buildProperty(overrides: Partial<PropertyModel> = {}): PropertyModel {
   return {
@@ -39,6 +44,9 @@ describe('PropertyService', () => {
   let repository: {
     findAllPaginatedByLocation: jest.Mock;
     create: jest.Mock;
+    findBySlug: jest.Mock;
+    activate: jest.Mock;
+    deactivate: jest.Mock;
   };
   let eventEmitter: {
     emit: jest.Mock;
@@ -48,6 +56,9 @@ describe('PropertyService', () => {
     repository = {
       findAllPaginatedByLocation: jest.fn(),
       create: jest.fn(),
+      findBySlug: jest.fn(),
+      activate: jest.fn(),
+      deactivate: jest.fn(),
     };
     eventEmitter = {
       emit: jest.fn(),
@@ -71,6 +82,128 @@ describe('PropertyService', () => {
       expect(eventEmitter.emit).toHaveBeenCalledWith(PROPERTY_CREATED_EVENT, {
         slug: 'a-new-property',
       });
+    });
+  });
+
+  describe('activateBySlug', () => {
+    it('activates and emits PROPERTY_ACTIVATED_EVENT for the owning host', async () => {
+      const property = buildProperty({
+        id: 5n,
+        slug: 'a-property',
+        hostId: 1n,
+      });
+      const activated = buildProperty({
+        id: 5n,
+        slug: 'a-property',
+        hostId: 1n,
+        isActive: true,
+      });
+      repository.findBySlug.mockResolvedValue(property);
+      repository.activate.mockResolvedValue(activated);
+
+      const dto = await service.activateBySlug('a-property', 1n);
+
+      expect(repository.activate).toHaveBeenCalledWith({ id: 5n });
+      expect(eventEmitter.emit).toHaveBeenCalledWith(PROPERTY_ACTIVATED_EVENT, {
+        slug: 'a-property',
+      });
+      expect(dto.isActive).toBe(true);
+    });
+
+    it('is idempotent when reactivating an already-active property', async () => {
+      const property = buildProperty({ id: 5n, hostId: 1n, isActive: true });
+      repository.findBySlug.mockResolvedValue(property);
+      repository.activate.mockResolvedValue(property);
+
+      await service.activateBySlug('a-property', 1n);
+
+      expect(repository.activate).toHaveBeenCalledWith({ id: 5n });
+      expect(eventEmitter.emit).toHaveBeenCalledWith(PROPERTY_ACTIVATED_EVENT, {
+        slug: 'a-property',
+      });
+    });
+
+    it('throws NotFoundException when the slug does not exist', async () => {
+      repository.findBySlug.mockResolvedValue(null);
+
+      await expect(
+        service.activateBySlug('missing-property', 1n),
+      ).rejects.toThrow(NotFoundException);
+      expect(repository.activate).not.toHaveBeenCalled();
+      expect(eventEmitter.emit).not.toHaveBeenCalled();
+    });
+
+    it('throws NotFoundException when the caller does not own the property', async () => {
+      const property = buildProperty({ hostId: 2n });
+      repository.findBySlug.mockResolvedValue(property);
+
+      await expect(service.activateBySlug('a-property', 1n)).rejects.toThrow(
+        NotFoundException,
+      );
+      expect(repository.activate).not.toHaveBeenCalled();
+      expect(eventEmitter.emit).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('deactivateBySlug', () => {
+    it('deactivates and emits PROPERTY_DEACTIVATED_EVENT for the owning host', async () => {
+      const property = buildProperty({
+        id: 5n,
+        slug: 'a-property',
+        hostId: 1n,
+      });
+      const deactivated = buildProperty({
+        id: 5n,
+        slug: 'a-property',
+        hostId: 1n,
+        isActive: false,
+      });
+      repository.findBySlug.mockResolvedValue(property);
+      repository.deactivate.mockResolvedValue(deactivated);
+
+      const dto = await service.deactivateBySlug('a-property', 1n);
+
+      expect(repository.deactivate).toHaveBeenCalledWith({ id: 5n });
+      expect(eventEmitter.emit).toHaveBeenCalledWith(
+        PROPERTY_DEACTIVATED_EVENT,
+        { slug: 'a-property' },
+      );
+      expect(dto.isActive).toBe(false);
+    });
+
+    it('is idempotent when redeactivating an already-inactive property', async () => {
+      const property = buildProperty({ id: 5n, hostId: 1n, isActive: false });
+      repository.findBySlug.mockResolvedValue(property);
+      repository.deactivate.mockResolvedValue(property);
+
+      await service.deactivateBySlug('a-property', 1n);
+
+      expect(repository.deactivate).toHaveBeenCalledWith({ id: 5n });
+      expect(eventEmitter.emit).toHaveBeenCalledWith(
+        PROPERTY_DEACTIVATED_EVENT,
+        { slug: 'a-property' },
+      );
+    });
+
+    it('throws NotFoundException when the slug does not exist', async () => {
+      repository.findBySlug.mockResolvedValue(null);
+
+      await expect(
+        service.deactivateBySlug('missing-property', 1n),
+      ).rejects.toThrow(NotFoundException);
+      expect(repository.deactivate).not.toHaveBeenCalled();
+      expect(eventEmitter.emit).not.toHaveBeenCalled();
+    });
+
+    it('throws NotFoundException when the caller does not own the property', async () => {
+      const property = buildProperty({ hostId: 2n });
+      repository.findBySlug.mockResolvedValue(property);
+
+      await expect(service.deactivateBySlug('a-property', 1n)).rejects.toThrow(
+        NotFoundException,
+      );
+      expect(repository.deactivate).not.toHaveBeenCalled();
+      expect(eventEmitter.emit).not.toHaveBeenCalled();
     });
   });
 

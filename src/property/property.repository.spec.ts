@@ -51,12 +51,36 @@ describe('PropertyRepository', () => {
       });
 
       expect(paginateMock).toHaveBeenCalledWith({
-        where: { locationId: 1 },
+        where: { locationId: 1, isActive: true },
         orderBy: { id: 'desc' },
         include: { images: { orderBy: { order: 'asc' } } },
       });
       expect(withPagesMock).toHaveBeenCalledWith({ page: 1, limit: 10 });
       expect(result).toBe(expectedResult);
+    });
+
+    it('filters to active properties only', async () => {
+      withPagesMock.mockResolvedValue([
+        [],
+        {
+          currentPage: 1,
+          isLastPage: true,
+          previousPage: null,
+          nextPage: null,
+          pageCount: 1,
+          totalCount: 0,
+        },
+      ]);
+
+      await repository.findAllPaginatedByLocation({
+        locationId: 1,
+        page: 1,
+        limit: 10,
+      });
+
+      expect(paginateMock).toHaveBeenCalledWith(
+        expect.objectContaining({ where: { locationId: 1, isActive: true } }),
+      );
     });
 
     it('includes favouriteProperties filtered by userId when userId is provided', async () => {
@@ -80,7 +104,7 @@ describe('PropertyRepository', () => {
       });
 
       expect(paginateMock).toHaveBeenCalledWith({
-        where: { locationId: 1 },
+        where: { locationId: 1, isActive: true },
         orderBy: { id: 'desc' },
         include: {
           images: { orderBy: { order: 'asc' } },
@@ -110,7 +134,7 @@ describe('PropertyRepository', () => {
       });
 
       expect(paginateMock).toHaveBeenCalledWith({
-        where: { locationId: 1 },
+        where: { locationId: 1, isActive: true },
         orderBy: { id: 'desc' },
         include: { images: { orderBy: { order: 'asc' } } },
       });

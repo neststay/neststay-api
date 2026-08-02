@@ -318,3 +318,101 @@ describe('PropertyController - GET /properties', () => {
     expect(secondBody.data.items[0].isFavourited).toBe(false);
   });
 });
+
+interface PropertyEnvelope {
+  success: boolean;
+  message: string;
+  data: PropertyResponseDto;
+}
+
+describe('PropertyController - POST /properties/:slug/activate and /deactivate', () => {
+  let app: INestApplication<App>;
+  let propertyService: {
+    activateBySlug: jest.Mock;
+    deactivateBySlug: jest.Mock;
+  };
+  let favouriteService: Record<string, never>;
+
+  async function createTestApp(guard: CanActivate): Promise<void> {
+    const moduleRef: TestingModule = await Test.createTestingModule({
+      controllers: [PropertyController],
+      providers: [
+        { provide: PropertyService, useValue: propertyService },
+        { provide: FavouriteService, useValue: favouriteService },
+      ],
+    })
+      .overrideGuard(JwtAuthGuard)
+      .useValue(guard)
+      .compile();
+
+    app = moduleRef.createNestApplication();
+    await app.init();
+  }
+
+  beforeEach(() => {
+    propertyService = {
+      activateBySlug: jest.fn(),
+      deactivateBySlug: jest.fn(),
+    };
+    favouriteService = {};
+  });
+
+  afterEach(async () => {
+    await app.close();
+  });
+
+  it('activates the property owned by the authenticated host', async () => {
+    propertyService.activateBySlug.mockResolvedValue(property('a-property'));
+    await createTestApp(new AllowGuard(1n));
+
+    const response = await request(app.getHttpServer())
+      .post('/properties/a-property/activate')
+      .expect(200);
+
+    const body = response.body as PropertyEnvelope;
+    expect(propertyService.activateBySlug).toHaveBeenCalledWith(
+      'a-property',
+      1n,
+    );
+    expect(body.data.slug).toBe('a-property');
+  });
+
+  it('deactivates the property owned by the authenticated host', async () => {
+    propertyService.deactivateBySlug.mockResolvedValue({
+      ...property('a-property'),
+      isActive: false,
+    });
+    await createTestApp(new AllowGuard(1n));
+
+    const response = await request(app.getHttpServer())
+      .post('/properties/a-property/deactivate')
+      .expect(200);
+
+    const body = response.body as PropertyEnvelope;
+    expect(propertyService.deactivateBySlug).toHaveBeenCalledWith(
+      'a-property',
+      1n,
+    );
+    expect(body.data.isActive).toBe(false);
+  });
+
+  it('responds 401 for an unauthenticated activate request', async () => {
+    await createTestApp(new DenyGuard());
+
+    await request(app.getHttpServer())
+      .post('/properties/a-property/activate')
+      .expect(401);
+
+    expect(propertyService.activateBySlug).not.toHaveBeenCalled();
+  });
+
+  it('responds 401 for an unauthenticated deactivate request', async () => {
+    await createTestApp(new DenyGuard());
+
+    await request(app.getHttpServer())
+      .post('/properties/a-property/deactivate')
+      .expect(401);
+
+    expect(propertyService.deactivateBySlug).not.toHaveBeenCalled();
+  });
+});

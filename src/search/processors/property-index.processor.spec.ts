@@ -88,10 +88,22 @@ describe('PropertyIndexProcessor', () => {
         placeTypeId: 3,
         placeTypeName: 'Apartment',
         imageUrls: ['https://example.com/1.jpg', 'https://example.com/2.jpg'],
+        isActive: true,
         createdAt: Math.floor(
           new Date('2026-01-01T00:00:00.000Z').getTime() / 1000,
         ),
       });
+    });
+
+    it('maps the property isActive: false into the upserted document', async () => {
+      const property = buildProperty({ isActive: false });
+      propertyService.getEntityBySlug.mockResolvedValue(property);
+
+      await processor.process(buildJob('a-property'));
+
+      expect(upsert).toHaveBeenCalledWith(
+        expect.objectContaining({ isActive: false }),
+      );
     });
 
     it('completes without upserting when the property no longer exists', async () => {

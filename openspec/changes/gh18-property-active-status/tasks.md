@@ -47,11 +47,11 @@
 
 ## 9. Tests
 
-- [ ] 9.1 `PropertyService`/`PropertyController` unit tests for activate/deactivate: owner success, non-owner 404, missing slug 404, unauthenticated 401, idempotent re-activation/re-deactivation, event emission
-- [ ] 9.2 `PropertyRepository` tests confirming `findAllPaginatedByLocation` and the favourites query exclude inactive properties
-- [ ] 9.3 `PropertyIndexProcessor` test confirming the upserted document includes the property's current `isActive` value
-- [ ] 9.4 New listener tests confirming `PROPERTY_ACTIVATED_EVENT`/`PROPERTY_DEACTIVATED_EVENT` enqueue an index job and that enqueue failure is caught and logged, not rethrown
-- [ ] 9.5 `TypesenseSearchClient` test confirming `filter_by` always includes `isActive:=true` regardless of caller-supplied filters
+- [x] 9.1 `PropertyService`/`PropertyController` unit tests for activate/deactivate: owner success, non-owner 404, missing slug 404, unauthenticated 401, idempotent re-activation/re-deactivation, event emission
+- [x] 9.2 `PropertyRepository` tests confirming `findAllPaginatedByLocation` and the favourites query exclude inactive properties
+- [x] 9.3 `PropertyIndexProcessor` test confirming the upserted document includes the property's current `isActive` value
+- [x] 9.4 New listener tests confirming `PROPERTY_ACTIVATED_EVENT`/`PROPERTY_DEACTIVATED_EVENT` enqueue an index job and that enqueue failure is caught and logged, not rethrown
+- [x] 9.5 `TypesenseSearchClient` test confirming `filter_by` always includes `isActive:=true` regardless of caller-supplied filters
 
 ## 10. Manual verification
 
