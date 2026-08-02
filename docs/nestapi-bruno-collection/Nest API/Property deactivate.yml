@@ -13,7 +13,7 @@ http:
       value: Bearer {{accessToken}}
   params:
     - name: slug
-      value: 01KYQ7RF9HCY298WN6C2EX8GBG
+      value: 01KZ0XYDTVZD1W12H2X712SD0Y
       type: path
   auth: inherit
 
