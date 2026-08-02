@@ -125,6 +125,7 @@ export class PropertyService {
     dto.updatedAt = property.updatedAt;
     dto.images = (property.images ?? []).map((image) => this.toImageDto(image));
     dto.isFavourited = (property.favouriteProperties ?? []).length > 0;
+    dto.isActive = property.isActive;
     return dto;
   }
 

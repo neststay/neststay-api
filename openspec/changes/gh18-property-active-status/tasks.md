@@ -5,9 +5,9 @@
 
 ## 2. Expose isActive on list and detail reads
 
-- [ ] 2.1 Add `isActive` to `PropertyResponseDto` and map it in `PropertyService.toResponseDto`
-- [ ] 2.2 Update `PropertyRepository.findAllPaginatedByLocation` to filter `where: { isActive: true }`
-- [ ] 2.3 Confirm `GET /properties/:slug` (via `findBySlug` / `toResponseDto`) returns `isActive` for both active and inactive properties, with no filtering applied
+- [x] 2.1 Add `isActive` to `PropertyResponseDto` and map it in `PropertyService.toResponseDto`
+- [x] 2.2 Update `PropertyRepository.findAllPaginatedByLocation` to filter `where: { isActive: true }`
+- [x] 2.3 Confirm `GET /properties/:slug` (via `findBySlug` / `toResponseDto`) returns `isActive` for both active and inactive properties, with no filtering applied
 
 ## 3. Filter favourites list
 

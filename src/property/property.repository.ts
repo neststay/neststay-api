@@ -62,7 +62,7 @@ export class PropertyRepository {
   }): Promise<[PropertyWithImages[], PageNumberPaginationMeta<true>]> {
     return this.prisma.extendedClient.property
       .paginate({
-        where: { locationId },
+        where: { locationId, isActive: true },
         orderBy: { id: 'desc' },
         include: {
           images: { orderBy: { order: 'asc' } },

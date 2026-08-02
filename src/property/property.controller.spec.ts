@@ -53,6 +53,7 @@ function property(slug: string): PropertyResponseDto {
     updatedAt: new Date(),
     images: [],
     isFavourited: false,
+    isActive: true,
   };
 }
 

@@ -50,4 +50,11 @@ export class PropertyResponseDto {
     example: false,
   })
   isFavourited: boolean;
+
+  @ApiProperty({
+    type: Boolean,
+    description: 'Whether the property is currently active',
+    example: true,
+  })
+  isActive: boolean;
 }

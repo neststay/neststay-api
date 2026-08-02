@@ -18,6 +18,7 @@ function buildProperty(overrides: Partial<PropertyModel> = {}): PropertyModel {
     numberOfGuests: 2,
     numberOfBedrooms: 1,
     numberOfBathrooms: 1,
+    isActive: true,
     createdAt: new Date(),
     updatedAt: new Date(),
     ...overrides,
