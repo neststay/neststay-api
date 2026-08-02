@@ -71,8 +71,8 @@ export class TypesenseSearchClient {
     };
   }
 
-  private buildFilterBy(filters: TypesenseSearchFilters): string | undefined {
-    const clauses: string[] = [];
+  private buildFilterBy(filters: TypesenseSearchFilters): string {
+    const clauses: string[] = ['isActive:=true'];
 
     if (filters.locationName !== undefined) {
       clauses.push(`locationName:=\`${filters.locationName}\``);
@@ -96,7 +96,7 @@ export class TypesenseSearchClient {
       clauses.push(`nightlyRate:<=${filters.maxNightlyRate}`);
     }
 
-    return clauses.length > 0 ? clauses.join(' && ') : undefined;
+    return clauses.join(' && ');
   }
 
   private toResultItem(document: PropertyDocument): SearchResultItemDto {

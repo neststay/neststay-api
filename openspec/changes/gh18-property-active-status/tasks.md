@@ -42,8 +42,8 @@
 
 ## 8. Search: enforce isActive filter in query
 
-- [ ] 8.1 Update `TypesenseSearchClient.buildFilterBy` to always append `isActive:=true` to the constructed `filter_by`, independent of `TypesenseSearchFilters`
-- [ ] 8.2 Confirm `SearchQueryDto` / `SearchController` / `SearchQueryService` never accept or forward a client-supplied `isActive` value
+- [x] 8.1 Update `TypesenseSearchClient.buildFilterBy` to always append `isActive:=true` to the constructed `filter_by`, independent of `TypesenseSearchFilters`
+- [x] 8.2 Confirm `SearchQueryDto` / `SearchController` / `SearchQueryService` never accept or forward a client-supplied `isActive` value
 
 ## 9. Tests
 
