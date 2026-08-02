@@ -21,6 +21,7 @@ model User {
 
   properties          Property[]
   favouriteProperties FavouriteProperty[]
+  bookings            Booking[]
 
   @@map("users")
 }
@@ -63,11 +64,13 @@ model Property {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
-  host                User                @relation(fields: [hostId], references: [id])
-  location            Location            @relation(fields: [locationId], references: [id])
-  placeType           PlaceType           @relation(fields: [placeTypeId], references: [id])
+  host                User                     @relation(fields: [hostId], references: [id])
+  location            Location                 @relation(fields: [locationId], references: [id])
+  placeType           PlaceType                @relation(fields: [placeTypeId], references: [id])
   images              Image[]
   favouriteProperties FavouriteProperty[]
+  bookings            Booking[]
+  unavailability      PropertyUnavailability[]
 
   @@map("properties")
 }
@@ -106,4 +109,43 @@ model SearchHistory {
   createdAt DateTime @default(now())
 
   @@map("search_history")
+}
+
+model Booking {
+  id            BigInt   @id @default(autoincrement())
+  slug          String   @unique
+  guestId       BigInt
+  propertyId    BigInt
+  checkInDate   DateTime @db.Date
+  checkOutDate  DateTime @db.Date
+  nightlyRate   Decimal  @db.Decimal(10, 2)
+  totalAmount   Decimal  @db.Decimal(10, 2)
+  paymentStatus String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  guest                  User                    @relation(fields: [guestId], references: [id])
+  property               Property                @relation(fields: [propertyId], references: [id])
+  propertyUnavailability PropertyUnavailability?
+
+  @@map("bookings")
+}
+
+/// The unique (propertyId, daterange(startDate, endDate, '[)')) exclusion is enforced by a
+/// hand-written Postgres GiST constraint in this table's migration (requires btree_gist) —
+/// it has no representation in this Prisma schema, so verify it still exists after any
+/// future migration touching this table.
+model PropertyUnavailability {
+  id         BigInt   @id @default(autoincrement())
+  propertyId BigInt
+  bookingId  BigInt?  @unique
+  startDate  DateTime @db.Date
+  endDate    DateTime @db.Date
+  source     String
+  createdAt  DateTime @default(now())
+
+  property Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  booking  Booking? @relation(fields: [bookingId], references: [id])
+
+  @@map("property_unavailability")
 }
