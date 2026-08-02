@@ -55,5 +55,5 @@
 
 ## 10. Manual verification
 
-- [ ] 10.1 Via Bruno/curl: create a property, deactivate it, confirm it disappears from `GET /properties` and `GET /properties/favourites` (if favourited) but `GET /properties/:slug` still returns it with `isActive: false`
-- [ ] 10.2 Confirm the deactivated property drops out of `GET /search` results after the reindex job completes, then reactivate and confirm it reappears
+- [x] 10.1 Via Bruno/curl: create a property, deactivate it, confirm it disappears from `GET /properties` and `GET /properties/favourites` (if favourited) but `GET /properties/:slug` still returns it with `isActive: false`
+- [x] 10.2 Confirm the deactivated property drops out of `GET /search` results after the reindex job completes, then reactivate and confirm it reappears
