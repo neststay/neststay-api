@@ -16,10 +16,10 @@
 
 ## 4. Activate endpoint (end-to-end)
 
-- [ ] 4.1 Add `PROPERTY_ACTIVATED_EVENT` constant to `property.constants.ts`
-- [ ] 4.2 Add a `PropertyRepository` method to set `isActive: true` by property id
-- [ ] 4.3 Add `PropertyService.activateBySlug(slug, hostId)`: reuse `getOwnedPropertyOrThrow`, apply the update, emit `PROPERTY_ACTIVATED_EVENT` with `{ slug }`, return the response DTO
-- [ ] 4.4 Add `POST /properties/:slug/activate` to `PropertyController`, guarded by `JwtAuthGuard`, with swagger decorators matching the update/delete routes' style
+- [x] 4.1 Add `PROPERTY_ACTIVATED_EVENT` constant to `property.constants.ts`
+- [x] 4.2 Add a `PropertyRepository` method to set `isActive: true` by property id
+- [x] 4.3 Add `PropertyService.activateBySlug(slug, hostId)`: reuse `getOwnedPropertyOrThrow`, apply the update, emit `PROPERTY_ACTIVATED_EVENT` with `{ slug }`, return the response DTO
+- [x] 4.4 Add `POST /properties/:slug/activate` to `PropertyController`, guarded by `JwtAuthGuard`, with swagger decorators matching the update/delete routes' style
 
 ## 5. Deactivate endpoint (end-to-end)
 

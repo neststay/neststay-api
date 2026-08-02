@@ -13,7 +13,10 @@ import {
   PropertyRepository,
   PropertyWithRelations,
 } from './property.repository.js';
-import { PROPERTY_CREATED_EVENT } from './property.constants.js';
+import {
+  PROPERTY_ACTIVATED_EVENT,
+  PROPERTY_CREATED_EVENT,
+} from './property.constants.js';
 
 @Injectable()
 export class PropertyService {
@@ -69,6 +72,20 @@ export class PropertyService {
       data,
     });
     return this.toResponseDto(updated);
+  }
+
+  async activateBySlug(
+    slug: string,
+    hostId: bigint,
+  ): Promise<PropertyResponseDto> {
+    const property = await this.getOwnedPropertyOrThrow(slug, hostId);
+    const activated = await this.propertyRepository.activate({
+      id: property.id,
+    });
+
+    this.eventEmitter.emit(PROPERTY_ACTIVATED_EVENT, { slug: activated.slug });
+
+    return this.toResponseDto(activated);
   }
 
   async deleteBySlug(slug: string, hostId: bigint): Promise<void> {

@@ -111,4 +111,11 @@ export class PropertyRepository {
   async delete({ id }: { id: bigint }): Promise<void> {
     await this.prisma.property.delete({ where: { id } });
   }
+
+  async activate({ id }: { id: bigint }): Promise<PropertyModel> {
+    return this.prisma.property.update({
+      where: { id },
+      data: { isActive: true },
+    });
+  }
 }

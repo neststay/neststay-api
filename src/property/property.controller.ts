@@ -196,6 +196,32 @@ export class PropertyController {
     return { success: true, message: 'Property updated successfully', data };
   }
 
+  @Post(':slug/activate')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({
+    summary: 'Activate a property owned by the authenticated user',
+  })
+  @ApiEnvelopeResponse(
+    200,
+    'Property activated successfully',
+    PropertyResponseDto,
+  )
+  @ApiHttpErrorResponse(401, 'Unauthorized', 'Unauthorized')
+  @ApiHttpErrorResponse(404, 'Not Found', 'Property not found')
+  async activate(
+    @Param('slug') slug: string,
+    @CurrentUser() hostId: bigint,
+  ): Promise<ResponseApiDto<PropertyResponseDto>> {
+    const data = await this.propertyService.activateBySlug(slug, hostId);
+    return {
+      success: true,
+      message: 'Property activated successfully',
+      data,
+    };
+  }
+
   @Delete(':slug')
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
