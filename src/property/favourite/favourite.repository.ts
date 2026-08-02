@@ -45,7 +45,7 @@ export class FavouriteRepository {
   }): Promise<[FavouriteWithProperty[], PageNumberPaginationMeta<true>]> {
     return this.prisma.extendedClient.favouriteProperty
       .paginate({
-        where: { userId },
+        where: { userId, property: { isActive: true } },
         orderBy: { createdAt: 'desc' },
         include: {
           property: { include: { images: { orderBy: { order: 'asc' } } } },

@@ -98,7 +98,7 @@ describe('FavouriteRepository', () => {
       });
 
       expect(paginateMock).toHaveBeenCalledWith({
-        where: { userId: 1n },
+        where: { userId: 1n, property: { isActive: true } },
         orderBy: { createdAt: 'desc' },
         include: {
           property: { include: { images: { orderBy: { order: 'asc' } } } },

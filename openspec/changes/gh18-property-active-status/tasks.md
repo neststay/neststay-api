@@ -11,8 +11,8 @@
 
 ## 3. Filter favourites list
 
-- [ ] 3.1 Update the favourites listing query (`FavouriteRepository`) to filter the joined property on `isActive: true`
-- [ ] 3.2 Confirm favouriting/unfavouriting itself (`POST /properties/:slug/favourite`) remains unaffected by property status — a user can still favourite an inactive property, it just won't appear in the favourites list
+- [x] 3.1 Update the favourites listing query (`FavouriteRepository`) to filter the joined property on `isActive: true`
+- [x] 3.2 Confirm favouriting/unfavouriting itself (`POST /properties/:slug/favourite`) remains unaffected by property status — a user can still favourite an inactive property, it just won't appear in the favourites list
 
 ## 4. Activate endpoint (end-to-end)
 
