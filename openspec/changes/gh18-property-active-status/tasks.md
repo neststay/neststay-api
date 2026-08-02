@@ -36,9 +36,9 @@
 
 ## 7. Search: listeners for activation/deactivation events
 
-- [ ] 7.1 Add a listener reacting to `PROPERTY_ACTIVATED_EVENT` in `src/search/listeners/`, calling `SearchProducerService.enqueuePropertyIndex` with the event's `slug`, following the same `{ async: true }` + try/catch pattern as `PropertyCreatedListener`
-- [ ] 7.2 Add a listener reacting to `PROPERTY_DEACTIVATED_EVENT` in `src/search/listeners/`, same pattern
-- [ ] 7.3 Register both new listeners as providers in `SearchModule`
+- [x] 7.1 Add a listener reacting to `PROPERTY_ACTIVATED_EVENT` in `src/search/listeners/`, calling `SearchProducerService.enqueuePropertyIndex` with the event's `slug`, following the same `{ async: true }` + try/catch pattern as `PropertyCreatedListener`
+- [x] 7.2 Add a listener reacting to `PROPERTY_DEACTIVATED_EVENT` in `src/search/listeners/`, same pattern
+- [x] 7.3 Register both new listeners as providers in `SearchModule`
 
 ## 8. Search: enforce isActive filter in query
 
