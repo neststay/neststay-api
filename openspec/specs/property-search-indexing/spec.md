@@ -13,6 +13,21 @@ The system SHALL provide a `search` module containing a listener that reacts to 
 - **WHEN** a `property.created` event is emitted with a property `slug`
 - **THEN** the search module's listener receives the event and passes the `slug` to the search producer
 
+### Requirement: Search module listens for property activation and deactivation events
+The system SHALL provide listeners in the `search` module that react to the `property.activated` and `property.deactivated` events and initiate reindexing via the same producer used for `property.created`, without requiring the property module to know about search/Typesense concerns.
+
+#### Scenario: Property activated event triggers reindexing
+- **WHEN** a `property.activated` event is emitted with a property `slug`
+- **THEN** the search module's listener receives the event and passes the `slug` to the search producer
+
+#### Scenario: Property deactivated event triggers reindexing
+- **WHEN** a `property.deactivated` event is emitted with a property `slug`
+- **THEN** the search module's listener receives the event and passes the `slug` to the search producer
+
+#### Scenario: Enqueue failure does not affect the activation/deactivation request
+- **WHEN** enqueueing the indexing job fails (e.g. Redis unavailable) in response to a `property.activated` or `property.deactivated` event
+- **THEN** the error is caught and logged by the listener and does not propagate back to the activation/deactivation request
+
 ### Requirement: Search producer enqueues indexing jobs with retry and backoff
 The system SHALL provide a producer that adds an indexing job to a dedicated `search_queue` BullMQ queue, configured with `attempts: 3`, exponential backoff starting at 1 second, `removeOnComplete` age of 3600 seconds, and `removeOnFail: false`.
 
@@ -29,8 +44,12 @@ The system SHALL provide a BullMQ processor for `search_queue` that, on receivin
 
 #### Scenario: Job is processed successfully
 - **WHEN** an indexing job is dequeued from `search_queue`
-- **THEN** the processor retrieves the property by `slug`, builds a Typesense document containing `id`, `slug`, `name`, `description`, `nightlyRate`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms`, `locationId`, `locationName`, `placeTypeId`, `placeTypeName`, `imageUrls` (ordered array of the property's image URLs), and `createdAt`, and upserts it into the `properties` collection
+- **THEN** the processor retrieves the property by `slug`, builds a Typesense document containing `id`, `slug`, `name`, `description`, `nightlyRate`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms`, `locationId`, `locationName`, `placeTypeId`, `placeTypeName`, `imageUrls` (ordered array of the property's image URLs), `isActive`, and `createdAt`, and upserts it into the `properties` collection
 - **AND** the job completes without error
+
+#### Scenario: Reindexing after a status change reflects the current status
+- **WHEN** an indexing job is dequeued for a `slug` whose property was just activated or deactivated
+- **THEN** the upserted Typesense document's `isActive` field reflects the property's current `isActive` value at the time the job runs, not the value at the time the job was enqueued
 
 #### Scenario: Property no longer exists when job is processed
 - **WHEN** an indexing job is dequeued for a `slug` that no longer exists (e.g. deleted before the job ran)
@@ -45,7 +64,7 @@ The system SHALL ensure the Typesense `properties` collection exists with the re
 
 #### Scenario: Collection does not exist on first boot
 - **WHEN** the application starts and the `properties` collection does not yet exist in Typesense
-- **THEN** the system creates the collection with the defined schema (facetable and filterable fields for `nightlyRate`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms`, `locationId`, `locationName`, `placeTypeId`, `placeTypeName`, full-text fields `name`/`description`, non-faceted display field `imageUrls`, and `createdAt` as the default sorting field)
+- **THEN** the system creates the collection with the defined schema (facetable and filterable fields for `nightlyRate`, `numberOfGuests`, `numberOfBedrooms`, `numberOfBathrooms`, `locationId`, `locationName`, `placeTypeId`, `placeTypeName`, a filterable `isActive` boolean field, full-text fields `name`/`description`, non-faceted display field `imageUrls`, and `createdAt` as the default sorting field)
 
 #### Scenario: Collection already exists on subsequent boots
 - **WHEN** the application starts and the `properties` collection already exists in Typesense
