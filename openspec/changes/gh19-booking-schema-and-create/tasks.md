@@ -9,11 +9,11 @@
 
 ## 2. Property availability check (GH-20)
 
-- [ ] 2.1 Add availability query DTO (`startDate`, `endDate`) and response DTO (GH-20)
-- [ ] 2.2 Add repository method on the booking module's repository: overlap query against `property_unavailability` for a property, using exclusive-checkout date semantics (GH-20)
-- [ ] 2.3 Add service method that resolves the property by slug and calls the repository (GH-20)
-- [ ] 2.4 Add `GET /properties/:slug/availability` controller endpoint (GH-20)
-- [ ] 2.5 Add repository/service tests covering: available, overlapping, and back-to-back (exclusive checkout) cases (GH-20)
+- [x] 2.1 Add availability query DTO (`startDate`, `endDate`) and response DTO (GH-20)
+- [x] 2.2 Add repository method on the booking module's repository: overlap query against `property_unavailability` for a property, using exclusive-checkout date semantics (GH-20)
+- [x] 2.3 Add service method that resolves the property by slug and calls the repository (GH-20)
+- [x] 2.4 Add `GET /properties/:slug/availability` controller endpoint (GH-20)
+- [x] 2.5 Add repository/service tests covering: available, overlapping, and back-to-back (exclusive checkout) cases (GH-20)
 
 ## 3. Create booking (GH-21)
 

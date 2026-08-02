@@ -14,6 +14,7 @@ import {
   typesenseConfig,
   validateEnv,
 } from './config/index.js';
+import { BookingModule } from './booking/booking.module';
 import { CacheModule } from './cache/cache.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { QueryLoggingModule } from './prisma/query-logging/query-logging.module';
@@ -46,6 +47,7 @@ import { UserModule } from './user/user.module';
     AuthModule,
     UserModule,
     PropertyModule,
+    BookingModule,
     SearchModule,
   ],
   controllers: [AppController],
