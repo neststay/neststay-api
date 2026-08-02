@@ -18,6 +18,7 @@ export const propertiesCollectionSchema: CollectionCreateSchema = {
     { name: 'placeTypeId', type: 'int64', facet: true },
     { name: 'placeTypeName', type: 'string', facet: true },
     { name: 'imageUrls', type: 'string[]', facet: false },
+    { name: 'isActive', type: 'bool', facet: true },
     { name: 'createdAt', type: 'int64' },
   ],
   default_sorting_field: 'createdAt',

@@ -16,5 +16,6 @@ export interface PropertyDocument {
   placeTypeId: number;
   placeTypeName: string;
   imageUrls: string[];
+  isActive: boolean;
   createdAt: number;
 }

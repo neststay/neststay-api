@@ -30,9 +30,9 @@
 
 ## 6. Search: index isActive
 
-- [ ] 6.1 Add a filterable `isActive` boolean field to `propertiesCollectionSchema`
-- [ ] 6.2 Add `isActive` to the `PropertyDocument` type in `search.types.ts`
-- [ ] 6.3 Update `PropertyIndexProcessor.toDocument` to map `property.isActive` into the document
+- [x] 6.1 Add a filterable `isActive` boolean field to `propertiesCollectionSchema`
+- [x] 6.2 Add `isActive` to the `PropertyDocument` type in `search.types.ts`
+- [x] 6.3 Update `PropertyIndexProcessor.toDocument` to map `property.isActive` into the document
 
 ## 7. Search: listeners for activation/deactivation events
 

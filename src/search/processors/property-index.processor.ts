@@ -52,6 +52,7 @@ export class PropertyIndexProcessor extends WorkerHost {
       placeTypeId: Number(property.placeTypeId),
       placeTypeName: property.placeType.name,
       imageUrls: property.images.map((image) => image.url),
+      isActive: property.isActive,
       createdAt: Math.floor(property.createdAt.getTime() / 1000),
     };
   }
