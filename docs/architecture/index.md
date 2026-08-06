@@ -9,6 +9,12 @@ The Nest Stay API
 - queries should be inside repositories and service should call the repositories to fetch data
 - add models should have primary key as BigInt. But the models which will be public facing, will have a slug column and it will use ulid
 
+# Data integrity
+
+- When a single operation writes to multiple tables, analyse whether those writes need to be atomic.
+- If it's clear that partial completion would leave inconsistent or orphaned data (e.g. one row updated but its corresponding audit/log row missing), wrap the writes in a single database transaction (e.g. Prisma's `$transaction`).
+- If it's not clear, ask the operator what they want before implementing, and plan accordingly based on their answer.
+- Example: a balance decrement paired with a corresponding ledger/audit row insert — wrap both in one `prisma.$transaction`, since a crash between the two writes would leave the balance changed with no corresponding record of why.
 
 # Global rules
 - only services should be injected into other modules and should be exported from the parent modules
